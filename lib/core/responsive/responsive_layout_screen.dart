@@ -18,8 +18,9 @@ class ResponsiveLayoutScreen extends StatelessWidget {
         if (constraints.maxWidth < ScreenSizes.mobile) {
           return MobileLayoutScreen(child: child);
         }
-
-        return DesktopLayoutScreen(child: child);
+      else {
+          return DesktopLayoutScreen(child: child);
+        }
       },
     );
   }

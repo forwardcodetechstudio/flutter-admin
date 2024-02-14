@@ -10,11 +10,13 @@ class MobileLayoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(children: [
-        const Text('Mobile Screen Layout'),
-        child,
-      ]),
+    return const Scaffold(
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Mobile Screen Layout'),
+        ],
+      ),
     );
   }
 }

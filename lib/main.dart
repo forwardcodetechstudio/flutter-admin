@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/config/routes/routes_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_admin/config/routes/app_router.dart';
+import 'package:flutter_admin/injection_container.dart';
+import 'package:get_it/get_it.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setup();
   runApp(const MyApp());
 }
 
@@ -12,19 +14,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => RoutesCubit(),
-        )
-      ],
-      child: BlocBuilder<RoutesCubit, GoRouter>(
-        builder: (context, appRouter) {
-          return MaterialApp.router(
-            routerConfig: appRouter,
-          );
-        },
-      ),
+    return MaterialApp.router(
+      title: 'Flutter Admin',
+      routerConfig: GetIt.I<AppRouter>().router,
     );
   }
 }

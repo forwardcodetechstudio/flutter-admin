@@ -1,47 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/config/routes/routes_constant.dart';
+import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
-import 'package:flutter_admin/core/constants/app_images.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_admin/core/widgets/custom_text_field.dart';
+import 'package:flutter_admin/features/authentication/widgets/custom_auth_scaffold.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          color: AppColors.backgroundf2f5fa,
-          width: screenWidth,
-          height: screenHeight,
-          child: Stack(
-            children: [
-              // background image
-              SvgPicture.asset(
-                AppImages.authenticationBg,
-                fit: BoxFit.cover,
-              ),
-              // login form
-              Center(
-                child: Container(
-                  width: screenWidth*0.9,  // make container responsive on screen with 41%
-                  margin: const EdgeInsets.symmetric(vertical: 15),
-                  padding: const EdgeInsets.all(30),
-                  constraints: const BoxConstraints(maxWidth: 432),
-                  color: AppColors.white,
-                  child: Column(
-                    children: [
-                      SvgPicture.asset(AppImages.logo),
-                    ],
-                  ),
-                ),
-              )
-            ],
+    return CustomAuthScaffold(
+      children: [
+        const Text(
+          'Log in !',
+          style: TextStyle(
+            color: AppColors.primary,
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
           ),
         ),
-      ),
+        const SizedBox(height: 24),
+        const CustomTextField(hintText: 'Enter Username'),
+        const SizedBox(height: 24),
+        const CustomTextField(hintText: 'Enter Password'),
+        const SizedBox(height: 24),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Checkbox(
+                  value: false,
+                  onChanged: (value) {},
+                ),
+                const Text('Remember Me'),
+              ],
+            ),
+            const Text('Forget Password?'),
+          ],
+        ),
+        const SizedBox(height: 24),
+        SizedBox(
+          width: double.infinity,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              context.goNamed(RoutesName.crm);
+            },
+            style: AppButtonStyles.success,
+            child: const Text('Login'),
+          ),
+        ),
+        const SizedBox(height: 24),
+        const Row(
+          children: [
+            Flexible(
+              child: Divider(),
+            ),
+            Text('  OR  '),
+            Flexible(
+              child: Divider(),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        Wrap(
+          children: [
+            SizedBox(
+              height: 40,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.facebook),
+                style: AppButtonStyles.primaryRGBA,
+                label: const Text("Facebook"),
+              ),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            SizedBox(
+              height: 40,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                style: AppButtonStyles.dangerRGBA,
+                icon: const Icon(Icons.g_mobiledata),
+                label: const Text("Google"),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Don\'t have an account? '),
+            InkWell(
+              onTap: () {
+                context.goNamed(RoutesName.register);
+              },
+              child: const Text(
+                'Sign up',
+                style: TextStyle(
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

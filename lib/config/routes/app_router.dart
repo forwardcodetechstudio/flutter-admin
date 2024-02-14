@@ -15,6 +15,7 @@ class AppRouter {
 
   AppRouter() {
     _router = GoRouter(
+      debugLogDiagnostics: true,
       routes: _routes(),
       initialLocation: RoutesPath.login,
       navigatorKey: _rootNavigatorState,

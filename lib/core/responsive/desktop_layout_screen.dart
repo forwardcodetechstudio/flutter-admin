@@ -10,11 +10,8 @@ class DesktopLayoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(children: [
-        const Text('Desktop Screen Layout'),
-        child,
-      ]),
+    return const Scaffold(
+      body: Text('Desktop Screen Layout'),
     );
   }
 }
