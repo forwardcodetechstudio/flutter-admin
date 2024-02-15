@@ -5,6 +5,8 @@ class CRMScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('CRM Screen');
+    return Container(
+      color: Colors.red,
+    );
   }
 }

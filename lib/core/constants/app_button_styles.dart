@@ -17,6 +17,27 @@ abstract final class AppButtonStyles {
         const MaterialStatePropertyAll(Color.fromRGBO(255, 255, 255, 1)),
   );
 
+  static final ButtonStyle primaryIcon = _baseButtonStyle.copyWith(
+    backgroundColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.hovered)) {
+        return AppColors.backgroundf2f5fa;
+      }
+      return AppColors.white;
+    }),
+    foregroundColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.hovered)) {
+      return AppColors.primary;
+      }
+      return AppColors.grey;
+    }),
+    iconColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.hovered)) {
+      return AppColors.primary;
+      }
+      return AppColors.grey;
+    }),
+  );
+
   static final ButtonStyle primaryRGBA = _baseButtonStyle.copyWith(
     backgroundColor: MaterialStateProperty.resolveWith((states) {
       if (states.contains(MaterialState.hovered)) {

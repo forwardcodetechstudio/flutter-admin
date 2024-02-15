@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/core/widgets/app_drawer.dart';
 
 class MobileLayoutScreen extends StatelessWidget {
   final Widget child;
@@ -10,13 +11,10 @@ class MobileLayoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Mobile Screen Layout'),
-        ],
-      ),
+    return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.amber),
+      drawer: const AppDrawer(),
+      body: child
     );
   }
 }

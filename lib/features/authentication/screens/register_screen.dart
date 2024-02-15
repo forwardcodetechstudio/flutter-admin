@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_button_styles.dart';
@@ -56,25 +57,23 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 24),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Already have an account? ',
-          ),
-          InkWell(
-            onTap: () {
-              context.goNamed(RoutesName.login);
-            },
-            child: const Text(
-              'Log in',
-              style: TextStyle(
+      RichText(
+        text: TextSpan(
+          children: [
+            const TextSpan(text: 'Already have an account? '),
+            TextSpan(
+              text: 'Log in',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  context.goNamed(RoutesName.login);
+                },
+              style: const TextStyle(
                 color: AppColors.primary,
               ),
-            ),
-          ),
-        ],
-      )
+            )
+          ],
+        ),
+      ),
     ]);
   }
 }

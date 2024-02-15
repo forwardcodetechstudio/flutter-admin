@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_button_styles.dart';
@@ -27,8 +28,8 @@ class LoginScreen extends StatelessWidget {
         const CustomTextField(hintText: 'Enter Password'),
         const SizedBox(height: 24),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -94,23 +95,23 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Don\'t have an account? '),
-            InkWell(
-              onTap: () {
-                context.goNamed(RoutesName.register);
-              },
-              child: const Text(
-                'Sign up',
-                style: TextStyle(
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(text: 'Don\'t have an account? '),
+              TextSpan(
+                text: 'Sign up',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    context.goNamed(RoutesName.register);
+                  },
+                style: const TextStyle(
                   color: AppColors.primary,
                 ),
-              ),
-            ),
-          ],
-        )
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
