@@ -108,37 +108,8 @@ class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
                     ],
                   ),
                 ),
-                Flexible(
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 10),
-                          title: const Text('CRM'),
-                          subtitle: Text(
-                            widget.path.replaceAll('/', ' > '),
-                          ),
-                          tileColor: AppColors.white,
-                          trailing: ElevatedButton.icon(
-                            onPressed: () {},
-                            style: AppButtonStyles.primaryRGBA,
-                            icon: const Icon(Icons.add),
-                            label: const Text('Action'),
-                          ),
-                        ),
-                      ),
-                      widget.content,
-                      const ListTile(
-                        tileColor: AppColors.white,
-                        title: Text(
-                          '© 2020 Orbiter - All Rights Reserved.',
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
+                Expanded(
+                  child: widget.content,
                 )
               ],
             ),

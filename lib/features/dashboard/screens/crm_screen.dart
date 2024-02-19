@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/config/routes/routes_constant.dart';
+import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
+import 'package:flutter_admin/core/widgets/app_footer.dart';
 
 class CRMScreen extends StatelessWidget {
   const CRMScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
-        Container(color: Colors.red, width: 100, height: 100),
-        Container(color: Colors.blue, width: 100, height: 100),
-        Container(color: Colors.green, width: 100, height: 100),
-        Container(color: Colors.yellow, width: 100, height: 100),
-        Container(color: Colors.orange, width: 100, height: 100),
+        const Padding(
+          padding: EdgeInsets.all(24),
+          child: AppBreadCrumbs(locationName: RoutesName.crm),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24),
+          color: Colors.green,
+          height: 1000,
+          child: const Column(
+            children: [
+              
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+        const AppFooter(),
       ],
     );
   }
