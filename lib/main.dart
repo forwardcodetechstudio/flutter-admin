@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Flutter Admin',
+      debugShowCheckedModeBanner: false,
       routerConfig: GetIt.I<AppRouter>().router,
     );
   }

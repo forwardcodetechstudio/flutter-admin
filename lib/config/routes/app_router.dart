@@ -35,8 +35,10 @@ class AppRouter {
       ),
       ShellRoute(
         navigatorKey: _shellNavigatorState,
-        builder: (context, state, child) =>
-            ResponsiveLayoutScreen(child: child),
+        builder: (context, state, child) => ResponsiveLayoutScreen(
+          path: state.fullPath ?? '',
+          child: child,
+        ),
         routes: [
           GoRoute(
             name: RoutesName.crm,

@@ -6,13 +6,30 @@ import 'package:flutter_admin/core/widgets/app_drawer.dart';
 import 'package:flutter_admin/core/widgets/shared_toolbar_items.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class DesktopLayoutScreen extends StatelessWidget {
-  final Widget child;
+class DesktopLayoutScreen extends StatefulWidget {
+  final Widget content;
+  final String path;
 
   const DesktopLayoutScreen({
     super.key,
-    required this.child,
+    required this.content,
+    required this.path,
   });
+
+  @override
+  State<DesktopLayoutScreen> createState() => _DesktopLayoutScreenState();
+}
+
+class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
+  late bool _isDrawerCollasped;
+  late bool _isHoverOnAppDrawer;
+
+  @override
+  void initState() {
+    super.initState();
+    _isDrawerCollasped = false;
+    _isHoverOnAppDrawer = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +43,22 @@ class DesktopLayoutScreen extends StatelessWidget {
       backgroundColor: AppColors.backgroundf2f5fa,
       body: Row(
         children: [
-          const AppDrawer(),
-          Expanded(
+          MouseRegion(
+            onEnter: (event) {
+              setState(() {
+                _isHoverOnAppDrawer = true;
+              });
+            },
+            onExit: (event) {
+              setState(() {
+                _isHoverOnAppDrawer = false;
+              });
+            },
+            child: AppDrawer(
+              collapsed: _isHoverOnAppDrawer ? false : _isDrawerCollasped,
+            ),
+          ),
+          Flexible(
             child: Column(
               children: [
                 Container(
@@ -38,7 +69,11 @@ class DesktopLayoutScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            _isDrawerCollasped = !_isDrawerCollasped;
+                          });
+                        },
                         style: AppButtonStyles.primaryIcon,
                         icon: SvgPicture.asset(
                           AppImages.collapse,
@@ -73,27 +108,37 @@ class DesktopLayoutScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: ListTile(
-                              title: const Text('CRM'),
-                              subtitle: const Text('Home > Dashboard > CRM'),
-                              tileColor: AppColors.white,
-                              trailing: ElevatedButton.icon(
-                                onPressed: () {},
-                                style: AppButtonStyles.primaryRGBA,
-                                icon: const Icon(Icons.add),
-                                label: const Text('Action'),
-                              ),
-                            ),
+                Flexible(
+                  child: ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 10),
+                          title: const Text('CRM'),
+                          subtitle: Text(
+                            widget.path.replaceAll('/', ' > '),
                           ),
-                          Padding(padding: const EdgeInsets.all(24))
-                        ],
-                      )),
+                          tileColor: AppColors.white,
+                          trailing: ElevatedButton.icon(
+                            onPressed: () {},
+                            style: AppButtonStyles.primaryRGBA,
+                            icon: const Icon(Icons.add),
+                            label: const Text('Action'),
+                          ),
+                        ),
+                      ),
+                      widget.content,
+                      const ListTile(
+                        tileColor: AppColors.white,
+                        title: Text(
+                          '© 2020 Orbiter - All Rights Reserved.',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

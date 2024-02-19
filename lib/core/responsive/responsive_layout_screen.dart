@@ -5,10 +5,12 @@ import 'package:flutter_admin/core/responsive/screen_sizes.dart';
 
 class ResponsiveLayoutScreen extends StatelessWidget {
   final Widget child;
+  final String path;
 
   const ResponsiveLayoutScreen({
     super.key,
     required this.child,
+    required this.path,
   });
 
   @override
@@ -17,9 +19,11 @@ class ResponsiveLayoutScreen extends StatelessWidget {
       builder: (context, constraints) {
         if (constraints.maxWidth < ScreenSizes.mobile) {
           return MobileLayoutScreen(child: child);
-        }
-      else {
-          return DesktopLayoutScreen(child: child);
+        } else {
+          return DesktopLayoutScreen(
+            content: child,
+            path: path,
+          );
         }
       },
     );
