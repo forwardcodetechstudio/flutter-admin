@@ -16,4 +16,5 @@ abstract final class AppImages {
   static const String collapse = '$iconsDirPath/collapse.svg';
   static const String verticle = '$iconsDirPath/verticle.svg';
   static const String horizontal = '$iconsDirPath/horizontal.svg';
+  static const String paperclip = '$iconsDirPath/paperclip.svg';
 }

@@ -61,6 +61,40 @@ class AppDrawer extends StatelessWidget {
                       height: 20,
                       color: AppColors.grey,
                     ),
+                    label: const Text('Tables'),
+                    children: [
+                      ListTile(
+                        leading: const SizedBox(),
+                        title: const Text(' - Listing'),
+                        onTap: () => context.goNamed(RoutesName.listing),
+                      ),
+                    ],
+                  ),
+                  AppDrawerItem(
+                    collapsed: collapsed,
+                    icon: SvgPicture.asset(
+                      AppImages.pages,
+                      width: 20,
+                      height: 20,
+                      color: AppColors.grey,
+                    ),
+                    label: const Text('Forms'),
+                    children: [
+                      ListTile(
+                        leading: const SizedBox(),
+                        title: const Text(' - Add Listing'),
+                        onTap: () => context.goNamed(RoutesName.addListing),
+                      ),
+                    ],
+                  ),
+                  AppDrawerItem(
+                    collapsed: collapsed,
+                    icon: SvgPicture.asset(
+                      AppImages.pages,
+                      width: 20,
+                      height: 20,
+                      color: AppColors.grey,
+                    ),
                     label: const Text('Pages'),
                     children: [
                       ListTile(

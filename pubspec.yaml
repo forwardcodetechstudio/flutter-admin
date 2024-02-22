@@ -40,6 +40,9 @@ dependencies:
   flutter_svg: ^2.0.9
   get_it: ^7.6.7
   design_grid: ^1.1.0
+  equatable: ^2.0.5
+  carousel_slider: ^4.2.1
+  data_table_2: ^2.5.10
 
 dev_dependencies:
   flutter_test:

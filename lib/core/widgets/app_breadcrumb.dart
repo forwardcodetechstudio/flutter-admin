@@ -18,7 +18,7 @@ class AppBreadCrumbs extends StatelessWidget {
         horizontal: 24,
         vertical: 14,
       ),
-      title: const Text('CRM'),
+      title: Text(locationName.toUpperCase()),
       subtitle: Text(
         GoRouter.of(context).namedLocation(locationName).replaceAll('/', ' > '),
       ),

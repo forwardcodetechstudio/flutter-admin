@@ -16,6 +16,12 @@ abstract final class AppButtonStyles {
     foregroundColor:
         const MaterialStatePropertyAll(Color.fromRGBO(255, 255, 255, 1)),
   );
+  
+  static final ButtonStyle primary= _baseButtonStyle.copyWith(
+    backgroundColor: const MaterialStatePropertyAll(AppColors.primary),
+    foregroundColor:
+        const MaterialStatePropertyAll(Color.fromRGBO(255, 255, 255, 1)),
+  );
 
   static final ButtonStyle primaryIcon = _baseButtonStyle.copyWith(
     backgroundColor: MaterialStateProperty.resolveWith((states) {

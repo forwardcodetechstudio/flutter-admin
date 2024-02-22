@@ -4,6 +4,8 @@ import 'package:flutter_admin/core/responsive/responsive_layout_screen.dart';
 import 'package:flutter_admin/features/authentication/screens/login_screen.dart';
 import 'package:flutter_admin/features/authentication/screens/register_screen.dart';
 import 'package:flutter_admin/features/dashboard/screens/crm_screen.dart';
+import 'package:flutter_admin/features/forms/screens/add_listing_screen.dart';
+import 'package:flutter_admin/features/tables/screens/listing_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -44,9 +46,19 @@ class AppRouter {
             name: RoutesName.crm,
             path: RoutesPath.crm,
             builder: (context, state) => const CRMScreen(),
-          )
+          ),
+          GoRoute(
+            name: RoutesName.addListing,
+            path: RoutesPath.addListing,
+            builder: (context, state) => const AddListingScreen(),
+          ),
+          GoRoute(
+            name: RoutesName.listing,
+            path: RoutesPath.listing,
+            builder: (context, state) => const ListingScreen(),
+          ),
         ],
-      )
+      ),
     ];
   }
 

@@ -6,6 +6,8 @@ sealed class RoutesName {
   /* Dashboard */
   static const String dashboard = "dashboard";
   static const String crm = 'crm';
+  static const String addListing = 'addListing';
+  static const String listing = 'listing';
 }
 
 sealed class RoutesPath {
@@ -14,6 +16,7 @@ sealed class RoutesPath {
   static const String register = '/register';
 
   /* Dashboard */
-  static const String dashboard = "dashboard";
-  static const String crm = '/$dashboard/crm';
+  static const String crm = '/crm';
+  static const String addListing = '/add-listing';
+  static const String listing = '/listing';
 }
