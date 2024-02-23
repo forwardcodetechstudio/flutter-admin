@@ -8,13 +8,20 @@ part 'listing_state.dart';
 
 class ListingBloc extends Bloc<ListingEvent, ListingState> {
   ListingBloc() : super(ListingInitial(listings: dummyListings)) {
-    on<AddListing>((event, emit) {
-      emit(ListingInitial(
-        listings: [
-          ...(state as ListingInitial).listings,
-          event.listing,
-        ],
-      ));
+    on<AddListing>((event, emit) async {
+      emit(ListingAdding(listings: state.listings));
+
+      await Future.delayed(
+        const Duration(seconds: 5),
+        () {
+          emit(ListingAdded(
+            listings: [
+              ...state.listings,
+              event.listing,
+            ],
+          ));
+        },
+      );
     });
   }
 }

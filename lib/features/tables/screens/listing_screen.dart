@@ -46,8 +46,7 @@ class ListingScreen extends StatelessWidget {
                 child: BlocBuilder<ListingBloc, ListingState>(
                   bloc: GetIt.I<ListingBloc>(),
                   builder: (context, state) {
-                    final List<Listing> listings =
-                        (state as ListingInitial).listings;
+                    final List<Listing> listings = state.listings;
                     return DataTable(
                       headingRowColor:
                           const MaterialStatePropertyAll(AppColors.white),

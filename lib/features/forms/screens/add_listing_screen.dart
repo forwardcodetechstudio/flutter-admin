@@ -5,54 +5,72 @@ import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
+import 'package:flutter_admin/core/widgets/app_footer.dart';
 import 'package:flutter_admin/core/widgets/input_box.dart';
 import 'package:flutter_admin/core/widgets/select_box.dart';
 import 'package:flutter_admin/features/tables/bloc/listing_bloc.dart';
 import 'package:flutter_admin/features/tables/models/listing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
-class AddListingScreen extends StatelessWidget {
+class AddListingScreen extends StatefulWidget {
   const AddListingScreen({super.key});
+
+  @override
+  State<AddListingScreen> createState() => _AddListingScreenState();
+}
+
+class _AddListingScreenState extends State<AddListingScreen> {
+  final TextEditingController nameTextEditingController =
+      TextEditingController();
+  late String user;
+  late String cateyory;
+  final TextEditingController descriptionTextEditingController =
+      TextEditingController();
+  final TextEditingController websiteTextEditingController =
+      TextEditingController();
+  final TextEditingController phoneTextEditingController =
+      TextEditingController();
+  final TextEditingController locationTextEditingController =
+      TextEditingController();
+  final TextEditingController latitudeTextEditingController =
+      TextEditingController();
+  final TextEditingController longitudeTextEditingController =
+      TextEditingController();
+  final TextEditingController googleIdTextEditingController =
+      TextEditingController();
+  late String area;
+  late String services;
+  late String tags;
+  late String amenities;
+  late String type;
+  late String status;
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameTextEditingController =
-        TextEditingController();
-    late String user;
-    late String cateyory;
-    final TextEditingController descriptionTextEditingController =
-        TextEditingController();
-    final TextEditingController websiteTextEditingController =
-        TextEditingController();
-    final TextEditingController phoneTextEditingController =
-        TextEditingController();
-    final TextEditingController locationTextEditingController =
-        TextEditingController();
-    final TextEditingController latitudeTextEditingController =
-        TextEditingController();
-    final TextEditingController longitudeTextEditingController =
-        TextEditingController();
-    final TextEditingController googleIdTextEditingController =
-        TextEditingController();
-    late String area;
-    late String services;
-    late String tags;
-    late String amenities;
-    late String type;
-    late String status;
-
     const ResponsiveDesignGridColumns formLayout = ResponsiveDesignGridColumns(
       small: 12,
       medium: 6,
       large: 4,
     );
+
     return ListView(
-      padding: const EdgeInsets.all(24),
       children: [
-        const AppBreadCrumbs(locationName: RoutesName.addListing),
-        24.sbh,
+        BlocBuilder<ListingBloc, ListingState>(
+          bloc: GetIt.I<ListingBloc>(),
+          builder: (context, state) {
+            return (state is ListingAdding)
+                ? const LinearProgressIndicator()
+                : const SizedBox();
+          },
+        ),
+        const Padding(
+          padding: EdgeInsets.all(24),
+          child: AppBreadCrumbs(locationName: RoutesName.addListing),
+        ),
         Container(
           color: AppColors.white,
-          padding: const EdgeInsets.all(24),
+          margin: const EdgeInsets.symmetric(horizontal: 24),
           child: ResponsiveDesignGrid(
             children: [
               ResponsiveDesignGridRow(
@@ -312,7 +330,9 @@ class AddListingScreen extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        24.sbh,
+        const AppFooter(),
       ],
     );
   }
