@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 
-class SelectBox extends StatelessWidget {
+class SelectBox<T> extends StatelessWidget {
   final String label;
   final String? hint;
   final TextEditingController? textEditingController;
   final double labelSpacing;
   final double bottomMargin;
   final double height;
-  final List<DropdownMenuItem<Object>>? options;
+  final List<DropdownMenuItem<T>>? options;
+  final Function(T? value)? onChanged;
 
   const SelectBox({
     super.key,
@@ -20,6 +21,7 @@ class SelectBox extends StatelessWidget {
     this.bottomMargin = 10,
     this.height = 36,
     this.options,
+    this.onChanged,
   });
 
   @override
@@ -33,9 +35,10 @@ class SelectBox extends StatelessWidget {
         ],
         SizedBox(
           height: height,
-          child: DropdownButtonFormField(
+          child: DropdownButtonFormField<T>(
             hint: Text(hint ?? 'Select here'),
             decoration: const InputDecoration(
+
               contentPadding: EdgeInsets.symmetric(horizontal: 14),
               border: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -44,7 +47,7 @@ class SelectBox extends StatelessWidget {
               ),
             ),
             items: options,
-            onChanged: (value) {},
+            onChanged: onChanged,
           ),
         ),
         bottomMargin.sbh,

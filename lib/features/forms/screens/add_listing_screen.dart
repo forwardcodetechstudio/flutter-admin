@@ -7,11 +7,39 @@ import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/input_box.dart';
 import 'package:flutter_admin/core/widgets/select_box.dart';
+import 'package:flutter_admin/features/tables/bloc/listing_bloc.dart';
+import 'package:flutter_admin/features/tables/models/listing.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddListingScreen extends StatelessWidget {
   const AddListingScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nameTextEditingController =
+        TextEditingController();
+    late String user;
+    late String cateyory;
+    final TextEditingController descriptionTextEditingController =
+        TextEditingController();
+    final TextEditingController websiteTextEditingController =
+        TextEditingController();
+    final TextEditingController phoneTextEditingController =
+        TextEditingController();
+    final TextEditingController locationTextEditingController =
+        TextEditingController();
+    final TextEditingController latitudeTextEditingController =
+        TextEditingController();
+    final TextEditingController longitudeTextEditingController =
+        TextEditingController();
+    final TextEditingController googleIdTextEditingController =
+        TextEditingController();
+    late String area;
+    late String services;
+    late String tags;
+    late String amenities;
+    late String type;
+    late String status;
+
     const ResponsiveDesignGridColumns formLayout = ResponsiveDesignGridColumns(
       small: 12,
       medium: 6,
@@ -29,169 +57,257 @@ class AddListingScreen extends StatelessWidget {
             children: [
               ResponsiveDesignGridRow(
                 children: [
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: InputBox(
                       label: 'Name',
+                      textEditingController: nameTextEditingController,
                       placeholder: 'Enter Listing Name',
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: SelectBox(
                       label: 'User',
-                      options: [
+                      onChanged: (value) {
+                        user = value!;
+                      },
+                      options: const [
                         DropdownMenuItem(
-                          value: 1,
+                          value: 'user1',
                           child: Text('User1'),
-                        )
+                        ),
+                        DropdownMenuItem(
+                          value: 'user2',
+                          child: Text('User2'),
+                        ),
                       ],
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: SelectBox(
                       label: 'Category',
-                      options: [
+                      onChanged: (value) {
+                        cateyory = value!;
+                      },
+                      options: const [
                         DropdownMenuItem(
-                          value: 1,
+                          value: 'cateyory1',
                           child: Text('Cateyory1'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'cateyory2',
+                          child: Text('Cateyory2'),
                         )
                       ],
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: InputBox(
                       label: 'Description',
+                      textEditingController: descriptionTextEditingController,
                       placeholder: 'Enter Listing Description',
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: InputBox(
                       label: 'Website',
                       placeholder: 'Enter Listing Website',
+                      textEditingController: websiteTextEditingController,
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: InputBox(
                       label: 'Phone',
                       placeholder: 'Enter Listing Phone Number',
+                      textEditingController: phoneTextEditingController,
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: InputBox(
                       label: 'Location',
                       placeholder: 'Enter Listing Location',
+                      textEditingController: locationTextEditingController,
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: InputBox(
                       label: 'Latitude',
                       placeholder: 'Enter Listing Latitude',
+                      textEditingController: latitudeTextEditingController,
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: InputBox(
                       label: 'Longitude',
                       placeholder: 'Enter Listing Longitude',
+                      textEditingController: longitudeTextEditingController,
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: SelectBox(
                       label: 'Area',
-                      options: [
+                      onChanged: (value) {
+                        area = value!;
+                      },
+                      options: const [
                         DropdownMenuItem(
-                          value: 1,
+                          value: 'area1',
                           child: Text('Area1'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'area2',
+                          child: Text('Area2'),
                         ),
                       ],
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: SelectBox(
                       label: 'Services',
-                      options: [
+                      onChanged: (value) {
+                        services = value!;
+                      },
+                      options: const [
                         DropdownMenuItem(
-                          value: 1,
+                          value: 'services1',
                           child: Text('Services1'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'services2',
+                          child: Text('Services2'),
                         ),
                       ],
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: SelectBox(
                       label: 'Tags',
-                      options: [
+                      onChanged: (value) {
+                        tags = value!;
+                      },
+                      options: const [
                         DropdownMenuItem(
-                          value: 1,
-                          child: Text('Tags1'),
+                          value: 'tag1',
+                          child: Text('Tag1'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'tag2',
+                          child: Text('Tag2'),
                         ),
                       ],
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: SelectBox(
                       label: 'Amenities',
-                      options: [
+                      onChanged: (value) {
+                        amenities = value!;
+                      },
+                      options: const [
                         DropdownMenuItem(
-                          value: 1,
+                          value: 'amenities1',
                           child: Text('Amenities1'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'amenities2',
+                          child: Text('Amenities2'),
                         ),
                       ],
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: SelectBox(
                       label: 'Type',
-                      options: [
+                      onChanged: (value) {
+                        type = value!;
+                      },
+                      options: const [
                         DropdownMenuItem(
-                          value: 1,
+                          value: 'type1',
                           child: Text('Type1'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'type2',
+                          child: Text('Type2'),
                         ),
                       ],
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: SelectBox(
                       label: 'Status',
-                      options: [
+                      onChanged: (value) {
+                        status = value!;
+                      },
+                      options: const [
                         DropdownMenuItem(
-                          value: 1,
+                          value: 'active',
                           child: Text('Active'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'deactive',
+                          child: Text('deactive'),
                         ),
                       ],
                     ),
                   ),
-                  const ResponsiveDesignGridItem(
+                  ResponsiveDesignGridItem(
                     columns: formLayout,
                     child: InputBox(
                       label: 'Google Id',
                       placeholder: 'Enter Listing Google Id',
+                      textEditingController: googleIdTextEditingController,
                     ),
                   ),
                   ResponsiveDesignGridItem(
-                  columns: const ResponsiveDesignGridColumns(small: 12),
-                  child: SizedBox(
-                    height: 40,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: AppButtonStyles.primary,
-                      child: const Text('Submit'),
+                    columns: const ResponsiveDesignGridColumns(small: 12),
+                    child: SizedBox(
+                      height: 40,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          final newListing = Listing(
+                            id: '----',
+                            name: nameTextEditingController.text,
+                            user: user,
+                            category: cateyory,
+                            description: descriptionTextEditingController.text,
+                            website: websiteTextEditingController.text,
+                            phone: phoneTextEditingController.text,
+                            location: locationTextEditingController.text,
+                            latitude: latitudeTextEditingController.text,
+                            longitude: longitudeTextEditingController.text,
+                            area: area,
+                            services: services,
+                            tags: tags,
+                            amenities: amenities,
+                            type: type,
+                            status: status,
+                            googleId: googleIdTextEditingController.text,
+                          );
+
+                          context
+                              .read<ListingBloc>()
+                              .add(AddListing(listing: newListing));
+                        },
+                        style: AppButtonStyles.primary,
+                        child: const Text('Submit'),
+                      ),
                     ),
-                  ),
-                )
+                  )
                 ],
               ),
             ],

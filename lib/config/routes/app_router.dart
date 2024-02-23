@@ -5,7 +5,10 @@ import 'package:flutter_admin/features/authentication/screens/login_screen.dart'
 import 'package:flutter_admin/features/authentication/screens/register_screen.dart';
 import 'package:flutter_admin/features/dashboard/screens/crm_screen.dart';
 import 'package:flutter_admin/features/forms/screens/add_listing_screen.dart';
+import 'package:flutter_admin/features/tables/bloc/listing_bloc.dart';
 import 'package:flutter_admin/features/tables/screens/listing_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -37,10 +40,17 @@ class AppRouter {
       ),
       ShellRoute(
         navigatorKey: _shellNavigatorState,
-        builder: (context, state, child) => ResponsiveLayoutScreen(
-          path: state.fullPath ?? '',
-          child: child,
-        ),
+        builder: (context, state, child) {
+          // Check ListingBloc is registered or not, registered it if not
+          if (!GetIt.I.isRegistered<ListingBloc>()) {
+            GetIt.instance.registerSingleton<ListingBloc>(ListingBloc());
+          }
+          return ResponsiveLayoutScreen(
+              child: BlocProvider(
+            create: (context) => GetIt.I<ListingBloc>(),
+            child: child,
+          ));
+        },
         routes: [
           GoRoute(
             name: RoutesName.crm,

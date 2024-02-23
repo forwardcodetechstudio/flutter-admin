@@ -55,11 +55,10 @@ class AppDrawer extends StatelessWidget {
                   ),
                   AppDrawerItem(
                     collapsed: collapsed,
-                    icon: SvgPicture.asset(
-                      AppImages.pages,
-                      width: 20,
-                      height: 20,
+                    icon: const Icon(
+                      Icons.table_chart_outlined,
                       color: AppColors.grey,
+                      size: 20,
                     ),
                     label: const Text('Tables'),
                     children: [
@@ -72,11 +71,10 @@ class AppDrawer extends StatelessWidget {
                   ),
                   AppDrawerItem(
                     collapsed: collapsed,
-                    icon: SvgPicture.asset(
-                      AppImages.pages,
-                      width: 20,
-                      height: 20,
+                    icon: const Icon(
+                      Icons.web,
                       color: AppColors.grey,
+                      size: 20,
                     ),
                     label: const Text('Forms'),
                     children: [

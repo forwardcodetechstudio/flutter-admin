@@ -6,12 +6,10 @@ import 'package:flutter_admin/core/widgets/custom_design_grid_config.dart';
 
 class ResponsiveLayoutScreen extends StatelessWidget {
   final Widget child;
-  final String path;
 
   const ResponsiveLayoutScreen({
     super.key,
     required this.child,
-    required this.path,
   });
 
   @override
@@ -29,7 +27,6 @@ class ResponsiveLayoutScreen extends StatelessWidget {
             content: CustomDesignGridConfig(
               child: child,
             ),
-            path: path,
           );
         }
       },

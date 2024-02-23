@@ -8,12 +8,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class DesktopLayoutScreen extends StatefulWidget {
   final Widget content;
-  final String path;
 
   const DesktopLayoutScreen({
     super.key,
     required this.content,
-    required this.path,
   });
 
   @override
