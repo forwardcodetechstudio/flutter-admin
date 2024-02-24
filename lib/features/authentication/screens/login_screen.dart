@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
+import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/widgets/custom_auth_scaffold.dart';
@@ -18,118 +19,149 @@ class LoginScreen extends StatelessWidget {
         TextEditingController();
     final TextEditingController passwordTextEditingController =
         TextEditingController();
-    return CustomAuthScaffold(
-      children: [
-        const Text(
-          'Log in !',
-          style: TextStyle(
-            color: AppColors.primary,
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 24),
-        CustomTextField(
-          hintText: 'Enter Email',
-          textEditingController: emailTextEditingController,
-        ),
-        const SizedBox(height: 24),
-        CustomTextField(
-          hintText: 'Enter Password',
-          textEditingController: passwordTextEditingController,
-        ),
-        const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthAuthenticationFailed) {
+          showSnackbar(
+            context: context,
+            text: state.error,
+            backgroundColor: AppColors.danger,
+          );
+        } else if (state is AuthAuthenticated) {
+          showSnackbar(
+            context: context,
+            text: 'Login Successfull',
+          );
+          context.goNamed(RoutesName.crm);
+        }
+      },
+      builder: (context, state) {
+        final bool isLoading = state is AuthLoading;
+        return CustomAuthScaffold(
           children: [
+            const Text(
+              'Log in !',
+              style: TextStyle(
+                color: AppColors.primary,
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 24),
+            CustomTextField(
+              hintText: 'Enter Email',
+              textEditingController: emailTextEditingController,
+            ),
+            const SizedBox(height: 24),
+            CustomTextField(
+              hintText: 'Enter Password',
+              textEditingController: passwordTextEditingController,
+            ),
+            const SizedBox(height: 24),
             Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Checkbox(
-                  value: false,
-                  onChanged: (value) {},
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Checkbox(
+                      value: false,
+                      onChanged: (value) {},
+                    ),
+                    const Text('Remember Me'),
+                  ],
                 ),
-                const Text('Remember Me'),
+                const Text('Forget Password?'),
               ],
             ),
-            const Text('Forget Password?'),
-          ],
-        ),
-        const SizedBox(height: 24),
-        SizedBox(
-          width: double.infinity,
-          height: 40,
-          child: ElevatedButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(
-                    AuthLoginEvent(
-                      email: emailTextEditingController.text,
-                      password: passwordTextEditingController.text,
-                    ),
-                  );
-            },
-            style: AppButtonStyles.success,
-            child: const Text('Login'),
-          ),
-        ),
-        const SizedBox(height: 24),
-        const Row(
-          children: [
-            Flexible(
-              child: Divider(),
-            ),
-            Text('  OR  '),
-            Flexible(
-              child: Divider(),
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        Wrap(
-          children: [
+            const SizedBox(height: 24),
             SizedBox(
+              width: double.infinity,
               height: 40,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.facebook),
-                style: AppButtonStyles.primaryRGBA,
-                label: const Text("Facebook"),
+              child: ElevatedButton(
+                onPressed: !isLoading
+                    ? () {
+                        context.read<AuthBloc>().add(
+                              AuthLoginEvent(
+                                email: emailTextEditingController.text,
+                                password: passwordTextEditingController.text,
+                              ),
+                            );
+                      }
+                    : null,
+                style: AppButtonStyles.success,
+                child: !isLoading
+                    ? const Text('Login')
+                    : const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          color: Colors.white,
+                        ),
+                      ),
               ),
             ),
-            const SizedBox(
-              width: 8,
-            ),
-            SizedBox(
-              height: 40,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                style: AppButtonStyles.dangerRGBA,
-                icon: const Icon(Icons.g_mobiledata),
-                label: const Text("Google"),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        RichText(
-          text: TextSpan(
-            children: [
-              const TextSpan(text: 'Don\'t have an account? '),
-              TextSpan(
-                text: 'Sign up',
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    context.goNamed(RoutesName.register);
-                  },
-                style: const TextStyle(
-                  color: AppColors.primary,
+            const SizedBox(height: 24),
+            const Row(
+              children: [
+                Flexible(
+                  child: Divider(),
                 ),
-              )
-            ],
-          ),
-        ),
-      ],
+                Text('  OR  '),
+                Flexible(
+                  child: Divider(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Wrap(
+              children: [
+                SizedBox(
+                  height: 40,
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.facebook),
+                    style: AppButtonStyles.primaryRGBA,
+                    label: const Text("Facebook"),
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                SizedBox(
+                  height: 40,
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    style: AppButtonStyles.dangerRGBA,
+                    icon: const Icon(Icons.g_mobiledata),
+                    label: const Text("Google"),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            RichText(
+              text: TextSpan(
+                children: [
+                  const TextSpan(text: 'Don\'t have an account? '),
+                  TextSpan(
+                    text: 'Sign up',
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        context.goNamed(RoutesName.register);
+                      },
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

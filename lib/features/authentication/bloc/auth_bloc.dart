@@ -12,8 +12,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginEvent>(_login);
   }
 
-  void _login(AuthLoginEvent event, Emitter<AuthState> emit) {
+  void _login(AuthLoginEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
     /* here validate email and password */
-    authProvider.login(email: event.email, password: event.password);
+    final User? user =
+        await authProvider.login(email: event.email, password: event.password);
+
+    if (user != null) {
+      emit(AuthAuthenticated(user: user));
+    } else {
+      emit(const AuthAuthenticationFailed(error: 'Invalid email and password'));
+    }
   }
 }
