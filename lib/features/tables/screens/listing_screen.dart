@@ -6,7 +6,6 @@ import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/features/tables/bloc/listing_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class ListingScreen extends StatelessWidget {
   const ListingScreen({super.key});
@@ -44,7 +43,6 @@ class ListingScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: BlocBuilder<ListingBloc, ListingState>(
-                  bloc: GetIt.I<ListingBloc>(),
                   builder: (context, state) {
                     final List<Listing> listings = state.listings;
                     return DataTable(

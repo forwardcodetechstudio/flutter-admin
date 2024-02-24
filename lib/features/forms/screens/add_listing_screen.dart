@@ -11,7 +11,6 @@ import 'package:flutter_admin/core/widgets/select_box.dart';
 import 'package:flutter_admin/features/tables/bloc/listing_bloc.dart';
 import 'package:flutter_admin/features/tables/models/listing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class AddListingScreen extends StatefulWidget {
   const AddListingScreen({super.key});
@@ -57,7 +56,6 @@ class _AddListingScreenState extends State<AddListingScreen> {
     return ListView(
       children: [
         BlocBuilder<ListingBloc, ListingState>(
-          bloc: GetIt.I<ListingBloc>(),
           builder: (context, state) {
             return (state is ListingAdding)
                 ? const LinearProgressIndicator()

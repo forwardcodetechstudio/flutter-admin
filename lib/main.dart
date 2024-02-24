@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/app_router.dart';
+import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
+import 'package:flutter_admin/features/authentication/data/providers/anbocas_auth_provider.dart';
+import 'package:flutter_admin/features/tables/bloc/listing_bloc.dart';
 import 'package:flutter_admin/injection_container.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 void main() async {
@@ -14,10 +18,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Admin',
-      debugShowCheckedModeBanner: false,
-      routerConfig: GetIt.I<AppRouter>().router,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthBloc(authProvider: AnbocasAuthProvider())),
+        BlocProvider(create: (context) => ListingBloc()),
+      ],
+      child: MaterialApp.router(
+        title: 'Flutter Admin',
+        debugShowCheckedModeBanner: false,
+        routerConfig: GetIt.I<AppRouter>().router,
+      ),
     );
   }
 }

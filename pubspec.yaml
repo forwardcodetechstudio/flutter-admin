@@ -43,6 +43,8 @@ dependencies:
   equatable: ^2.0.5
   carousel_slider: ^4.2.1
   data_table_2: ^2.5.10
+  dio: ^5.4.1
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:

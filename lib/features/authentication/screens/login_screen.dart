@@ -4,7 +4,9 @@ import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
+import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/widgets/custom_auth_scaffold.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -12,6 +14,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailTextEditingController =
+        TextEditingController();
+    final TextEditingController passwordTextEditingController =
+        TextEditingController();
     return CustomAuthScaffold(
       children: [
         const Text(
@@ -23,9 +29,15 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        const CustomTextField(hintText: 'Enter Username'),
+        CustomTextField(
+          hintText: 'Enter Email',
+          textEditingController: emailTextEditingController,
+        ),
         const SizedBox(height: 24),
-        const CustomTextField(hintText: 'Enter Password'),
+        CustomTextField(
+          hintText: 'Enter Password',
+          textEditingController: passwordTextEditingController,
+        ),
         const SizedBox(height: 24),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +62,12 @@ class LoginScreen extends StatelessWidget {
           height: 40,
           child: ElevatedButton(
             onPressed: () {
-              context.goNamed(RoutesName.crm);
+              context.read<AuthBloc>().add(
+                    AuthLoginEvent(
+                      email: emailTextEditingController.text,
+                      password: passwordTextEditingController.text,
+                    ),
+                  );
             },
             style: AppButtonStyles.success,
             child: const Text('Login'),
