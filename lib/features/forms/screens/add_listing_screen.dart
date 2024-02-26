@@ -8,7 +8,7 @@ import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/app_footer.dart';
 import 'package:flutter_admin/core/widgets/input_box.dart';
 import 'package:flutter_admin/core/widgets/select_box.dart';
-import 'package:flutter_admin/features/tables/bloc/listing_bloc.dart';
+import 'package:flutter_admin/features/tables/bloc/listing/listing_bloc.dart';
 import 'package:flutter_admin/features/tables/models/listing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

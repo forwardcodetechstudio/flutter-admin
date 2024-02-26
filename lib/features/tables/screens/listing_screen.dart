@@ -5,7 +5,7 @@ import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
-import 'package:flutter_admin/features/tables/bloc/listing_bloc.dart';
+import 'package:flutter_admin/features/tables/bloc/listing/listing_bloc.dart';
 
 class ListingScreen extends StatelessWidget {
   const ListingScreen({super.key});

@@ -67,6 +67,11 @@ class AppDrawer extends StatelessWidget {
                         title: const Text(' - Listing'),
                         onTap: () => context.goNamed(RoutesName.listing),
                       ),
+                      ListTile(
+                        leading: const SizedBox(),
+                        title: const Text(' - Category'),
+                        onTap: () => context.goNamed(RoutesName.category),
+                      ),
                     ],
                   ),
                   AppDrawerItem(

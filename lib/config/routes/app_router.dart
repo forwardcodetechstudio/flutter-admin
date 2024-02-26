@@ -5,6 +5,7 @@ import 'package:flutter_admin/features/authentication/screens/login_screen.dart'
 import 'package:flutter_admin/features/authentication/screens/register_screen.dart';
 import 'package:flutter_admin/features/dashboard/screens/crm_screen.dart';
 import 'package:flutter_admin/features/forms/screens/add_listing_screen.dart';
+import 'package:flutter_admin/features/tables/screens/category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/listing_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -54,6 +55,11 @@ class AppRouter {
             name: RoutesName.listing,
             path: RoutesPath.listing,
             builder: (context, state) => const ListingScreen(),
+          ),
+          GoRoute(
+            name: RoutesName.category,
+            path: RoutesPath.category,
+            builder: (context, state) => const CategoryScreen(),
           ),
         ],
       ),
