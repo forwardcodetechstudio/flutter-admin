@@ -1,10 +1,10 @@
 import 'package:flutter_admin/features/authentication/data/models/user.dart';
 
 abstract class AuthProvider {
-  Future<User?> login({
+  Future<User> login({
     required String email,
     required String password,
   });
-  Future<User?> register();
-  Future<User?> logout();
+  Future<User> register();
+  Future<User> logout();
 }

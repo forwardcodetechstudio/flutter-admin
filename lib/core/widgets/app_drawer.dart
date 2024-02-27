@@ -3,6 +3,8 @@ import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_admin/core/widgets/app_drawer_item.dart';
+import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -112,9 +114,15 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ],
                   ),
+                  ListTile(
+                    leading: const Icon(Icons.logout),
+                    title: const Text('Logout'),
+                    onTap: () =>
+                        context.read<AuthBloc>().add(AuthLogoutEvent()),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

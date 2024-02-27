@@ -1,32 +1,25 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:flutter_admin/core/exceptions/category_exceptions.dart';
 import 'package:flutter_admin/features/tables/models/category.dart';
-import 'package:http/http.dart' as http;
 
 class RemoteCategory {
-  static const String baseUrl = 'dev.anbocas.com';
+  final Dio client;
 
-  RemoteCategory();
+  RemoteCategory({required this.client});
 
-  Future<Category?> getAllCategories() async {
+  Future<Category> getAllCategory() async {
     const bool paginate = false;
-    final Uri uri = Uri.https(
-      baseUrl,
-      'api/v1/categories',
-      {
-        'paginate': paginate,
-        //'page': page,
-        //'page_length': 10,
-        //'search': null
-      },
+    final Response response = await client.get(
+      '/api/v1/categories',
+      queryParameters: {'paginate': paginate},
     );
-    final http.Response response = await http.Client().get(uri);
 
-    print("Category ::::::::::::::::::::::::::::::::::::::");
-    print(response.body);
     if (response.statusCode == HttpStatus.ok) {
-      return categoryFromJson(response.body);
+      final Category category = Category.fromJson(response.data);
+      return category;
     }
 
-    return null;
+    throw CategoryNotFound();
   }
 }

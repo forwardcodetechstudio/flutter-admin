@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/app_router.dart';
+import 'package:flutter_admin/core/network/network_client.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/data/providers/anbocas_auth_provider.dart';
 import 'package:flutter_admin/features/tables/bloc/category/category_bloc.dart';
@@ -11,7 +12,7 @@ import 'package:get_it/get_it.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setup();
+  initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -23,11 +24,19 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthBloc(authProvider: AnbocasAuthProvider()),
+          create: (context) => AuthBloc(
+            authProvider: AnbocasAuthProvider(
+              client: GetIt.I<NetworkClient>().client,
+            ),
+          ),
         ),
         BlocProvider(create: (context) => ListingBloc()),
         BlocProvider(
-          create: (context) => CategoryBloc(RemoteCategory()),
+          create: (context) => CategoryBloc(
+            RemoteCategory(
+              client: GetIt.I<NetworkClient>().client,
+            ),
+          ),
         ),
       ],
       child: MaterialApp.router(

@@ -13,8 +13,8 @@ class CategoryScreen extends StatelessWidget {
   static const List<String> _columnsName = [
     '#', // for id or serial no
     'Name',
-    'Created At'
-        'Last Updated At'
+    'Created At',
+    'Last Updated At',
   ];
 
   @override
@@ -33,35 +33,37 @@ class CategoryScreen extends StatelessWidget {
                   builder: (context, state) {
                     if (state is CategoryInitial) {
                       context.read<CategoryBloc>().add(GetCategory());
-                    } else if (state is CategoryFetching) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is CategoryFetchingSucceeded) {
-                      
                     }
-                      return const SizedBox();
-                    // Category categories = state.categories!;
-                    // return DataTable(
-                    //   headingRowColor:
-                    //       const MaterialStatePropertyAll(AppColors.white),
-                    //   dataRowColor:
-                    //       const MaterialStatePropertyAll(AppColors.white),
-                    //   columns: _columnsName
-                    //       .map((columnName) =>
-                    //           DataColumn(label: Text(columnName)))
-                    //       .toList(),
-                    //   rows: categories.data.data.map((categoryData) {
-                    //     return DataRow(
-                    //       cells: [
-                    //         DataCell(Text(categoryData.id)),
-                    //         DataCell(Text(categoryData.name)),
-                    //         DataCell(Text(categoryData.createdAt)),
-                    //         DataCell(Text(categoryData.updatedAt)),
-                    //       ],
-                    //     );
-                    //   }).toList(),
-                    // );
+                    if (state is CategoryFetchingSucceeded) {
+                      Category category = state.categories!;
+                      print(
+                          "Category :::::::::::::::::::::::::::::::::::::::::::::::::::;");
+                      print(category);
+                      return DataTable(
+                        headingRowColor:
+                            const MaterialStatePropertyAll(AppColors.white),
+                        dataRowColor:
+                            const MaterialStatePropertyAll(AppColors.white),
+                        columns: _columnsName
+                            .map((columnName) =>
+                                DataColumn(label: Text(columnName)))
+                            .toList(),
+                        rows: category.data.map((categoryData) {
+                          return DataRow(
+                            cells: [
+                              DataCell(Text(category.data.indexOf(categoryData).toString())),
+                              DataCell(Text(categoryData.name)),
+                              DataCell(Text(categoryData.createdAt)),
+                              DataCell(Text(categoryData.updatedAt ?? '--')),
+                            ],
+                          );
+                        }).toList(),
+                      );
+                    }
+
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                   },
                 ),
               ),
