@@ -90,6 +90,11 @@ class AppDrawer extends StatelessWidget {
                         title: const Text(' - Add Listing'),
                         onTap: () => context.goNamed(RoutesName.addListing),
                       ),
+                      ListTile(
+                        leading: const SizedBox(),
+                        title: const Text(' - Create Category'),
+                        onTap: () => context.goNamed(RoutesName.createCategory),
+                      ),
                     ],
                   ),
                   AppDrawerItem(

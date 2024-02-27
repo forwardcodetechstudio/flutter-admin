@@ -8,3 +8,9 @@ sealed class CategoryEvent extends Equatable {
 }
 
 class GetCategory extends CategoryEvent {}
+
+class RequestCategoryCreation extends CategoryEvent {
+  final String categoryName;
+
+  const RequestCategoryCreation({required this.categoryName});
+}

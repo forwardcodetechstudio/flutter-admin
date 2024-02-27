@@ -5,6 +5,7 @@ import 'package:flutter_admin/features/authentication/screens/login_screen.dart'
 import 'package:flutter_admin/features/authentication/screens/register_screen.dart';
 import 'package:flutter_admin/features/dashboard/screens/crm_screen.dart';
 import 'package:flutter_admin/features/forms/screens/add_listing_screen.dart';
+import 'package:flutter_admin/features/forms/screens/create_category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/listing_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -38,8 +39,10 @@ class AppRouter {
       ),
       ShellRoute(
         navigatorKey: _shellNavigatorState,
-        builder: (context, state, child) =>
-            ResponsiveLayoutScreen(child: child),
+        parentNavigatorKey: _rootNavigatorState,
+        builder: (context, state, child) {
+          return ResponsiveLayoutScreen(child: child);
+        },
         routes: [
           GoRoute(
             name: RoutesName.crm,
@@ -50,6 +53,11 @@ class AppRouter {
             name: RoutesName.addListing,
             path: RoutesPath.addListing,
             builder: (context, state) => const AddListingScreen(),
+          ),
+          GoRoute(
+            name: RoutesName.createCategory,
+            path: RoutesPath.createCategory,
+            builder: (context, state) => const CreateCategoryScreen(),
           ),
           GoRoute(
             name: RoutesName.listing,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/features/tables/bloc/category/category_bloc.dart';
-import 'package:flutter_admin/features/tables/models/category.dart';
+import 'package:flutter_admin/core/shared/bloc/category/category_bloc.dart';
+import 'package:flutter_admin/core/shared/models/category.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
@@ -31,14 +31,18 @@ class CategoryScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: BlocBuilder<CategoryBloc, CategoryState>(
                   builder: (context, state) {
-                    if (state is CategoryInitial) {
+                    if (state is CategoryInitial ||
+                        state is CategoryCreationFailed ||
+                        state is CategoryCreated) {
                       context.read<CategoryBloc>().add(GetCategory());
+                    }
+                    if (state is CategoryLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
                     if (state is CategoryFetchingSucceeded) {
                       Category category = state.categories!;
-                      print(
-                          "Category :::::::::::::::::::::::::::::::::::::::::::::::::::;");
-                      print(category);
                       return DataTable(
                         headingRowColor:
                             const MaterialStatePropertyAll(AppColors.white),
@@ -51,7 +55,9 @@ class CategoryScreen extends StatelessWidget {
                         rows: category.data.map((categoryData) {
                           return DataRow(
                             cells: [
-                              DataCell(Text(category.data.indexOf(categoryData).toString())),
+                              DataCell(Text(category.data
+                                  .indexOf(categoryData)
+                                  .toString())),
                               DataCell(Text(categoryData.name)),
                               DataCell(Text(categoryData.createdAt)),
                               DataCell(Text(categoryData.updatedAt ?? '--')),
@@ -60,9 +66,11 @@ class CategoryScreen extends StatelessWidget {
                         }).toList(),
                       );
                     }
-
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Center(
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Retry'),
+                      ),
                     );
                   },
                 ),

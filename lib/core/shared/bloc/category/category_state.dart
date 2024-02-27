@@ -11,7 +11,7 @@ sealed class CategoryState extends Equatable {
 
 final class CategoryInitial extends CategoryState {}
 
-final class CategoryFetching extends CategoryState {}
+final class CategoryLoading extends CategoryState {}
 
 final class CategoryFetchingSucceeded extends CategoryState {
   const CategoryFetchingSucceeded({required super.categories});
@@ -19,4 +19,12 @@ final class CategoryFetchingSucceeded extends CategoryState {
 
 final class CategoryFetchingFailure extends CategoryState {
   const CategoryFetchingFailure({required super.exception});
+}
+
+final class CategoryCreated extends CategoryState {
+  const CategoryCreated();
+}
+
+final class CategoryCreationFailed extends CategoryState {
+  const CategoryCreationFailed({required super.exception});
 }

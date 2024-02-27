@@ -6,5 +6,5 @@ abstract class AuthProvider {
     required String password,
   });
   Future<User> register();
-  Future<User> logout();
+  Future<bool> logout();
 }

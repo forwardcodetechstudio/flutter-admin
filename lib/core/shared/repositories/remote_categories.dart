@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_admin/core/exceptions/category_exceptions.dart';
-import 'package:flutter_admin/features/tables/models/category.dart';
+import 'package:flutter_admin/core/shared/models/category.dart';
 
 class RemoteCategory {
   final Dio client;
@@ -21,5 +21,17 @@ class RemoteCategory {
     }
 
     throw CategoryNotFound();
+  }
+
+  Future<void> createNewCategory({required String categoryName}) async {
+    final response = await client.post(
+      '/api/v1/categories/create',
+      data: {'name': categoryName},
+    );
+    if (response.statusCode == HttpStatus.ok) {
+      // return Category.fromJson(response.data);
+      return;
+    }
+    throw CategoryNotCreated();
   }
 }

@@ -9,6 +9,7 @@ sealed class RoutesName {
   static const String addListing = 'addListing';
   static const String listing = 'listing';
   static const String category = 'category';
+  static const String createCategory = 'createCategory';
 }
 
 sealed class RoutesPath {
@@ -21,4 +22,5 @@ sealed class RoutesPath {
   static const String addListing = '/add-listing';
   static const String listing = '/listing';
   static const String category = '/category';
+  static const String createCategory = '/create-category';
 }

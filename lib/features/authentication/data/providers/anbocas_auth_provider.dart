@@ -26,9 +26,17 @@ class AnbocasAuthProvider implements AuthProvider {
   }
 
   @override
-  Future<User> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<bool> logout() async {
+    try {
+      final Response response = await client.post('/api/v1/logout');
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      throw LogoutFailure();
+    }
   }
 
   @override

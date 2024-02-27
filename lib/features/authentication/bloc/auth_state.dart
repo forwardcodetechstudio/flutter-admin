@@ -9,7 +9,11 @@ sealed class AuthState extends Equatable {
 
 final class AuthInitial extends AuthState {}
 
-final class AuthLoading extends AuthState {}
+final class AuthLoading extends AuthState {
+  final User? user;
+
+  const AuthLoading({this.user});
+}
 
 final class AuthAuthenticated extends AuthState {
   final User user;

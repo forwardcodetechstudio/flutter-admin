@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_admin/core/resources/app_storage.dart';
+import 'package:get_it/get_it.dart';
 
 class NetworkClient {
   late Dio _client;
@@ -13,10 +15,14 @@ class NetworkClient {
 
   InterceptorsWrapper interceptorsWrapper() {
     return InterceptorsWrapper(
-      onRequest: (options, handler) {
-        options.headers.addAll({
-          "Authorization": "Bearer 34|uoIuvD1GV7YULJUdLHjYvtJ7pSU3972kXjJj6hWH121a11ae",
-        });
+      onRequest: (options, handler) async {
+        final String? accessToken =
+            await GetIt.I<AppStorage>().getAccessToken();
+        if (accessToken != null) {
+          options.headers.addAll({
+            "Authorization": "Bearer $accessToken",
+          });
+        }
         return handler.next(options);
       },
       onResponse: (response, handler) {
