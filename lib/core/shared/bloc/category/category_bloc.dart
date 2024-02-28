@@ -14,6 +14,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc(this.remoteCategory) : super(CategoryInitial()) {
     on<GetCategory>(_getAllCategories);
     on<RequestCategoryCreation>(_createNewCategory);
+    on<SearchCategory>(_searchCategories);
   }
 
   void _createNewCategory(
@@ -32,7 +33,22 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   void _getAllCategories(GetCategory event, Emitter<CategoryState> emit) async {
     emit(CategoryLoading());
     try {
-      Category category = await remoteCategory.getAllCategory();
+      Category category = await remoteCategory.getAllCategory(page: event.page);
+      emit(CategoryFetchingSucceeded(categories: category));
+    } on CategoryNotFound {
+      emit(const CategoryFetchingFailure(exception: 'Category Not Found'));
+    } catch (e) {
+      emit(CategoryFetchingFailure(exception: e.toString()));
+    }
+  }
+
+  void _searchCategories(
+      SearchCategory event, Emitter<CategoryState> emit) async {
+    emit(CategoryLoading());
+    try {
+      Category category = await remoteCategory.searchCategory(
+        text: event.text,
+      );
       emit(CategoryFetchingSucceeded(categories: category));
     } on CategoryNotFound {
       emit(const CategoryFetchingFailure(exception: 'Category Not Found'));

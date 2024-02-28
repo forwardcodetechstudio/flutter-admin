@@ -9,6 +9,7 @@ class InputBox extends StatelessWidget {
   final double labelSpacing;
   final double bottomMargin;
   final double height;
+  final Widget? suffixIcon;
 
   const InputBox({
     super.key,
@@ -18,6 +19,7 @@ class InputBox extends StatelessWidget {
     this.labelSpacing = 2,
     this.bottomMargin = 10,
     this.height = 36,
+    this.suffixIcon,
   });
 
   @override
@@ -35,6 +37,7 @@ class InputBox extends StatelessWidget {
             controller: textEditingController,
             decoration: InputDecoration(
               hintText: placeholder,
+              suffixIcon: suffixIcon,
               contentPadding: const EdgeInsets.symmetric(horizontal: 14),
               border: const OutlineInputBorder(
                 borderSide: BorderSide(color: AppColors.grey),

@@ -8,11 +8,36 @@ class RemoteCategory {
 
   RemoteCategory({required this.client});
 
-  Future<Category> getAllCategory() async {
-    const bool paginate = false;
+  Future<Category> getAllCategory({required int page}) async {
+    const bool paginate = true;
+    const int pageLength = 10;
     final Response response = await client.get(
       '/api/v1/categories',
-      queryParameters: {'paginate': paginate},
+      queryParameters: {
+        'paginate': paginate,
+        'page': page,
+        'page_length': pageLength,
+      },
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final Category category = Category.fromJson(response.data);
+      return category;
+    }
+
+    throw CategoryNotFound();
+  }
+
+  Future<Category> searchCategory({required String text}) async {
+    const bool paginate = true;
+    const int pageLength = 10;
+    final Response response = await client.get(
+      '/api/v1/categories',
+      queryParameters: {
+        'paginate': paginate,
+        'page_length': pageLength,
+        'search': text,
+      },
     );
 
     if (response.statusCode == HttpStatus.ok) {
