@@ -15,6 +15,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<GetCategory>(_getAllCategories);
     on<RequestCategoryCreation>(_createNewCategory);
     on<SearchCategory>(_searchCategories);
+    on<RequestCategoryDeleation>(_removeCategory);
   }
 
   void _createNewCategory(
@@ -23,7 +24,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     try {
       await remoteCategory.createNewCategory(categoryName: event.categoryName);
       emit(const CategoryCreated());
-    } on CategoryNotCreated {
+    } on CategoryCreationFailure {
       emit(const CategoryCreationFailed(exception: 'Category Not Created'));
     } catch (e) {
       emit(const CategoryCreationFailed(exception: 'Category Not Created'));
@@ -54,6 +55,23 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       emit(const CategoryFetchingFailure(exception: 'Category Not Found'));
     } catch (e) {
       emit(CategoryFetchingFailure(exception: e.toString()));
+    }
+  }
+
+  void _removeCategory(
+      RequestCategoryDeleation event, Emitter<CategoryState> emit) async {
+    emit(CategoryLoading());
+    try {
+      bool isCategoryDeleted = await remoteCategory.deleteCategory(
+        categoryId: event.categoryId,
+      );
+      if (isCategoryDeleted) {
+        emit(const CategoryRemoved());
+      } else {
+        emit(const CategoryRemovingFalied());
+      }
+    } catch (e) {
+      emit(const CategoryRemovingFalied());
     }
   }
 }

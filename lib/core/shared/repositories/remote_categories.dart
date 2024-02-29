@@ -57,6 +57,16 @@ class RemoteCategory {
       // return Category.fromJson(response.data);
       return;
     }
-    throw CategoryNotCreated();
+    throw CategoryCreationFailure();
+  }
+
+  Future<bool> deleteCategory({required String categoryId}) async {
+    final response = await client.delete(
+      '/api/v1/categories/$categoryId',
+    );
+    if (response.statusCode == HttpStatus.ok) {
+      return response.data['data'];
+    }
+    throw CategoryDeleationFailure();
   }
 }

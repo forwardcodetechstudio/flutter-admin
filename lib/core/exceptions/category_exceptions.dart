@@ -2,4 +2,6 @@ abstract class CategoryExceptions implements Exception {}
 
 class CategoryNotFound implements CategoryExceptions {}
 
-class CategoryNotCreated implements CategoryExceptions {}
+class CategoryCreationFailure implements CategoryExceptions {}
+
+class CategoryDeleationFailure implements CategoryExceptions {}

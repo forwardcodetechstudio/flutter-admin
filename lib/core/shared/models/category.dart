@@ -28,7 +28,7 @@ class Data {
     int currentPage;
     List<Datum> data;
     String firstPageUrl;
-    int from;
+    int? from;
     int lastPage;
     String lastPageUrl;
     List<Link> links;
@@ -36,14 +36,14 @@ class Data {
     String path;
     int perPage;
     dynamic prevPageUrl;
-    int to;
+    int? to;
     int total;
 
     Data({
         required this.currentPage,
         required this.data,
         required this.firstPageUrl,
-        required this.from,
+        this.from,
         required this.lastPage,
         required this.lastPageUrl,
         required this.links,
@@ -51,7 +51,7 @@ class Data {
         required this.path,
         required this.perPage,
         required this.prevPageUrl,
-        required this.to,
+        this.to,
         required this.total,
     });
 

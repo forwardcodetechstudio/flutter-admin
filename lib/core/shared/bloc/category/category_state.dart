@@ -25,6 +25,14 @@ final class CategoryCreated extends CategoryState {
   const CategoryCreated();
 }
 
+final class CategoryRemoved extends CategoryState {
+  const CategoryRemoved();
+}
+
+final class CategoryRemovingFalied extends CategoryState {
+  const CategoryRemovingFalied();
+}
+
 final class CategoryCreationFailed extends CategoryState {
   const CategoryCreationFailed({required super.exception});
 }
