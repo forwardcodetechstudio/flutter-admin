@@ -25,8 +25,16 @@ final class CategoryCreated extends CategoryState {
   const CategoryCreated();
 }
 
+final class CategoryUpdated extends CategoryState {
+  const CategoryUpdated();
+}
+
 final class CategoryRemoved extends CategoryState {
   const CategoryRemoved();
+}
+
+final class CategoryUpdationFailed extends CategoryState {
+  const CategoryUpdationFailed();
 }
 
 final class CategoryRemovingFalied extends CategoryState {

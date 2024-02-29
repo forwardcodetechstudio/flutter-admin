@@ -25,6 +25,16 @@ class RequestCategoryCreation extends CategoryEvent {
   const RequestCategoryCreation({required this.categoryName});
 }
 
+class RequestCategoryUpdation extends CategoryEvent {
+  final String categoryId;
+  final String categoryName;
+
+  const RequestCategoryUpdation({
+    required this.categoryId,
+    required this.categoryName,
+  });
+}
+
 class RequestCategoryDeleation extends CategoryEvent {
   final String categoryId;
 

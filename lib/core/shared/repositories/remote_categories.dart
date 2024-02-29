@@ -60,6 +60,18 @@ class RemoteCategory {
     throw CategoryCreationFailure();
   }
 
+  Future<bool> updateCategory({required String categoryId, required String categoryName}) async {
+    final response = await client.put(
+      '/api/v1/categories/$categoryId',
+      data: {'name': categoryName},
+    );
+    if (response.statusCode == HttpStatus.ok) {
+      // return Category.fromJson(response.data);
+      return true;
+    }
+    throw CategoryUpdationFailure();
+  }
+
   Future<bool> deleteCategory({required String categoryId}) async {
     final response = await client.delete(
       '/api/v1/categories/$categoryId',

@@ -9,23 +9,41 @@ import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/input_box.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateCategoryScreen extends StatelessWidget {
-  const CreateCategoryScreen({super.key});
+  final String? categeoryId;
+  final String? categeoryName;
+
+  const CreateCategoryScreen({
+    super.key,
+    this.categeoryId,
+    this.categeoryName,
+  });
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController createCategoryTextEditingController =
-        TextEditingController();
+        TextEditingController(text: categeoryName);
     return BlocConsumer<CategoryBloc, CategoryState>(
       listener: (context, state) {
         if (state is CategoryCreated) {
           createCategoryTextEditingController.clear();
-          showSnackbar(context: context, text: 'Created Successfully');
+          showSnackbar(context: context, text: 'Category Created Successfully');
+        } else if (state is CategoryUpdated) {
+          createCategoryTextEditingController.clear();
+          showSnackbar(context: context, text: 'Category Updated Successfully');
+          context.goNamed(RoutesName.category);
         } else if (state is CategoryCreationFailed) {
           showSnackbar(
             context: context,
-            text: 'Not Created',
+            text: 'Category Not Created',
+            backgroundColor: AppColors.danger,
+          );
+        } else if (state is CategoryUpdationFailed) {
+          showSnackbar(
+            context: context,
+            text: 'Category Not Updated',
             backgroundColor: AppColors.danger,
           );
         }
@@ -66,19 +84,36 @@ class CreateCategoryScreen extends StatelessWidget {
                       ),
                       child: Align(
                         alignment: Alignment.topLeft,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context.read<CategoryBloc>().add(
-                                  RequestCategoryCreation(
-                                    categoryName:
-                                        createCategoryTextEditingController
-                                            .text,
-                                  ),
-                                );
-                          },
-                          style: AppButtonStyles.primary,
-                          child: const Text('Create'),
-                        ),
+                        child: (categeoryId == null)
+                            ? // create new category
+                            ElevatedButton(
+                                onPressed: () {
+                                  context.read<CategoryBloc>().add(
+                                        RequestCategoryCreation(
+                                          categoryName:
+                                              createCategoryTextEditingController
+                                                  .text,
+                                        ),
+                                      );
+                                },
+                                style: AppButtonStyles.primary,
+                                child: const Text('Create'),
+                              )
+                            : // update category of given id
+                            ElevatedButton(
+                                onPressed: () {
+                                  context.read<CategoryBloc>().add(
+                                        RequestCategoryUpdation(
+                                          categoryId: categeoryId!,
+                                          categoryName:
+                                              createCategoryTextEditingController
+                                                  .text,
+                                        ),
+                                      );
+                                },
+                                style: AppButtonStyles.primary,
+                                child: const Text('Save Changes'),
+                              ),
                       ),
                     ),
                   ],

@@ -9,6 +9,7 @@ import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
@@ -45,6 +46,8 @@ class CategoryScreen extends StatelessWidget {
                     state is CategoryCreationFailed ||
                     state is CategoryCreated ||
                     state is CategoryRemoved ||
+                    state is CategoryUpdated ||
+                    state is CategoryUpdationFailed ||
                     state is CategoryRemovingFalied) {
                   context.read<CategoryBloc>().add(const GetCategory(page: 1));
                 }
@@ -70,28 +73,51 @@ class CategoryScreen extends StatelessWidget {
                         Text(categoryData.name),
                         Text(categoryData.createdAt),
                         Text(categoryData.updatedAt ?? '--'),
-                        // A delete button widget to delete categeory instance
-                        InkWell(
-                          onTap: () {
-                            showFeedBackAlert(
-                                    context: context,
-                                    text: 'Are you sure you want to delete',
-                                    title: 'Danger')
-                                .then((wantToDelete) => {
-                                      if (wantToDelete)
-                                        {
-                                          context.read<CategoryBloc>().add(
-                                                RequestCategoryDeleation(
-                                                  categoryId: categoryData.id,
-                                                ),
-                                              )
-                                        }
-                                    });
-                          },
-                          child: const Icon(
-                            Icons.delete,
-                            color: AppColors.danger,
-                          ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            InkWell(
+                              // A delete button widget to delete categeory instance
+                              onTap: () {
+                                showFeedBackAlert(
+                                        context: context,
+                                        text: 'Are you sure you want to delete',
+                                        title: 'Danger')
+                                    .then((wantToDelete) => {
+                                          if (wantToDelete)
+                                            {
+                                              context.read<CategoryBloc>().add(
+                                                    RequestCategoryDeleation(
+                                                      categoryId:
+                                                          categoryData.id,
+                                                    ),
+                                                  )
+                                            }
+                                        });
+                              },
+                              child: const Icon(
+                                Icons.delete,
+                                color: AppColors.danger,
+                              ),
+                            ),
+                            6.sbw,
+                            // Edit button to update category instance
+                            InkWell(
+                              onTap: () {
+                                context.goNamed(
+                                  RoutesName.createCategory,
+                                  queryParameters: {
+                                    'id': categoryData.id,
+                                    'name': categoryData.name,
+                                  }
+                                );
+                              },
+                              child: const Icon(
+                                Icons.edit,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ],
                         ),
                       ];
                     }).toList(),

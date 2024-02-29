@@ -5,13 +5,14 @@ class AppDrawerItem extends StatelessWidget {
   final Widget icon;
   final Widget label;
   final List<Widget>? children;
+  final VoidCallback? onTap;
 
   const AppDrawerItem({
     super.key,
     this.collapsed = false,
     required this.icon,
     required this.label,
-    this.children,
+    this.children, this.onTap,
   });
 
   @override
@@ -20,12 +21,14 @@ class AppDrawerItem extends StatelessWidget {
       return ListTile(
         title: icon,
         titleAlignment: ListTileTitleAlignment.center,
+        onTap: onTap,
       );
     }
     if (children == null) {
       return ListTile(
         leading: icon,
         title: label,
+        onTap: onTap,
       );
     }
     return ExpansionTile(

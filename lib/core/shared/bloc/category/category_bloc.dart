@@ -16,6 +16,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<RequestCategoryCreation>(_createNewCategory);
     on<SearchCategory>(_searchCategories);
     on<RequestCategoryDeleation>(_removeCategory);
+    on<RequestCategoryUpdation>(_updateCategory);
   }
 
   void _createNewCategory(
@@ -55,6 +56,26 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       emit(const CategoryFetchingFailure(exception: 'Category Not Found'));
     } catch (e) {
       emit(CategoryFetchingFailure(exception: e.toString()));
+    }
+  }
+
+  void _updateCategory(
+      RequestCategoryUpdation event, Emitter<CategoryState> emit) async {
+    emit(CategoryLoading());
+    try {
+      final bool isCategoryUpdated = await remoteCategory.updateCategory(
+        categoryId: event.categoryId,
+        categoryName: event.categoryName,
+      );
+      if (isCategoryUpdated) {
+        emit(const CategoryUpdated());
+      } else {
+        emit(const CategoryUpdationFailed());
+      }
+    } on CategoryCreationFailure {
+      emit(const CategoryUpdationFailed());
+    } catch (e) {
+      emit(const CategoryUpdationFailed());
     }
   }
 

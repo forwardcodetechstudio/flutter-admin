@@ -119,12 +119,14 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ],
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text('Logout'),
-                    onTap: () =>
-                        context.read<AuthBloc>().add(AuthLogoutEvent()),
-                  ),
+                  AppDrawerItem(
+                    collapsed: collapsed,
+                    icon: const Icon(Icons.logout),
+                    label: const Text('Logout'),
+                    onTap: () {
+                      context.read<AuthBloc>().add(AuthLogoutEvent());
+                    },
+                  )
                 ],
               ),
             ),

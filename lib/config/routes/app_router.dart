@@ -57,7 +57,14 @@ class AppRouter {
           GoRoute(
             name: RoutesName.createCategory,
             path: RoutesPath.createCategory,
-            builder: (context, state) => const CreateCategoryScreen(),
+            builder: (context, state) {
+              final String? categoryId = state.uri.queryParameters['id'];
+              final String? categoryName = state.uri.queryParameters['name'];
+              return CreateCategoryScreen(
+                categeoryId: categoryId,
+                categeoryName: categoryName,
+              );
+            },
           ),
           GoRoute(
             name: RoutesName.listing,

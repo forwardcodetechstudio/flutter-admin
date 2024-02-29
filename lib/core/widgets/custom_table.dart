@@ -11,9 +11,10 @@ class CustomTable extends StatelessWidget {
   final int totalPage;
   final int currentPage;
   final int rowsPerPage;
+  final double breakPoint;
   final VoidCallback? onNextPageButtonClicked;
   final VoidCallback? onPrevPageButtonClicked;
-  // this method will create a custom list item with developer need 
+  // this method will create a custom list item with developer need
   final Widget Function(List<Widget> row) listViewLayoutBuilder;
 
   const CustomTable({
@@ -28,6 +29,7 @@ class CustomTable extends StatelessWidget {
     this.onPrevPageButtonClicked,
     required this.rowsPerPage,
     required this.listViewLayoutBuilder,
+    this.breakPoint = 700,
   }) : super(key: key);
 
   @override
@@ -46,7 +48,7 @@ class CustomTable extends StatelessWidget {
           children: [
             _searchField(),
             Expanded(
-              child: (screenWidth > 600)
+              child: (screenWidth > breakPoint)
                   ? _displayDataInTable(tableWidth: tableWidth)
                   : _displayDataInListView(),
             ),
