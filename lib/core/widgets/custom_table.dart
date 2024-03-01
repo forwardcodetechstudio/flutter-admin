@@ -6,7 +6,7 @@ import 'package:flutter_admin/core/widgets/input_box.dart';
 class CustomTable extends StatelessWidget {
   final List<Widget> columns;
   final List<List<Widget>> rows;
-  final VoidCallback? onSearchButtonTap;
+  final Function(String value)? onSearchTextChanged;
   final TextEditingController? searchTextEditingController;
   final int totalPage;
   final int currentPage;
@@ -21,7 +21,7 @@ class CustomTable extends StatelessWidget {
     Key? key,
     required this.columns,
     required this.rows,
-    this.onSearchButtonTap,
+    this.onSearchTextChanged,
     this.searchTextEditingController,
     required this.totalPage,
     required this.currentPage,
@@ -82,10 +82,8 @@ class CustomTable extends StatelessWidget {
       width: 350,
       child: InputBox(
         placeholder: 'Search',
-        suffixIcon: InkWell(
-          onTap: onSearchButtonTap,
-          child: const Icon(Icons.search),
-        ),
+        onChanged: onSearchTextChanged,
+        suffixIcon: const Icon(Icons.search),
         textEditingController: searchTextEditingController,
       ),
     );

@@ -12,4 +12,7 @@ abstract final class AppColors {
   static const Color green = Colors.green;
   static const Color blue93b4d4 = Color(0xff93b4d4);
 
+  static const Color blueGreyText = Color(0xff8A98AC);
+  static const Color darkText = Color(0xff495057);
+
 }

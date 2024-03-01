@@ -9,6 +9,7 @@ import 'package:flutter_admin/core/shared/repositories/remote_categories.dart';
 import 'package:flutter_admin/injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +43,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Flutter Admin',
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: GoogleFonts.poppinsTextTheme(),
+          useMaterial3: true,
+        ),
         routerConfig: GetIt.I<AppRouter>().router,
       ),
     );

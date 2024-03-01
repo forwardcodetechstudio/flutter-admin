@@ -69,6 +69,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
         Container(
           color: AppColors.white,
           margin: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.all(24),
           child: ResponsiveDesignGrid(
             children: [
               ResponsiveDesignGridRow(
@@ -89,14 +90,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
                         user = value!;
                       },
                       options: const [
-                        DropdownMenuItem(
-                          value: 'user1',
-                          child: Text('User1'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'user2',
-                          child: Text('User2'),
-                        ),
+                        'User1',
+                        'User2',
                       ],
                     ),
                   ),
@@ -108,14 +103,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
                         cateyory = value!;
                       },
                       options: const [
-                        DropdownMenuItem(
-                          value: 'cateyory1',
-                          child: Text('Cateyory1'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'cateyory2',
-                          child: Text('Cateyory2'),
-                        )
+                        'Category1',
+                        'Category2',
                       ],
                     ),
                   ),
@@ -175,14 +164,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
                         area = value!;
                       },
                       options: const [
-                        DropdownMenuItem(
-                          value: 'area1',
-                          child: Text('Area1'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'area2',
-                          child: Text('Area2'),
-                        ),
+                        'Area1',
+                        'Area2',
                       ],
                     ),
                   ),
@@ -194,14 +177,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
                         services = value!;
                       },
                       options: const [
-                        DropdownMenuItem(
-                          value: 'services1',
-                          child: Text('Services1'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'services2',
-                          child: Text('Services2'),
-                        ),
+                        'Services1',
+                        'Services2',
                       ],
                     ),
                   ),
@@ -213,14 +190,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
                         tags = value!;
                       },
                       options: const [
-                        DropdownMenuItem(
-                          value: 'tag1',
-                          child: Text('Tag1'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'tag2',
-                          child: Text('Tag2'),
-                        ),
+                        'Tag1',
+                        'Tag2',
                       ],
                     ),
                   ),
@@ -232,14 +203,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
                         amenities = value!;
                       },
                       options: const [
-                        DropdownMenuItem(
-                          value: 'amenities1',
-                          child: Text('Amenities1'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'amenities2',
-                          child: Text('Amenities2'),
-                        ),
+                        'Amenities1',
+                        'Amenities2',
                       ],
                     ),
                   ),
@@ -251,14 +216,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
                         type = value!;
                       },
                       options: const [
-                        DropdownMenuItem(
-                          value: 'type1',
-                          child: Text('Type1'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'type2',
-                          child: Text('Type2'),
-                        ),
+                        'Type1',
+                        'Type2',
                       ],
                     ),
                   ),
@@ -270,14 +229,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
                         status = value!;
                       },
                       options: const [
-                        DropdownMenuItem(
-                          value: 'active',
-                          child: Text('Active'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'deactive',
-                          child: Text('deactive'),
-                        ),
+                        'Active',
+                        'deactive',
                       ],
                     ),
                   ),

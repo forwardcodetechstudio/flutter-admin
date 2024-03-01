@@ -5,7 +5,7 @@ import 'package:flutter_admin/features/authentication/screens/login_screen.dart'
 import 'package:flutter_admin/features/authentication/screens/register_screen.dart';
 import 'package:flutter_admin/features/dashboard/screens/crm_screen.dart';
 import 'package:flutter_admin/features/forms/screens/add_listing_screen.dart';
-import 'package:flutter_admin/features/forms/screens/create_category_screen.dart';
+import 'package:flutter_admin/features/forms/screens/create_update_category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/listing_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -57,11 +57,16 @@ class AppRouter {
           GoRoute(
             name: RoutesName.createCategory,
             path: RoutesPath.createCategory,
+            builder: (context, state) => const CreateUpdateCategoryScreen(),
+          ),
+          GoRoute(
+            name: RoutesName.updateCategory,
+            path: RoutesPath.updateCategory,
             builder: (context, state) {
               final String? categoryId = state.uri.queryParameters['id'];
               final String? categoryName = state.uri.queryParameters['name'];
-              return CreateCategoryScreen(
-                categeoryId: categoryId,
+              return CreateUpdateCategoryScreen(
+                categoryId: categoryId,
                 categeoryName: categoryName,
               );
             },

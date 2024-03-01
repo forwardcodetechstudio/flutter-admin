@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
@@ -9,7 +10,7 @@ class SelectBox<T> extends StatelessWidget {
   final double labelSpacing;
   final double bottomMargin;
   final double height;
-  final List<DropdownMenuItem<T>>? options;
+  final List<T> options;
   final Function(T? value)? onChanged;
 
   const SelectBox({
@@ -17,37 +18,52 @@ class SelectBox<T> extends StatelessWidget {
     this.label = '',
     this.hint,
     this.textEditingController,
-    this.labelSpacing = 2,
+    this.labelSpacing = 8,
     this.bottomMargin = 10,
     this.height = 36,
-    this.options,
+    this.options = const [],
     this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    const labelTextStyle = TextStyle(
+      fontWeight: FontWeight.w500,
+      color: AppColors.blueGreyText,
+      fontSize: 15,
+      height: 1.5,
+    );
+    const InputBorder border = OutlineInputBorder(
+      borderSide: BorderSide(color: AppColors.blueGreyText),
+    );
+    const InputBorder focusBorder = OutlineInputBorder(
+        borderSide: BorderSide(
+      color: AppColors.primary,
+    ));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (label.isNotEmpty) ...[
-          Text(label),
+          Text(
+            label,
+            style: labelTextStyle,
+          ),
           labelSpacing.sbh,
         ],
         SizedBox(
           height: height,
-          child: DropdownButtonFormField<T>(
-            hint: Text(hint ?? 'Select here'),
-            decoration: const InputDecoration(
-
-              contentPadding: EdgeInsets.symmetric(horizontal: 14),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: AppColors.grey,
-                ),
-              ),
-            ),
+          child: DropdownSearch<T>(
             items: options,
             onChanged: onChanged,
+            dropdownDecoratorProps: const DropDownDecoratorProps(
+              dropdownSearchDecoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                hintText: 'Select here',
+                hintStyle: labelTextStyle,
+                border: border,
+                focusedBorder: focusBorder,
+              ),
+            ),
           ),
         ),
         bottomMargin.sbh,

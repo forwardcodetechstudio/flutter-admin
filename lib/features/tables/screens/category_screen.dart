@@ -10,6 +10,7 @@ import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
@@ -104,13 +105,11 @@ class CategoryScreen extends StatelessWidget {
                             // Edit button to update category instance
                             InkWell(
                               onTap: () {
-                                context.goNamed(
-                                  RoutesName.createCategory,
-                                  queryParameters: {
-                                    'id': categoryData.id,
-                                    'name': categoryData.name,
-                                  }
-                                );
+                                context.goNamed(RoutesName.updateCategory,
+                                    queryParameters: {
+                                      'id': categoryData.id,
+                                      'name': categoryData.name,
+                                    });
                               },
                               child: const Icon(
                                 Icons.edit,
@@ -125,12 +124,16 @@ class CategoryScreen extends StatelessWidget {
                     currentPage: currentPage,
                     rowsPerPage: rowsPerPage,
                     searchTextEditingController: searchTextEditingController,
-                    onSearchButtonTap: () {
-                      context.read<CategoryBloc>().add(
-                            SearchCategory(
-                              text: searchTextEditingController.text,
-                            ),
-                          );
+                    onSearchTextChanged: (value) {
+                      EasyDebounce.debounce(
+                        'searchCategory',
+                        const Duration(milliseconds: 500),
+                        () {
+                          context.read<CategoryBloc>().add(SearchCategory(
+                                text: searchTextEditingController.text,
+                              ));
+                        },
+                      );
                     },
                     onPrevPageButtonClicked: () {
                       context.read<CategoryBloc>().add(
