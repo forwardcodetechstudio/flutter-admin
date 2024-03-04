@@ -20,7 +20,14 @@ class AppBreadCrumbs extends StatelessWidget {
         horizontal: 24,
         vertical: 14,
       ),
-      title: Text(locationName.toUpperCase()),
+      title: Text(
+        locationName.toUpperCase(),
+        style: const TextStyle(
+          color: AppColors.black,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       subtitle: BreadCrumb(
         items: paths
             .map(

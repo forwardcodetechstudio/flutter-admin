@@ -44,13 +44,15 @@ dependencies:
   carousel_slider: ^4.2.1
   data_table_2: ^2.5.10
   dio: ^5.4.1
-  http: ^1.2.1
   shared_preferences: ^2.2.2
   flutter_secure_storage: ^9.0.0
   flutter_breadcrumb: ^1.0.1
   easy_debounce: ^2.0.3
   google_fonts: ^6.1.0
   dropdown_search: ^5.0.6
+  image_picker: ^1.0.7
+  dotted_border: ^2.1.0
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

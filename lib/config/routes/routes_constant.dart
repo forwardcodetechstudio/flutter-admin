@@ -11,6 +11,11 @@ sealed class RoutesName {
   static const String category = 'category';
   static const String createCategory = 'createCategory';
   static const String updateCategory = 'updateCategory';
+
+  /* Company */
+  static const String companyListing = 'companyList';
+  static const String createNewCompany = 'createCompany';
+  static const String updateCompany = 'updateCompany';
 }
 
 sealed class RoutesPath {
@@ -25,4 +30,9 @@ sealed class RoutesPath {
   static const String category = '/category';
   static const String createCategory = '/create-category';
   static const String updateCategory = '/update-category';
+
+  /* Company */
+  static const String companyList = '/company-list';
+  static const String createNewCompany = '/create-company';
+  static const String updateCompany = '/update-company';
 }

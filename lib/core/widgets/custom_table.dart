@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/input_box.dart';
@@ -14,6 +16,7 @@ class CustomTable extends StatelessWidget {
   final double breakPoint;
   final VoidCallback? onNextPageButtonClicked;
   final VoidCallback? onPrevPageButtonClicked;
+  final bool isLoading;
   // this method will create a custom list item with developer need
   final Widget Function(List<Widget> row) listViewLayoutBuilder;
 
@@ -25,11 +28,12 @@ class CustomTable extends StatelessWidget {
     this.searchTextEditingController,
     required this.totalPage,
     required this.currentPage,
+    required this.rowsPerPage,
+    this.breakPoint = 700,
     this.onNextPageButtonClicked,
     this.onPrevPageButtonClicked,
-    required this.rowsPerPage,
+    this.isLoading = false,
     required this.listViewLayoutBuilder,
-    this.breakPoint = 700,
   }) : super(key: key);
 
   @override
@@ -47,11 +51,17 @@ class CustomTable extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _searchField(),
-            Expanded(
-              child: (screenWidth > breakPoint)
-                  ? _displayDataInTable(tableWidth: tableWidth)
-                  : _displayDataInListView(),
-            ),
+            isLoading
+                ? const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : Expanded(
+                    child: (screenWidth > breakPoint)
+                        ? _displayDataInTable(tableWidth: tableWidth)
+                        : _displayDataInListView(),
+                  ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -129,21 +139,4 @@ class CustomTable extends StatelessWidget {
       ).toList(),
     );
   }
-  // Widget _displayDataInListView() {
-  //   return ListView(
-  //     children: rows.map(
-  //       (row) {
-  //         return Column(children: [
-  //           ...row
-  //               .map((cell) => ListTile(
-  //                     title: cell,
-  //                     tileColor: Colors.white,
-  //                   ))
-  //               .toList(),
-  //           const Divider(),
-  //         ]);
-  //       },
-  //     ).toList(),
-  //   );
-  // }
 }

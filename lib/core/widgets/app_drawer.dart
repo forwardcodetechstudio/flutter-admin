@@ -46,6 +46,8 @@ class AppDrawer extends StatelessWidget {
                       height: 20,
                       color: AppColors.grey,
                     ),
+
+                    /* Dashboard ::::::::::::::: */
                     label: const Text('Dashboard'),
                     children: [
                       ListTile(
@@ -55,6 +57,27 @@ class AppDrawer extends StatelessWidget {
                       )
                     ],
                   ),
+
+                  /* Company ::::::::::::::: */
+                  AppDrawerItem(
+                    collapsed: collapsed,
+                    icon: const Icon(Icons.business),
+                    label: const Text('Company'),
+                    children: [
+                      ListTile(
+                        leading: const SizedBox(),
+                        title: const Text(' - List'),
+                        onTap: () => context.goNamed(RoutesName.companyListing),
+                      ),
+                      ListTile(
+                        leading: const SizedBox(),
+                        title: const Text(' - Create'),
+                        onTap: () => context.goNamed(RoutesName.createNewCompany),
+                      ),
+                    ],
+                  ),
+
+                  /* Tables ::::::::::::::: */
                   AppDrawerItem(
                     collapsed: collapsed,
                     icon: const Icon(
@@ -76,6 +99,8 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ],
                   ),
+
+                  /* Forms ::::::::::::::: */
                   AppDrawerItem(
                     collapsed: collapsed,
                     icon: const Icon(
@@ -97,6 +122,8 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ],
                   ),
+
+                  /* Pages ::::::::::::::: */
                   AppDrawerItem(
                     collapsed: collapsed,
                     icon: SvgPicture.asset(
@@ -119,6 +146,8 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ],
                   ),
+
+                  /* Logout ::::::::::::::: */
                   AppDrawerItem(
                     collapsed: collapsed,
                     icon: const Icon(Icons.logout),

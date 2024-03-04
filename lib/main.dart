@@ -4,6 +4,8 @@ import 'package:flutter_admin/core/network/network_client.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/data/providers/anbocas_auth_provider.dart';
 import 'package:flutter_admin/core/shared/bloc/category/category_bloc.dart';
+import 'package:flutter_admin/features/company/bloc/companies_bloc.dart';
+import 'package:flutter_admin/features/company/repositories/companies_repository.dart';
 import 'package:flutter_admin/features/tables/bloc/listing/listing_bloc.dart';
 import 'package:flutter_admin/core/shared/repositories/remote_categories.dart';
 import 'package:flutter_admin/injection_container.dart';
@@ -32,6 +34,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
         BlocProvider(create: (context) => ListingBloc()),
+        BlocProvider(
+          create: (context) => CompaniesBloc(
+            companiesRepository: CompaniesRepository(
+              client: GetIt.I<NetworkClient>().client,
+            ),
+          ),
+        ),
         BlocProvider(
           create: (context) => CategoryBloc(
             RemoteCategory(

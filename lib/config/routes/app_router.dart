@@ -3,6 +3,9 @@ import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/responsive/responsive_layout_screen.dart';
 import 'package:flutter_admin/features/authentication/screens/login_screen.dart';
 import 'package:flutter_admin/features/authentication/screens/register_screen.dart';
+import 'package:flutter_admin/features/company/screens/company_creation_screen.dart';
+import 'package:flutter_admin/features/company/screens/company_listing_screen.dart';
+import 'package:flutter_admin/features/company/screens/company_updation_screen.dart';
 import 'package:flutter_admin/features/dashboard/screens/crm_screen.dart';
 import 'package:flutter_admin/features/forms/screens/add_listing_screen.dart';
 import 'package:flutter_admin/features/forms/screens/create_update_category_screen.dart';
@@ -55,6 +58,13 @@ class AppRouter {
             builder: (context, state) => const AddListingScreen(),
           ),
           GoRoute(
+            name: RoutesName.listing,
+            path: RoutesPath.listing,
+            builder: (context, state) => const ListingScreen(),
+          ),
+
+          /* Category Routes */
+          GoRoute(
             name: RoutesName.createCategory,
             path: RoutesPath.createCategory,
             builder: (context, state) => const CreateUpdateCategoryScreen(),
@@ -72,14 +82,26 @@ class AppRouter {
             },
           ),
           GoRoute(
-            name: RoutesName.listing,
-            path: RoutesPath.listing,
-            builder: (context, state) => const ListingScreen(),
-          ),
-          GoRoute(
             name: RoutesName.category,
             path: RoutesPath.category,
             builder: (context, state) => const CategoryScreen(),
+          ),
+
+          /* Company Routes */
+          GoRoute(
+            name: RoutesName.companyListing,
+            path: RoutesPath.companyList,
+            builder: (context, state) => const CompanyListingScreen(),
+          ),
+          GoRoute(
+            name: RoutesName.createNewCompany,
+            path: RoutesPath.createNewCompany,
+            builder: (context, state) => const CompanyCreationScreen(),
+          ),
+          GoRoute(
+            name: RoutesName.updateCompany,
+            path: RoutesPath.updateCompany,
+            builder: (context, state) => const CompanyUpdationScreen(),
           ),
         ],
       ),
