@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,8 +14,7 @@ class CustomAuthScaffold extends StatelessWidget {
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
-          return Container(
-            color: AppColors.backgroundf2f5fa,
+          return SizedBox(
             width: constraints.maxWidth,
             height: constraints.maxHeight,
             child: Stack(
@@ -37,9 +35,8 @@ class CustomAuthScaffold extends StatelessWidget {
                     constraints: const BoxConstraints(
                       maxWidth: 432,
                     ),
-                    color: AppColors.white,
                     child: Column(children: [
-                      SvgPicture.asset(AppImages.logo),
+                      Image.asset(AppImages.fctsLogo),
                       const SizedBox(height: 20),
                       const Divider(),
                       const SizedBox(height: 24),

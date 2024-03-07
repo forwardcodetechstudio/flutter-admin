@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
+import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
@@ -33,16 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
             text: state.error,
             backgroundColor: AppColors.danger,
           );
-        } 
-        
-        if (state is AuthAuthenticated) {
+        } else if (state is AuthAuthenticated) {
           showSnackbar(
             context: context,
             text: 'Login Successfully',
           );
           context.goNamed(RoutesName.crm);
-        }
-        else if (state is AuthUnauthenticated) {
+        } else if (state is AuthUnauthenticated) {
           if (state.isLogout) {
             showSnackbar(
               context: context,
@@ -54,15 +52,17 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       builder: (context, state) {
         final bool isLoading = state is AuthLoading;
-        // if (state is AuthAuthenticated) {
-        //   showSnackbar(
-        //     context: context,
-        //     text: 'Login Successfully',
-        //   );
-        //   context.goNamed(RoutesName.crm);
-        // }
+
         return CustomAuthScaffold(
           children: [
+            Builder(
+              builder: (context) {
+                if (state is AuthAuthenticated) {
+                  context.goNamed(RoutesName.crm);
+                }
+                return 0.sbh;
+              },
+            ),
             const Text(
               'Log in !',
               style: TextStyle(
