@@ -29,8 +29,8 @@ class AppRouter {
       navigatorKey: _rootNavigatorState,
       redirect: (context, state) {
         final AuthState authState = context.read<AuthBloc>().state;
-        if (authState is AuthLogout || authState is AuthNotAuthenticated) {
-          return context.namedLocation(RoutesName.login);
+        if (authState is AuthUnauthenticated) {
+          return state.namedLocation(RoutesName.login);
         }
 
         return null;

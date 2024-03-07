@@ -10,41 +10,57 @@ import 'package:flutter_admin/features/authentication/widgets/custom_auth_scaffo
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailTextEditingController =
+      TextEditingController();
+  final TextEditingController passwordTextEditingController =
+      TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController emailTextEditingController =
-        TextEditingController();
-    final TextEditingController passwordTextEditingController =
-        TextEditingController();
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        print("Auth State  ::::::::::::::::::::::::::::::::::::::::::");
-        print(state);
-        if (state is AuthAuthenticated) {
-          context.goNamed(RoutesName.crm);
-        }
         if (state is AuthAuthenticationFailed) {
           showSnackbar(
             context: context,
             text: state.error,
             backgroundColor: AppColors.danger,
           );
-        } else if (state is AuthAuthenticated) {
+        } 
+        
+        if (state is AuthAuthenticated) {
           showSnackbar(
             context: context,
-            text: 'Login Successfull',
+            text: 'Login Successfully',
           );
+          context.goNamed(RoutesName.crm);
+        }
+        else if (state is AuthUnauthenticated) {
+          if (state.isLogout) {
+            showSnackbar(
+              context: context,
+              text: 'Logout Successfully',
+            );
+          }
           context.goNamed(RoutesName.crm);
         }
       },
       builder: (context, state) {
         final bool isLoading = state is AuthLoading;
-        if (state is AuthInitial) {
-          context.read<AuthBloc>().add(AuthInititalEvent());
-        }
+        // if (state is AuthAuthenticated) {
+        //   showSnackbar(
+        //     context: context,
+        //     text: 'Login Successfully',
+        //   );
+        //   context.goNamed(RoutesName.crm);
+        // }
         return CustomAuthScaffold(
           children: [
             const Text(

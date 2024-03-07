@@ -13,24 +13,13 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthProvider authProvider;
-  AuthBloc({required this.authProvider}) : super(AuthInitial()) {
-    on<AuthInititalEvent>(_authInitialize);
+
+  AuthBloc({
+    required AuthState authState,
+    required this.authProvider,
+  }) : super(authState) {
     on<AuthLoginEvent>(_login);
     on<AuthLogoutEvent>(_logout);
-  }
-
-  void _authInitialize(AuthInititalEvent event, Emitter<AuthState> emit) async {
-    emit(const AuthLoading());
-    final SharedPreferences sharedPreferences =
-        GetIt.I<SharedPreferences>();
-    final String? userJson = sharedPreferences.getString('currentUser');
-
-    if (userJson != null) {
-      final User currentUser = User.fromJson(json.decode(userJson));
-      emit(AuthAuthenticated(user: currentUser));
-    } else {
-      emit(AuthNotAuthenticated());
-    }
   }
 
   void _login(AuthLoginEvent event, Emitter<AuthState> emit) async {
@@ -41,8 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         email: event.email,
         password: event.password,
       );
-      final SharedPreferences sharedPreferences =
-          GetIt.I<SharedPreferences>();
+      final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
 
       sharedPreferences.setString('accessToken', user.token);
       sharedPreferences.setString('currentUser', json.encode(user.toJson()));
@@ -51,6 +39,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on InvalidCredential {
       emit(const AuthAuthenticationFailed(error: 'Invalid email and password'));
     } catch (e) {
+      print("Login Failure ::::::::::::::::::::::::::::::::::::::::::");
+      print(e);
       emit(AuthAuthenticationFailed(error: e.toString()));
     }
   }
@@ -65,12 +55,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         sharedPreferences.remove('accessToken');
         sharedPreferences.remove('currentUser');
-        emit(AuthLogout());
+        emit(const AuthUnauthenticated(isLogout: true));
       } else {
-        emit(AuthAuthenticated(user: (state as AuthLoading).user!));
+        emit(AuthLogoutFailure(user: (state as AuthLoading).user!));
       }
-    } on LogoutFailure {
-      print('Logout failed');
+    } catch (e) {
+      print("Logout Failure ::::::::::::::::::::::::::::::::::::::::::");
+      print(e);
+      emit(AuthLogoutFailure(user: (state as AuthLoading).user!));
     }
   }
 }

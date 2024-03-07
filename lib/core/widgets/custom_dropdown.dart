@@ -32,6 +32,7 @@ class SelectBox<T> extends StatelessWidget {
         dropdownSearchDecoration: InputDecoration(
           hintText: hintText ?? 'Select here',
           label: Text(label),
+          border: const OutlineInputBorder(),
         ),
       ),
     );

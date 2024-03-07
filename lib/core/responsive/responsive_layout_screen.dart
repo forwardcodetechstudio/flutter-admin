@@ -20,7 +20,7 @@ class ResponsiveLayoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthLogout) {
+        if (state is AuthUnauthenticated) {
           context.goNamed(RoutesName.login);
         }
       },

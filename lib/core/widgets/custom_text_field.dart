@@ -50,6 +50,7 @@ class CustomTextField extends StatelessWidget {
             hintText: hintText,
             label: label.isNotEmpty ? Text(label) : null,
             suffixIcon: suffixIcon,
+            border: const OutlineInputBorder()
           ),
         );
       },
