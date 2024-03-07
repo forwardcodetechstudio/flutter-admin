@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_admin/features/company/models/companies.dart';
 import 'package:flutter_admin/features/company/repositories/companies_repository.dart';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/app_router.dart';
+import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
+import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/network/network_client.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/data/providers/anbocas_auth_provider.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_admin/injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,15 +51,49 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-      ],
-      child: MaterialApp.router(
-        title: 'Flutter Admin',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(),
-          useMaterial3: true,
+        BlocProvider(
+          create: (context) {
+            return ThemeBloc(
+                isLightThemeActive:
+                    GetIt.I<SharedPreferences>().getBool('theme') ?? true);
+          },
         ),
-        routerConfig: GetIt.I<AppRouter>().router,
+      ],
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthInitial) {
+            context.read<AuthBloc>().add(AuthInititalEvent());
+          }
+        },
+        child: BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) {
+            return MaterialApp.router(
+              title: 'Flutter Admin',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData.light().copyWith(
+                textTheme: GoogleFonts.poppinsTextTheme(),
+                scaffoldBackgroundColor: AppColors.scaffoldBackgroundColorLight,
+                appBarTheme: const AppBarTheme(
+                  backgroundColor: AppColors.appBarBackgroundColorLight,
+                ),
+                listTileTheme: const ListTileThemeData(
+                  tileColor: AppColors.white,
+                ),
+              ),
+              darkTheme: ThemeData.dark().copyWith(
+                textTheme: GoogleFonts.poppinsTextTheme(),
+                scaffoldBackgroundColor: AppColors.scaffoldBackgroundColorDark,
+                appBarTheme: const AppBarTheme(
+                  backgroundColor: AppColors.appBarBackgroundColorDark,
+                ),
+              ),
+              themeMode: (state as DefaultTheme).isLightThemeActive
+                  ? ThemeMode.light
+                  : ThemeMode.dark,
+              routerConfig: GetIt.I<AppRouter>().router,
+            );
+          },
+        ),
       ),
     );
   }

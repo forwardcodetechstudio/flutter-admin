@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/features/dashboard/models/progress_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LinearProgressGraph extends StatelessWidget {
   final String title;
@@ -15,57 +17,63 @@ class LinearProgressGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-        ),
-        24.sbh,
-        ...items.map(
-          (item) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 24),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        final bool isLightThemeActive = (state as DefaultTheme).isLightThemeActive;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: isLightThemeActive ? AppColors.black : AppColors.white,
+              ),
+            ),
+            24.sbh,
+            ...items.map(
+              (item) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Column(
                     children: [
-                      Text(
-                        item.label,
-                        style: const TextStyle(
-                          color: AppColors.grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            item.label,
+                            style: const TextStyle(
+                              color: AppColors.grey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          Text(
+                            '${item.value}%',
+                            style: const TextStyle(
+                              color: AppColors.grey,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        '${item.value}%',
-                        style: const TextStyle(
-                          color: AppColors.grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
+                      10.sbh,
+                      LinearProgressIndicator(
+                        semanticsLabel: item.label,
+                        semanticsValue: item.value.toString(),
+                        value: item.value * 0.01,
+                        color: item.barColor,
+                      )
                     ],
                   ),
-                  10.sbh,
-                  LinearProgressIndicator(
-                    semanticsLabel: item.label,
-                    semanticsValue: item.value.toString(),
-                    value: item.value*0.01,
-                    color: item.barColor,
-                  )
-                ],
-              ),
-            );
-          },
-        ).toList()
-      ],
+                );
+              },
+            ).toList()
+          ],
+        );
+      },
     );
   }
 }

@@ -31,8 +31,8 @@ class _MobileAppbarState extends State<MobileAppbar> {
       children: [
         AppBar(
           titleSpacing: 24,
-          title: SvgPicture.asset(
-            AppImages.logo,
+          title: Image.asset(
+            AppImages.fctsLogo,
             height: 40,
           ),
           backgroundColor: AppColors.white,

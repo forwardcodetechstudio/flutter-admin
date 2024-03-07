@@ -25,13 +25,13 @@ class RequestForCompaniesData extends CompaniesEvent {
 class SearchCompany extends CompaniesEvent {}
 
 class RequestForNewCompanyCreation extends CompaniesEvent {
-  final File logo;
+  final Uint8List logo;
   final String name;
   final String website;
   final String location;
   final String currency;
   final String phone;
-  final String tax;
+  final double tax;
   final String taxId;
 
   const RequestForNewCompanyCreation({

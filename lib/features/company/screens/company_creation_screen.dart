@@ -1,18 +1,19 @@
-import 'dart:io';
-
 import 'package:design_grid/design_grid.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
+import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
 import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
-import 'package:flutter_admin/core/widgets/input_box.dart';
-import 'package:flutter_admin/core/widgets/select_box.dart';
+import 'package:flutter_admin/core/widgets/custom_text_field.dart';
+import 'package:flutter_admin/core/widgets/custom_dropdown.dart';
 import 'package:flutter_admin/features/company/bloc/companies_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class CompanyCreationScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class CompanyCreationScreen extends StatefulWidget {
 }
 
 class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
-  File? _selectedImage;
+  Uint8List? _selectedImage;
   final TextEditingController nameTextEditingController =
       TextEditingController();
   final TextEditingController websiteTextEditingController =
@@ -69,180 +70,233 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
       builder: (context, state) {
         final isFormLoading = state is CompainesLoading;
 
-        return ListView(
-          padding: const EdgeInsets.all(24),
-          children: [
-            const AppBreadCrumbs(locationName: RoutesName.createNewCompany),
-            24.sbh,
-            Container(
-              color: AppColors.white,
-              padding: const EdgeInsets.all(24),
-              child: ResponsiveDesignGrid(
-                children: [
-                  ResponsiveDesignGridRow(
-                    children: [
-                      ResponsiveDesignGridItem(
-                        columns: const ResponsiveDesignGridColumns(small: 12),
-                        child: InkWell(
-                          onTap: () async {
-                            final returnedImage = await ImagePicker()
-                                .pickImage(source: ImageSource.gallery);
+        return BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) {
+            final bool isLightThemeActive =
+                (state as DefaultTheme).isLightThemeActive;
 
-                            if (returnedImage != null) {
-                              setState(() {
-                                _selectedImage = File(returnedImage.path);
-                              });
-                            }
-                          },
-                          child: DottedBorder(
-                            color: AppColors.blueGreyText,
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Container(
-                                color: AppColors.white,
-                                padding: const EdgeInsets.all(24),
-                                child: Column(
-                                  children: [
-                                    isImageSelected
-                                        ? Image.network(
-                                            _selectedImage!.path,
-                                            width: 120,
-                                            height: 120,
-                                          )
-                                        : const Icon(
-                                            Icons.image,
-                                            size: 50,
+            return ListView(
+              padding: const EdgeInsets.all(24),
+              children: [
+                const AppBreadCrumbs(locationName: RoutesName.createNewCompany),
+                24.sbh,
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: isLightThemeActive ? AppColors.white : null,
+                    border: Border.all(color: AppColors.white),
+                  ),
+                  child: ResponsiveDesignGrid(
+                    children: [
+                      ResponsiveDesignGridRow(
+                        children: [
+                          ResponsiveDesignGridItem(
+                            columns:
+                                const ResponsiveDesignGridColumns(small: 12),
+                            child: InkWell(
+                              onTap: () async {
+                                final FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles(
+                                  type: FileType.image,
+                                  allowMultiple: false,
+                                );
+                                if (result != null) {
+                                  setState(() {
+                                    _selectedImage = result.files.first.bytes;
+                                  });
+                                }
+                              },
+                              child: DottedBorder(
+                                color: AppColors.blueGreyText,
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(24),
+                                    child: Column(
+                                      children: [
+                                        isImageSelected
+                                            ? Image.memory(
+                                                _selectedImage!,
+                                                width: 100,
+                                                height: 100,
+                                              )
+                                            : const Icon(
+                                                Icons.image,
+                                                size: 50,
+                                                color: AppColors.blueGreyText,
+                                              ),
+                                        12.sbh,
+                                        Text(
+                                          isImageSelected
+                                              ? 'Change Logo'
+                                              : 'Upload Logo',
+                                          style: const TextStyle(
                                             color: AppColors.blueGreyText,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
                                           ),
-                                    12.sbh,
-                                    Text(
-                                      isImageSelected
-                                          ? 'Change Logo'
-                                          : 'Upload Logo',
-                                      style: const TextStyle(
-                                        color: AppColors.blueGreyText,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                      ),
-                                    )
-                                  ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      ResponsiveDesignGridItem(
-                        columns: columns,
-                        child: InputBox(
-                          placeholder: 'Name*',
-                          textEditingController: nameTextEditingController,
-                        ),
-                      ),
-                      ResponsiveDesignGridItem(
-                        columns: columns,
-                        child: InputBox(
-                          placeholder: 'https://',
-                          textEditingController: websiteTextEditingController,
-                        ),
-                      ),
-                      ResponsiveDesignGridItem(
-                        columns: columns,
-                        child: SelectBox<String>(
-                          hint: 'Location*',
-                          options: const [
-                            'Jamshedpur',
-                          ],
-                          onChanged: (value) {
-                            location = value!;
-                          },
-                        ),
-                      ),
-                      ResponsiveDesignGridItem(
-                        columns: columns,
-                        child: SelectBox<String>(
-                          hint: 'Currency*',
-                          options: const [
-                            'Indian Ruppes (₹)',
-                            'The Euro (€)',
-                          ],
-                          onChanged: (value) {
-                            currency = value!;
-                          },
-                        ),
-                      ),
-                      ResponsiveDesignGridItem(
-                        columns: columns,
-                        child: InputBox(
-                          placeholder: 'Phone*',
-                          textEditingController: phoneTextEditingController,
-                        ),
-                      ),
-                      ResponsiveDesignGridItem(
-                        columns: columns,
-                        child: InputBox(
-                          placeholder: 'Tax*',
-                          suffixIcon: const Icon(
-                            Icons.percent,
-                            color: AppColors.blueGreyText,
-                            size: 16,
+                          ResponsiveDesignGridItem(
+                            columns: columns,
+                            child: CustomTextField(
+                              hintText: 'your name',
+                              label: 'Name*',
+                              textEditingController: nameTextEditingController,
+                            ),
                           ),
-                          textEditingController: taxTextEditingController,
-                        ),
+                          ResponsiveDesignGridItem(
+                            columns: columns,
+                            child: CustomTextField(
+                              hintText: 'https://',
+                              label: 'website',
+                              textEditingController:
+                                  websiteTextEditingController,
+                            ),
+                          ),
+                          ResponsiveDesignGridItem(
+                            columns: columns,
+                            child: SelectBox<String>(
+                              label: 'Company Location',
+                              options: const [
+                                'Jamshedpur',
+                              ],
+                              onChanged: (value) {
+                                location = value!;
+                              },
+                            ),
+                          ),
+                          ResponsiveDesignGridItem(
+                            columns: columns,
+                            child: SelectBox<String>(
+                              label: 'Currency*',
+                              options: const [
+                                'Indian Ruppes (₹)',
+                                'The Euro (€)',
+                              ],
+                              onChanged: (value) {
+                                currency = value!;
+                              },
+                            ),
+                          ),
+                          ResponsiveDesignGridItem(
+                            columns: columns,
+                            child: CustomTextField(
+                              hintText: '00000 00000',
+                              label: 'Phone*',
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              textEditingController: phoneTextEditingController,
+                            ),
+                          ),
+                          ResponsiveDesignGridItem(
+                            columns: columns,
+                            child: CustomTextField(
+                              hintText: '10.0',
+                              label: 'Tax*',
+                              suffixIcon: const Icon(
+                                Icons.percent,
+                                color: AppColors.blueGreyText,
+                                size: 16,
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp("^[0-9]*[\.]?[0-9]*"),
+                                ),
+                              ],
+                              textEditingController: taxTextEditingController,
+                            ),
+                          ),
+                          ResponsiveDesignGridItem(
+                            columns: columns,
+                            child: CustomTextField(
+                              label: 'Tax ID*',
+                              hintText: 'AF4D4VF',
+                              textEditingController: taxIdTextEditingController,
+                            ),
+                          ),
+                        ],
                       ),
-                      ResponsiveDesignGridItem(
-                        columns: columns,
-                        child: InputBox(
-                          placeholder: 'Tax ID*',
-                          textEditingController: taxIdTextEditingController,
-                        ),
-                      ),
+                      ResponsiveDesignGridRow(children: [
+                        ResponsiveDesignGridItem(
+                          columns: const ResponsiveDesignGridColumns(small: 12),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: ElevatedButton(
+                              onPressed: !isFormLoading
+                                  ? () {
+                                      // decimal, greater than 0, max 99.99
+                                      double tax = double.tryParse(
+                                              taxIdTextEditingController
+                                                  .text) ??
+                                          0;
+                                      if (_selectedImage != null &&
+                                          nameTextEditingController
+                                              .text.isNotEmpty &&
+                                          websiteTextEditingController
+                                              .text.isNotEmpty &&
+                                          phoneTextEditingController
+                                              .text.isNotEmpty &&
+                                          taxIdTextEditingController
+                                              .text.isNotEmpty &&
+                                          taxIdTextEditingController
+                                              .text.isNotEmpty) {
+                                        final requestForNewCompanyCreation =
+                                            RequestForNewCompanyCreation(
+                                          logo: _selectedImage!,
+                                          name: nameTextEditingController.text,
+                                          website:
+                                              websiteTextEditingController.text,
+                                          location: location,
+                                          currency: currency,
+                                          phone:
+                                              phoneTextEditingController.text,
+                                          tax: tax,
+                                          taxId:
+                                              taxIdTextEditingController.text,
+                                        );
+                                        context
+                                            .read<CompaniesBloc>()
+                                            .add(requestForNewCompanyCreation);
+                                      }
+                                    }
+                                  : null,
+                              style: AppButtonStyles.primary,
+                              child: !isFormLoading
+                                  ? const Text('Create Company')
+                                  : const SizedBox(
+                                      width: 120,
+                                      height: 40,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: SizedBox(
+                                          width: 25,
+                                          height: 25,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: AppColors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        )
+                      ]),
                     ],
                   ),
-                  ResponsiveDesignGridRow(children: [
-                    ResponsiveDesignGridItem(
-                      columns: const ResponsiveDesignGridColumns(small: 12),
-                      child: ElevatedButton(
-                        onPressed: !isFormLoading
-                            ? () {
-                                if (_selectedImage != null &&
-                                    nameTextEditingController.text.isNotEmpty &&
-                                    websiteTextEditingController
-                                        .text.isNotEmpty &&
-                                    phoneTextEditingController
-                                        .text.isNotEmpty &&
-                                    taxIdTextEditingController
-                                        .text.isNotEmpty &&
-                                    taxIdTextEditingController
-                                        .text.isNotEmpty) {
-                                  final requestForNewCompanyCreation =
-                                      RequestForNewCompanyCreation(
-                                    logo: _selectedImage!,
-                                    name: nameTextEditingController.text,
-                                    website: websiteTextEditingController.text,
-                                    location: location,
-                                    currency: currency,
-                                    phone: phoneTextEditingController.text,
-                                    tax: taxIdTextEditingController.text,
-                                    taxId: taxIdTextEditingController.text,
-                                  );
-                                  context
-                                      .read<CompaniesBloc>()
-                                      .add(requestForNewCompanyCreation);
-                                }
-                              }
-                            : null,
-                        style: AppButtonStyles.primary,
-                        child: !isFormLoading
-                            ? const Text('Create Company')
-                            : const CircularProgressIndicator(),
-                      ),
-                    )
-                  ]),
-                ],
-              ),
-            )
-          ],
+                )
+              ],
+            );
+          },
         );
       },
     );

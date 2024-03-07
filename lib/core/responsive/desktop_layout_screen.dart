@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/core/constants/app_button_styles.dart';
+import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/constants/app_images.dart';
+import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_drawer.dart';
-import 'package:flutter_admin/core/widgets/shared_toolbar_items.dart';
+import 'package:flutter_admin/core/widgets/custom_theme_changing_button.dart';
+import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DesktopLayoutScreen extends StatefulWidget {
@@ -20,13 +23,11 @@ class DesktopLayoutScreen extends StatefulWidget {
 
 class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
   late bool _isDrawerCollasped;
-  late bool _isHoverOnAppDrawer;
 
   @override
   void initState() {
     super.initState();
     _isDrawerCollasped = false;
-    _isHoverOnAppDrawer = false;
   }
 
   @override
@@ -37,83 +38,102 @@ class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
         color: AppColors.backgroundf2f5fa,
       ),
     );
-    return Scaffold(
-      backgroundColor: AppColors.backgroundf2f5fa,
-      body: Row(
-        children: [
-          MouseRegion(
-            onEnter: (event) {
-              setState(() {
-                _isHoverOnAppDrawer = true;
-              });
-            },
-            onExit: (event) {
-              setState(() {
-                _isHoverOnAppDrawer = false;
-              });
-            },
-            child: AppDrawer(
-              collapsed: _isHoverOnAppDrawer ? false : _isDrawerCollasped,
-            ),
-          ),
-          Flexible(
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  height: kToolbarHeight,
-                  color: AppColors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _isDrawerCollasped = !_isDrawerCollasped;
-                          });
-                        },
-                        style: AppButtonStyles.primaryIcon,
-                        icon: SvgPicture.asset(
-                          AppImages.collapse,
-                          width: 20,
-                          height: 20,
-                          color: AppColors.grey,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      SizedBox(
-                        width: 220,
-                        height: 40,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search',
-                            suffixIcon: const Icon(
-                              Icons.search,
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        final bool isLightThemeActive =
+            (state as DefaultTheme).isLightThemeActive;
+        return Scaffold(
+          body: Row(
+            children: [
+              // Sidenav bar :::::::::::::::::::::
+              AppDrawer(collapsed: _isDrawerCollasped),
+
+              // Body with content and appbar :::::::::::::
+              Flexible(
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      height: kToolbarHeight,
+                      color: Theme.of(context).appBarTheme.backgroundColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                _isDrawerCollasped = !_isDrawerCollasped;
+                              });
+                            },
+                            child: SvgPicture.asset(
+                              AppImages.collapse,
+                              width: 20,
+                              height: 20,
                               color: AppColors.grey,
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            fillColor: AppColors.backgroundf2f5fa,
-                            filled: true,
-                            border: searchFieldBorder,
-                            enabledBorder: searchFieldBorder,
-                            focusedBorder: searchFieldBorder,
                           ),
-                        ),
+                          14.sbw,
+                          SizedBox(
+                            width: 220,
+                            height: 40,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Search',
+                                suffixIcon: const Icon(
+                                  Icons.search,
+                                  color: AppColors.grey,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                fillColor: AppColors.backgroundf2f5fa,
+                                filled: isLightThemeActive,
+                                border: searchFieldBorder,
+                                enabledBorder: searchFieldBorder,
+                                focusedBorder: searchFieldBorder,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                          const CustomThemeChangingButton(),
+                          8.sbw,
+                          PopupMenuButton(
+                            itemBuilder: (context) {
+                              return [
+                                const PopupMenuItem(
+                                  child: ListTile(
+                                    tileColor: Colors.transparent,
+                                    title: Text('Welcome User'),
+                                    trailing: Icon(Icons.person),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  onTap: () {
+                                    context
+                                        .read<AuthBloc>()
+                                        .add(AuthLogoutEvent());
+                                  },
+                                  child: const ListTile(
+                                    tileColor: Colors.transparent,
+                                    title: Text('Logout'),
+                                    trailing: Icon(Icons.logout),
+                                  ),
+                                ),
+                              ];
+                            },
+                          )
+                        ],
                       ),
-                      const Spacer(),
-                      const SharedToolbarItems()
-                    ],
-                  ),
+                    ),
+
+                    // content of diffrent screen :::::::::::::::::::
+                    Expanded(child: widget.content)
+                  ],
                 ),
-                Expanded(
-                  child: widget.content,
-                )
-              ],
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/responsive/responsive_layout_screen.dart';
+import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/screens/login_screen.dart';
 import 'package:flutter_admin/features/authentication/screens/register_screen.dart';
 import 'package:flutter_admin/features/company/screens/company_creation_screen.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_admin/features/forms/screens/add_listing_screen.dart';
 import 'package:flutter_admin/features/forms/screens/create_update_category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/listing_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -25,6 +27,14 @@ class AppRouter {
       routes: _routes(),
       initialLocation: RoutesPath.login,
       navigatorKey: _rootNavigatorState,
+      redirect: (context, state) {
+        final AuthState authState = context.read<AuthBloc>().state;
+        if (authState is AuthLogout || authState is AuthNotAuthenticated) {
+          return context.namedLocation(RoutesName.login);
+        }
+
+        return null;
+      },
     );
   }
 

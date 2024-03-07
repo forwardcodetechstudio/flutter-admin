@@ -22,13 +22,13 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 24),
-      const CustomTextField(hintText: 'Enter Username'),
+      const CustomTextField(label: 'Enter Username'),
       const SizedBox(height: 24),
-      const CustomTextField(hintText: 'Enter Email'),
+      const CustomTextField(label: 'Enter Email'),
       const SizedBox(height: 24),
-      const CustomTextField(hintText: 'Enter Password'),
+      const CustomTextField(label: 'Enter Password'),
       const SizedBox(height: 24),
-      const CustomTextField(hintText: 'Re-Type Password'),
+      const CustomTextField(label: 'Re-Type Password'),
       const SizedBox(height: 24),
       Row(
         children: [

@@ -17,7 +17,7 @@ class CustomListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.all(20),
-      tileColor: AppColors.white,
+      shape: Border.all(color: AppColors.white),
       title: Text(
         title,
         style: const TextStyle(
@@ -32,7 +32,6 @@ class CustomListTile extends StatelessWidget {
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,
-          color: AppColors.black,
         ),
       ),
       leading: Container(

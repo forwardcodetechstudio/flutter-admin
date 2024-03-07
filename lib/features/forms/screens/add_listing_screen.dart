@@ -6,8 +6,8 @@ import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/app_footer.dart';
-import 'package:flutter_admin/core/widgets/input_box.dart';
-import 'package:flutter_admin/core/widgets/select_box.dart';
+import 'package:flutter_admin/core/widgets/custom_text_field.dart';
+import 'package:flutter_admin/core/widgets/custom_dropdown.dart';
 import 'package:flutter_admin/features/tables/bloc/listing/listing_bloc.dart';
 import 'package:flutter_admin/features/tables/models/listing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,10 +76,10 @@ class _AddListingScreenState extends State<AddListingScreen> {
                 children: [
                   ResponsiveDesignGridItem(
                     columns: formLayout,
-                    child: InputBox(
+                    child: CustomTextField(
                       label: 'Name',
                       textEditingController: nameTextEditingController,
-                      placeholder: 'Enter Listing Name',
+                      hintText: 'Enter Listing Name',
                     ),
                   ),
                   ResponsiveDesignGridItem(
@@ -110,49 +110,49 @@ class _AddListingScreenState extends State<AddListingScreen> {
                   ),
                   ResponsiveDesignGridItem(
                     columns: formLayout,
-                    child: InputBox(
+                    child: CustomTextField(
                       label: 'Description',
                       textEditingController: descriptionTextEditingController,
-                      placeholder: 'Enter Listing Description',
+                      hintText: 'Enter Listing Description',
                     ),
                   ),
                   ResponsiveDesignGridItem(
                     columns: formLayout,
-                    child: InputBox(
+                    child: CustomTextField(
                       label: 'Website',
-                      placeholder: 'Enter Listing Website',
+                      hintText: 'Enter Listing Website',
                       textEditingController: websiteTextEditingController,
                     ),
                   ),
                   ResponsiveDesignGridItem(
                     columns: formLayout,
-                    child: InputBox(
+                    child: CustomTextField(
                       label: 'Phone',
-                      placeholder: 'Enter Listing Phone Number',
+                      hintText: 'Enter Listing Phone Number',
                       textEditingController: phoneTextEditingController,
                     ),
                   ),
                   ResponsiveDesignGridItem(
                     columns: formLayout,
-                    child: InputBox(
+                    child: CustomTextField(
                       label: 'Location',
-                      placeholder: 'Enter Listing Location',
+                      hintText: 'Enter Listing Location',
                       textEditingController: locationTextEditingController,
                     ),
                   ),
                   ResponsiveDesignGridItem(
                     columns: formLayout,
-                    child: InputBox(
+                    child: CustomTextField(
                       label: 'Latitude',
-                      placeholder: 'Enter Listing Latitude',
+                      hintText: 'Enter Listing Latitude',
                       textEditingController: latitudeTextEditingController,
                     ),
                   ),
                   ResponsiveDesignGridItem(
                     columns: formLayout,
-                    child: InputBox(
+                    child: CustomTextField(
                       label: 'Longitude',
-                      placeholder: 'Enter Listing Longitude',
+                      hintText: 'Enter Listing Longitude',
                       textEditingController: longitudeTextEditingController,
                     ),
                   ),
@@ -236,16 +236,16 @@ class _AddListingScreenState extends State<AddListingScreen> {
                   ),
                   ResponsiveDesignGridItem(
                     columns: formLayout,
-                    child: InputBox(
+                    child: CustomTextField(
                       label: 'Google Id',
-                      placeholder: 'Enter Listing Google Id',
+                      hintText: 'Enter Listing Google Id',
                       textEditingController: googleIdTextEditingController,
                     ),
                   ),
                   ResponsiveDesignGridItem(
                     columns: const ResponsiveDesignGridColumns(small: 12),
-                    child: SizedBox(
-                      height: 40,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
                       child: ElevatedButton(
                         onPressed: () {
                           final newListing = Listing(
@@ -267,7 +267,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
                             status: status,
                             googleId: googleIdTextEditingController.text,
                           );
-
+                      
                           context
                               .read<ListingBloc>()
                               .add(AddListing(listing: newListing));

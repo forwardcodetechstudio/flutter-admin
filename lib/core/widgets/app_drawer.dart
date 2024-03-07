@@ -3,8 +3,6 @@ import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_admin/core/widgets/app_drawer_item.dart';
-import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,14 +18,14 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       width: collapsed ? 100 : null,
       shape: const RoundedRectangleBorder(),
-      backgroundColor: AppColors.white,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       elevation: 0,
       child: SafeArea(
         child: Column(
           children: [
             ListTile(
-              title: SvgPicture.asset(
-                collapsed ? AppImages.smallLogo : AppImages.logo,
+              title: Image.asset(
+                collapsed ? AppImages.fctsSmallLogo : AppImages.fctsLogo,
                 height: 40,
               ),
               shape: const RoundedRectangleBorder(
@@ -146,16 +144,6 @@ class AppDrawer extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  /* Logout ::::::::::::::: */
-                  AppDrawerItem(
-                    collapsed: collapsed,
-                    icon: const Icon(Icons.logout),
-                    label: const Text('Logout'),
-                    onTap: () {
-                      context.read<AuthBloc>().add(AuthLogoutEvent());
-                    },
-                  )
                 ],
               ),
             ),

@@ -1,8 +1,7 @@
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_admin/features/company/models/companies.dart';
-import 'package:http_parser/http_parser.dart';
 
 class CompaniesRepository {
   final Dio client;
@@ -37,13 +36,13 @@ class CompaniesRepository {
   }
 
   Future<bool> createNewCompany({
-    required File logo,
+    required Uint8List logo,
     required String companyName,
     required String website,
     required String location,
     required String currency,
     required String phone,
-    required String tax,
+    required double tax,
     required String taxId,
   }) async {
     /**
@@ -66,38 +65,11 @@ class CompaniesRepository {
       'phone': phone,
       'tax': tax,
       'tax_id': taxId,
-      'logo': await MultipartFile.fromFile(
-        logo.path,
-        filename: logo.path.split('/').last,
-        contentType: MediaType('image', 'jpg'),
-      ),
+      'logo': MultipartFile.fromBytes(logo),
     });
-
-    // companyFormData.files.add(
-    //   MapEntry(
-    //     "logo",
-    //     MultipartFile.fromBytes(
-    //       logo.readAsBytesSync(),
-    //       contentType: MediaType('image', 'jpg'),
-    //     ),
-    //   ),
-    // );
 
     final Response response =
         await client.post('/api/v1/companies/create', data: companyFormData);
-
-    // final logoData = await MultipartFile.fromFile(logo.path);
-    // final logoData = MultipartFile.fromBytes(await logo.readAsBytes());
-    // final Response response =
-    //     await client.post('/api/v1/companies/create', data: {
-    //   'name': companyName,
-    //   'website': website,
-    //   'logo': logoData,
-    //   'location': location,
-    //   'phone': phone,
-    //   'tax': tax,
-    //   'tax_id': taxId,
-    // });
 
     if (response.statusCode == HttpStatus.ok) {
       return true;

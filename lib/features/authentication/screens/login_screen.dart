@@ -21,6 +21,11 @@ class LoginScreen extends StatelessWidget {
         TextEditingController();
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
+        print("Auth State  ::::::::::::::::::::::::::::::::::::::::::");
+        print(state);
+        if (state is AuthAuthenticated) {
+          context.goNamed(RoutesName.crm);
+        }
         if (state is AuthAuthenticationFailed) {
           showSnackbar(
             context: context,
@@ -37,6 +42,9 @@ class LoginScreen extends StatelessWidget {
       },
       builder: (context, state) {
         final bool isLoading = state is AuthLoading;
+        if (state is AuthInitial) {
+          context.read<AuthBloc>().add(AuthInititalEvent());
+        }
         return CustomAuthScaffold(
           children: [
             const Text(
@@ -49,12 +57,12 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             CustomTextField(
-              hintText: 'Enter Email',
+              label: 'Enter Email',
               textEditingController: emailTextEditingController,
             ),
             const SizedBox(height: 24),
             CustomTextField(
-              hintText: 'Enter Password',
+              label: 'Enter Password',
               textEditingController: passwordTextEditingController,
             ),
             const SizedBox(height: 24),

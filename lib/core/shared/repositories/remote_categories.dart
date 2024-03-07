@@ -51,7 +51,9 @@ class RemoteCategory {
   Future<void> createNewCategory({required String categoryName}) async {
     final response = await client.post(
       '/api/v1/categories/create',
-      data: {'name': categoryName},
+      data: {
+        'name': categoryName,
+      },
     );
     if (response.statusCode == HttpStatus.ok) {
       // return Category.fromJson(response.data);
@@ -60,7 +62,8 @@ class RemoteCategory {
     throw CategoryCreationFailure();
   }
 
-  Future<bool> updateCategory({required String categoryId, required String categoryName}) async {
+  Future<bool> updateCategory(
+      {required String categoryId, required String categoryName}) async {
     final response = await client.put(
       '/api/v1/categories/$categoryId',
       data: {'name': categoryName},

@@ -7,7 +7,7 @@ import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/shared/bloc/category/category_bloc.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
-import 'package:flutter_admin/core/widgets/input_box.dart';
+import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -77,9 +77,9 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
                           medium: 2,
                           large: 3,
                         ),
-                        child: InputBox(
+                        child: CustomTextField(
                           label: 'Category Name',
-                          placeholder: 'Name',
+                          hintText: 'Name',
                           textEditingController:
                               createCategoryTextEditingController,
                         ),
