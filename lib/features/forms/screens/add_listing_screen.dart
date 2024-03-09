@@ -1,11 +1,11 @@
 import 'package:design_grid/design_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
-import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/app_footer.dart';
+import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/core/widgets/custom_dropdown.dart';
 import 'package:flutter_admin/features/tables/bloc/listing/listing_bloc.dart';
@@ -246,7 +246,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
                     columns: const ResponsiveDesignGridColumns(small: 12),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: ElevatedButton(
+                      child: CustomElevatedButton(
                         onPressed: () {
                           final newListing = Listing(
                             id: '----',
@@ -267,13 +267,12 @@ class _AddListingScreenState extends State<AddListingScreen> {
                             status: status,
                             googleId: googleIdTextEditingController.text,
                           );
-                      
+
                           context
                               .read<ListingBloc>()
                               .add(AddListing(listing: newListing));
                         },
-                        style: AppButtonStyles.primary,
-                        child: const Text('Submit'),
+                        text: 'Submit',
                       ),
                     ),
                   )

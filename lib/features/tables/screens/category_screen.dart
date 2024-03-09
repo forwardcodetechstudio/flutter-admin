@@ -15,11 +15,11 @@ import 'package:easy_debounce/easy_debounce.dart';
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
 
-  static const List<Widget> _categoryTableColumns = [
-    Text('Name'),
-    Text('Created At'),
-    Text('Last Updated At'),
-    Text('Actions'),
+  static const List<String> _categoryTableColumns = [
+    'Name',
+    'Created At',
+    'Last Updated At',
+    'Actions',
   ];
 
   @override
@@ -68,12 +68,31 @@ class CategoryScreen extends StatelessWidget {
                     totalPage++;
                   }
                   return CustomTable(
-                    columns: _categoryTableColumns,
+                    columns: _categoryTableColumns
+                        .map((e) => Text(
+                              e,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
+                            ))
+                        .toList(),
                     rows: categoryQuerySet.map((categoryData) {
+                      final TextStyle textStyle = TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground);
                       return [
-                        Text(categoryData.name),
-                        Text(categoryData.createdAt),
-                        Text(categoryData.updatedAt ?? '--'),
+                        Text(
+                          categoryData.name,
+                          style: textStyle,
+                        ),
+                        Text(
+                          categoryData.createdAt,
+                          style: textStyle,
+                        ),
+                        Text(
+                          categoryData.updatedAt ?? '--',
+                          style: textStyle,
+                        ),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -98,7 +117,7 @@ class CategoryScreen extends StatelessWidget {
                               },
                               child: const Icon(
                                 Icons.delete,
-                                color: AppColors.danger,
+                                color: AppColors.red,
                               ),
                             ),
                             6.sbw,
@@ -113,7 +132,7 @@ class CategoryScreen extends StatelessWidget {
                               },
                               child: const Icon(
                                 Icons.edit,
-                                color: AppColors.primary,
+                                color: AppColors.blue0080ff,
                               ),
                             ),
                           ],

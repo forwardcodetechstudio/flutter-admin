@@ -29,6 +29,7 @@ class SelectBox<T> extends StatelessWidget {
       items: options,
       onChanged: onChanged,
       dropdownDecoratorProps: DropDownDecoratorProps(
+        baseStyle: TextStyle(color: Theme.of(context).colorScheme.onBackground),
         dropdownSearchDecoration: InputDecoration(
           hintText: hintText ?? 'Select here',
           label: Text(label),

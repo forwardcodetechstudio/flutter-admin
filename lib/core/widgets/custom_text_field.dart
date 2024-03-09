@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
-import 'package:flutter_admin/core/constants/app_colors.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -32,28 +29,21 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
-        final bool isLightThemeActive =
-            (state as DefaultTheme).isLightThemeActive;
-        return TextField(
-          controller: textEditingController,
-          onChanged: onChanged,
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
-          inputFormatters: inputFormatters,
-          keyboardType: keyboardType,
-          style: TextStyle(
-            color:
-                isLightThemeActive ? AppColors.black : AppColors.white,
-          ),
-          decoration: InputDecoration(
-            hintText: hintText,
-            label: label.isNotEmpty ? Text(label) : null,
-            suffixIcon: suffixIcon,
-            border: const OutlineInputBorder()
-          ),
-        );
-      },
+    return TextField(
+      controller: textEditingController,
+      onChanged: onChanged,
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      inputFormatters: inputFormatters,
+      keyboardType: keyboardType,
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onBackground,
+      ),
+      decoration: InputDecoration(
+        hintText: hintText,
+        label: label.isNotEmpty ? Text(label) : null,
+        suffixIcon: suffixIcon,
+        border: const OutlineInputBorder(),
+      ),
     );
   }
 }

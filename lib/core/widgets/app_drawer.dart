@@ -29,7 +29,7 @@ class AppDrawer extends StatelessWidget {
                 height: 40,
               ),
               shape: const RoundedRectangleBorder(
-                side: BorderSide(color: AppColors.backgroundf2f5fa),
+                side: BorderSide(color: AppColors.whitef2f5fa),
               ),
             ),
             const SizedBox(height: 15),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
@@ -35,14 +34,15 @@ class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
     final InputBorder searchFieldBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(6),
       borderSide: const BorderSide(
-        color: AppColors.backgroundf2f5fa,
+        color: AppColors.whitef2f5fa,
       ),
     );
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
-        final bool isLightThemeActive =
-            (state as DefaultTheme).isLightThemeActive;
-        return Scaffold(
+
+    // color for handling theme change
+    final background = Theme.of(context).colorScheme.background;
+    // final onBackground = Theme.of(context).colorScheme.background;
+
+    return Scaffold(
           body: Row(
             children: [
               // Sidenav bar :::::::::::::::::::::
@@ -85,8 +85,8 @@ class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 8),
-                                fillColor: AppColors.backgroundf2f5fa,
-                                filled: isLightThemeActive,
+                                fillColor: background,
+                                filled: true,
                                 border: searchFieldBorder,
                                 enabledBorder: searchFieldBorder,
                                 focusedBorder: searchFieldBorder,
@@ -133,7 +133,5 @@ class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
             ],
           ),
         );
-      },
-    );
   }
 }

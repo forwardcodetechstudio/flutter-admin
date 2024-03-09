@@ -1,12 +1,12 @@
 import 'package:design_grid/design_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
-import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/shared/bloc/category/category_bloc.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
+import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -25,6 +25,11 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController createCategoryTextEditingController =
         TextEditingController(text: categeoryName);
+
+    // color
+    final Color background = Theme.of(context).colorScheme.background;
+    // final Color onBackground = Theme.of(context).colorScheme.onBackground;
+
     return BlocConsumer<CategoryBloc, CategoryState>(
       listener: (context, state) {
         if (state is CategoryCreated) {
@@ -38,13 +43,13 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
           showSnackbar(
             context: context,
             text: 'Category Not Created',
-            backgroundColor: AppColors.danger,
+            backgroundColor: AppColors.red,
           );
         } else if (state is CategoryUpdationFailed) {
           showSnackbar(
             context: context,
             text: 'Category Not Updated',
-            backgroundColor: AppColors.danger,
+            backgroundColor: AppColors.red,
           );
         }
       },
@@ -64,7 +69,7 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
             ),
             24.sbh,
             Container(
-              color: AppColors.white,
+              color: background,
               padding: const EdgeInsets.all(24),
               child: ResponsiveDesignGrid(
                 useOuterPadding: false,
@@ -92,7 +97,7 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
                           alignment: Alignment.topLeft,
                           child: (categoryId == null)
                               ? // create new category
-                              ElevatedButton(
+                              CustomElevatedButton(
                                   onPressed: () {
                                     context.read<CategoryBloc>().add(
                                           RequestCategoryCreation(
@@ -102,11 +107,10 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
                                           ),
                                         );
                                   },
-                                  style: AppButtonStyles.primary,
-                                  child: const Text('Create'),
+                                  text: 'Create',
                                 )
                               : // update category of given id
-                              ElevatedButton(
+                              CustomElevatedButton(
                                   onPressed: () {
                                     context.read<CategoryBloc>().add(
                                           RequestCategoryUpdation(
@@ -117,8 +121,7 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
                                           ),
                                         );
                                   },
-                                  style: AppButtonStyles.primary,
-                                  child: const Text('Save Changes'),
+                                  text: 'Save Changes',
                                 ),
                         ),
                       ),

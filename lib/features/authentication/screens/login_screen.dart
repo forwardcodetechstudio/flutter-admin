@@ -1,10 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
-import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
+import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
+import 'package:flutter_admin/core/widgets/custom_flash_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/widgets/custom_auth_scaffold.dart';
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
           showSnackbar(
             context: context,
             text: state.error,
-            backgroundColor: AppColors.danger,
+            backgroundColor: AppColors.red,
           );
         } else if (state is AuthAuthenticated) {
           showSnackbar(
@@ -66,22 +67,22 @@ class _LoginScreenState extends State<LoginScreen> {
             const Text(
               'Log in !',
               style: TextStyle(
-                color: AppColors.primary,
+                color: AppColors.blue0080ff,
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 24),
+            24.sbh,
             CustomTextField(
               label: 'Enter Email',
               textEditingController: emailTextEditingController,
             ),
-            const SizedBox(height: 24),
+            24.sbh,
             CustomTextField(
               label: 'Enter Password',
               textEditingController: passwordTextEditingController,
             ),
-            const SizedBox(height: 24),
+            24.sbh,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,35 +100,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Text('Forget Password?'),
               ],
             ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              height: 40,
-              child: ElevatedButton(
-                onPressed: !isLoading
-                    ? () {
-                        context.read<AuthBloc>().add(
-                              AuthLoginEvent(
-                                email: emailTextEditingController.text,
-                                password: passwordTextEditingController.text,
-                              ),
-                            );
-                      }
-                    : null,
-                style: AppButtonStyles.success,
-                child: !isLoading
-                    ? const Text('Login')
-                    : const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3,
-                          color: Colors.white,
-                        ),
+            24.sbh,
+            CustomElevatedButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      AuthLoginEvent(
+                        email: emailTextEditingController.text,
+                        password: passwordTextEditingController.text,
                       ),
-              ),
+                    );
+              },
+              isLoading: isLoading,
+              text: 'Login',
             ),
-            const SizedBox(height: 24),
+            24.sbh,
             const Row(
               children: [
                 Flexible(
@@ -139,33 +125,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            24.sbh,
             Wrap(
               children: [
-                SizedBox(
-                  height: 40,
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.facebook),
-                    style: AppButtonStyles.primaryRGBA,
-                    label: const Text("Facebook"),
-                  ),
+                const CustomFlashButton(
+                  text: 'Facebook',
+                  icon: Icon(Icons.facebook),
                 ),
-                const SizedBox(
-                  width: 8,
-                ),
-                SizedBox(
-                  height: 40,
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    style: AppButtonStyles.dangerRGBA,
-                    icon: const Icon(Icons.g_mobiledata),
-                    label: const Text("Google"),
-                  ),
-                ),
+                8.sbw,
+                const CustomFlashButton(
+                    text: 'Google', icon: Icon(Icons.g_mobiledata)),
               ],
             ),
-            const SizedBox(height: 24),
+            24.sbh,
             RichText(
               text: TextSpan(
                 children: [
@@ -177,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         context.goNamed(RoutesName.register);
                       },
                     style: const TextStyle(
-                      color: AppColors.primary,
+                      color: AppColors.blue0080ff,
                     ),
                   )
                 ],

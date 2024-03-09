@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
-import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
+import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/core/widgets/custom_dropdown.dart';
 import 'package:flutter_admin/features/company/bloc/companies_bloc.dart';
@@ -62,7 +62,7 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
           showSnackbar(
             context: context,
             text: 'Company Not Created!',
-            backgroundColor: AppColors.danger,
+            backgroundColor: Theme.of(context).colorScheme.error,
           );
         }
       },
@@ -106,7 +106,7 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
                                 }
                               },
                               child: DottedBorder(
-                                color: AppColors.blueGreyText,
+                                color: AppColors.blueGrey8A98AC,
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: Container(
@@ -122,7 +122,7 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
                                             : const Icon(
                                                 Icons.image,
                                                 size: 50,
-                                                color: AppColors.blueGreyText,
+                                                color: AppColors.blueGrey8A98AC,
                                               ),
                                         12.sbh,
                                         Text(
@@ -130,7 +130,7 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
                                               ? 'Change Logo'
                                               : 'Upload Logo',
                                           style: const TextStyle(
-                                            color: AppColors.blueGreyText,
+                                            color: AppColors.blueGrey8A98AC,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16,
                                           ),
@@ -202,7 +202,7 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
                               label: 'Tax*',
                               suffixIcon: const Icon(
                                 Icons.percent,
-                                color: AppColors.blueGreyText,
+                                color: AppColors.blueGrey8A98AC,
                                 size: 16,
                               ),
                               keyboardType: TextInputType.number,
@@ -232,64 +232,42 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
                             child: Container(
                               margin: const EdgeInsets.symmetric(vertical: 16),
                               height: 45,
-                              child: ElevatedButton(
-                                onPressed: !isFormLoading
-                                    ? () {
-                                        // decimal, greater than 0, max 99.99
-                                        double tax = double.tryParse(
-                                                taxIdTextEditingController
-                                                    .text) ??
-                                            0;
-                                        if (_selectedImage != null &&
-                                            nameTextEditingController
-                                                .text.isNotEmpty &&
-                                            websiteTextEditingController
-                                                .text.isNotEmpty &&
-                                            phoneTextEditingController
-                                                .text.isNotEmpty &&
-                                            taxIdTextEditingController
-                                                .text.isNotEmpty &&
-                                            taxIdTextEditingController
-                                                .text.isNotEmpty) {
-                                          final requestForNewCompanyCreation =
-                                              RequestForNewCompanyCreation(
-                                            logo: _selectedImage!,
-                                            name: nameTextEditingController.text,
-                                            website:
-                                                websiteTextEditingController.text,
-                                            location: location,
-                                            currency: currency,
-                                            phone:
-                                                phoneTextEditingController.text,
-                                            tax: tax,
-                                            taxId:
-                                                taxIdTextEditingController.text,
-                                          );
-                                          context
-                                              .read<CompaniesBloc>()
-                                              .add(requestForNewCompanyCreation);
-                                        }
-                                      }
-                                    : null,
-                                style: AppButtonStyles.primary,
-                                child: !isFormLoading
-                                    ? const Text('Create Company')
-                                    : const SizedBox(
-                                        width: 120,
-                                        height: 40,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: SizedBox(
-                                            width: 25,
-                                            height: 25,
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                              color: AppColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                              ),
+                              child: CustomElevatedButton(
+                                  onPressed: () {
+                                    // decimal, greater than 0, max 99.99
+                                    double tax = double.tryParse(
+                                            taxIdTextEditingController.text) ??
+                                        0;
+                                    if (_selectedImage != null &&
+                                        nameTextEditingController
+                                            .text.isNotEmpty &&
+                                        websiteTextEditingController
+                                            .text.isNotEmpty &&
+                                        phoneTextEditingController
+                                            .text.isNotEmpty &&
+                                        taxIdTextEditingController
+                                            .text.isNotEmpty &&
+                                        taxIdTextEditingController
+                                            .text.isNotEmpty) {
+                                      final requestForNewCompanyCreation =
+                                          RequestForNewCompanyCreation(
+                                        logo: _selectedImage!,
+                                        name: nameTextEditingController.text,
+                                        website:
+                                            websiteTextEditingController.text,
+                                        location: location,
+                                        currency: currency,
+                                        phone: phoneTextEditingController.text,
+                                        tax: tax,
+                                        taxId: taxIdTextEditingController.text,
+                                      );
+                                      context
+                                          .read<CompaniesBloc>()
+                                          .add(requestForNewCompanyCreation);
+                                    }
+                                  },
+                                  isLoading: isFormLoading,
+                                  text: 'Create Company'),
                             ),
                           ),
                         )

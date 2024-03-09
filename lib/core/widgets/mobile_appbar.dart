@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/core/constants/app_button_styles.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_admin/core/widgets/shared_toolbar_items.dart';
@@ -26,6 +25,34 @@ class _MobileAppbarState extends State<MobileAppbar> {
 
   @override
   Widget build(BuildContext context) {
+    // icon button style
+    final ButtonStyle iconButtonStyle = ButtonStyle(
+      elevation: const MaterialStatePropertyAll(0),
+      shape: MaterialStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
+      ),
+      backgroundColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.hovered)) {
+          return AppColors.whitef2f5fa;
+        }
+        return AppColors.white;
+      }),
+      foregroundColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.hovered)) {
+          return AppColors.blue0080ff;
+        }
+        return AppColors.grey;
+      }),
+      iconColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.hovered)) {
+          return AppColors.blue0080ff;
+        }
+        return AppColors.grey;
+      }),
+    );
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -44,9 +71,11 @@ class _MobileAppbarState extends State<MobileAppbar> {
                   isSecondToolbarVisible = !isSecondToolbarVisible;
                 });
               },
-              style: AppButtonStyles.primaryIcon,
+              style: iconButtonStyle,
               icon: SvgPicture.asset(
-                isSecondToolbarVisible ? AppImages.horizontal : AppImages.verticle,
+                isSecondToolbarVisible
+                    ? AppImages.horizontal
+                    : AppImages.verticle,
                 width: 20,
                 height: 20,
                 color: AppColors.grey,
@@ -56,7 +85,7 @@ class _MobileAppbarState extends State<MobileAppbar> {
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
-              style: AppButtonStyles.primaryIcon,
+              style: iconButtonStyle,
               icon: SvgPicture.asset(
                 AppImages.collapse,
                 width: 20,

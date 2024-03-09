@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_admin/core/exceptions/auth_exceptions.dart';
@@ -15,11 +16,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthProvider authProvider;
 
   AuthBloc({
-    required AuthState authState,
     required this.authProvider,
-  }) : super(authState) {
+  }) : super(const AuthUnauthenticated()) {
+    on<AuthInititalEvent>(_init);
     on<AuthLoginEvent>(_login);
     on<AuthLogoutEvent>(_logout);
+  }
+
+  void authStateListener() {
+    
   }
 
   void _login(AuthLoginEvent event, Emitter<AuthState> emit) async {
@@ -63,6 +68,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       print("Logout Failure ::::::::::::::::::::::::::::::::::::::::::");
       print(e);
       emit(AuthLogoutFailure(user: (state as AuthLoading).user!));
+    }
+  }
+
+  FutureOr<void> _init(AuthInititalEvent event, Emitter<AuthState> emit) {
+    final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
+    final String? userJson = sharedPreferences.getString('currentUser');
+    if (userJson != null) {
+      final User currentUser = User.fromJson(json.decode(userJson));
+      emit(AuthAuthenticated(user: currentUser));
+    } else {
+      emit(const AuthUnauthenticated());
     }
   }
 }
