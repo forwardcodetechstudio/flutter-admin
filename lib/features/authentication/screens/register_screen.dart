@@ -35,10 +35,13 @@ class RegisterScreen extends StatelessWidget {
             value: false,
             onChanged: (value) {},
           ),
-          const Flexible(
+          Flexible(
             child: Text(
               'I Agree to Terms & Conditions of Orbiter',
               overflow: TextOverflow.visible,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
             ),
           )
         ],
@@ -52,7 +55,12 @@ class RegisterScreen extends StatelessWidget {
       RichText(
         text: TextSpan(
           children: [
-            const TextSpan(text: 'Already have an account? '),
+            TextSpan(
+              text: 'Already have an account? ',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            ),
             TextSpan(
               text: 'Log in',
               recognizer: TapGestureRecognizer()

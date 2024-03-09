@@ -94,10 +94,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       value: false,
                       onChanged: (value) {},
                     ),
-                    const Text('Remember Me'),
+                    Text(
+                      'Remember Me',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
+                    ),
                   ],
                 ),
-                const Text('Forget Password?'),
+                Text(
+                  'Forget Password?',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                ),
               ],
             ),
             24.sbh,
@@ -141,7 +151,12 @@ class _LoginScreenState extends State<LoginScreen> {
             RichText(
               text: TextSpan(
                 children: [
-                  const TextSpan(text: 'Don\'t have an account? '),
+                  TextSpan(
+                    text: 'Don\'t have an account? ',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
                   TextSpan(
                     text: 'Sign up',
                     recognizer: TapGestureRecognizer()

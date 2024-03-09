@@ -32,6 +32,7 @@ class CustomAuthScaffold extends StatelessWidget {
                         0.9, // make container responsive on screen with 41%
                     margin: const EdgeInsets.symmetric(vertical: 15),
                     padding: const EdgeInsets.all(30),
+                    color: Theme.of(context).colorScheme.background,
                     constraints: const BoxConstraints(
                       maxWidth: 432,
                     ),

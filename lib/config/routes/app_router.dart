@@ -27,14 +27,6 @@ class AppRouter {
       routes: _routes(),
       initialLocation: RoutesPath.login,
       navigatorKey: _rootNavigatorState,
-      redirect: (context, state) {
-        final AuthState authState = context.read<AuthBloc>().state;
-        if (authState is AuthUnauthenticated) {
-          return state.namedLocation(RoutesName.login);
-        }
-
-        return null;
-      },
     );
   }
 
@@ -50,68 +42,82 @@ class AppRouter {
         path: RoutesPath.register,
         builder: (context, state) => const RegisterScreen(),
       ),
-      ShellRoute(
-        navigatorKey: _shellNavigatorState,
-        parentNavigatorKey: _rootNavigatorState,
-        builder: (context, state, child) {
-          return ResponsiveLayoutScreen(child: child);
+      GoRoute(
+        path: '/',
+        redirect: (context, state) {
+          final AuthState authState = context.read<AuthBloc>().state;
+          if (authState is AuthUnauthenticated) {
+            return state.namedLocation(RoutesName.login);
+          }
+
+          return null;
         },
         routes: [
-          GoRoute(
-            name: RoutesName.crm,
-            path: RoutesPath.crm,
-            builder: (context, state) => const CRMScreen(),
-          ),
-          GoRoute(
-            name: RoutesName.addListing,
-            path: RoutesPath.addListing,
-            builder: (context, state) => const AddListingScreen(),
-          ),
-          GoRoute(
-            name: RoutesName.listing,
-            path: RoutesPath.listing,
-            builder: (context, state) => const ListingScreen(),
-          ),
-
-          /* Category Routes */
-          GoRoute(
-            name: RoutesName.createCategory,
-            path: RoutesPath.createCategory,
-            builder: (context, state) => const CreateUpdateCategoryScreen(),
-          ),
-          GoRoute(
-            name: RoutesName.updateCategory,
-            path: RoutesPath.updateCategory,
-            builder: (context, state) {
-              final String? categoryId = state.uri.queryParameters['id'];
-              final String? categoryName = state.uri.queryParameters['name'];
-              return CreateUpdateCategoryScreen(
-                categoryId: categoryId,
-                categeoryName: categoryName,
-              );
+          ShellRoute(
+            navigatorKey: _shellNavigatorState,
+            parentNavigatorKey: _rootNavigatorState,
+            builder: (context, state, child) {
+              return ResponsiveLayoutScreen(child: child);
             },
-          ),
-          GoRoute(
-            name: RoutesName.category,
-            path: RoutesPath.category,
-            builder: (context, state) => const CategoryScreen(),
-          ),
+            routes: [
+              GoRoute(
+                name: RoutesName.crm,
+                path: RoutesPath.crm,
+                builder: (context, state) => const CRMScreen(),
+              ),
+              GoRoute(
+                name: RoutesName.addListing,
+                path: RoutesPath.addListing,
+                builder: (context, state) => const AddListingScreen(),
+              ),
+              GoRoute(
+                name: RoutesName.listing,
+                path: RoutesPath.listing,
+                builder: (context, state) => const ListingScreen(),
+              ),
 
-          /* Company Routes */
-          GoRoute(
-            name: RoutesName.companyListing,
-            path: RoutesPath.companyList,
-            builder: (context, state) => const CompanyListingScreen(),
-          ),
-          GoRoute(
-            name: RoutesName.createNewCompany,
-            path: RoutesPath.createNewCompany,
-            builder: (context, state) => const CompanyCreationScreen(),
-          ),
-          GoRoute(
-            name: RoutesName.updateCompany,
-            path: RoutesPath.updateCompany,
-            builder: (context, state) => const CompanyUpdationScreen(),
+              /* Category Routes */
+              GoRoute(
+                name: RoutesName.createCategory,
+                path: RoutesPath.createCategory,
+                builder: (context, state) => const CreateUpdateCategoryScreen(),
+              ),
+              GoRoute(
+                name: RoutesName.updateCategory,
+                path: RoutesPath.updateCategory,
+                builder: (context, state) {
+                  final String? categoryId = state.uri.queryParameters['id'];
+                  final String? categoryName =
+                      state.uri.queryParameters['name'];
+                  return CreateUpdateCategoryScreen(
+                    categoryId: categoryId,
+                    categeoryName: categoryName,
+                  );
+                },
+              ),
+              GoRoute(
+                name: RoutesName.category,
+                path: RoutesPath.category,
+                builder: (context, state) => const CategoryScreen(),
+              ),
+
+              /* Company Routes */
+              GoRoute(
+                name: RoutesName.companyListing,
+                path: RoutesPath.companyList,
+                builder: (context, state) => const CompanyListingScreen(),
+              ),
+              GoRoute(
+                name: RoutesName.createNewCompany,
+                path: RoutesPath.createNewCompany,
+                builder: (context, state) => const CompanyCreationScreen(),
+              ),
+              GoRoute(
+                name: RoutesName.updateCompany,
+                path: RoutesPath.updateCompany,
+                builder: (context, state) => const CompanyUpdationScreen(),
+              ),
+            ],
           ),
         ],
       ),
