@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_admin/core/constants/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -43,6 +44,12 @@ class CustomTextField extends StatelessWidget {
         label: label.isNotEmpty ? Text(label) : null,
         suffixIcon: suffixIcon,
         border: const OutlineInputBorder(),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.blue0080ff),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.blueGrey8A98AC),
+        ),
       ),
     );
   }

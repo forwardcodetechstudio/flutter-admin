@@ -2,6 +2,7 @@ sealed class RoutesName {
   /* Authentication */
   static const String login = 'login';
   static const String register = 'register';
+  static const String forgetPassword = 'forgetPassword';
 
   /* Dashboard */
   static const String dashboard = "dashboard";
@@ -22,6 +23,7 @@ sealed class RoutesPath {
   /* Authentication */
   static const String login = '/login';
   static const String register = '/register';
+  static const String forgetPassword = '/forget-password';
 
   /* Dashboard */
   static const String crm = 'crm';

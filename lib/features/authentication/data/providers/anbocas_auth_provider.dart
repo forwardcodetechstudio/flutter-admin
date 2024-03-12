@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_admin/core/exceptions/auth_exceptions.dart';
 import 'package:flutter_admin/features/authentication/data/models/user.dart';
 import 'package:flutter_admin/features/authentication/data/providers/auth_provider.dart';
@@ -40,8 +42,23 @@ class AnbocasAuthProvider implements AuthProvider {
   }
 
   @override
-  Future<User> register() {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<bool> register({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+  }) async {
+    final response = await client.post('/api/v1/users/create', data: {
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'password': password,
+    });
+
+    if (response.statusCode == HttpStatus.ok) {
+      return true;
+    }
+
+    return false;
   }
 }

@@ -38,3 +38,15 @@ final class AuthAuthenticationFailed extends AuthState {
 
   const AuthAuthenticationFailed({required this.error});
 }
+
+final class AuthRegistrationSuccessfull extends AuthState {
+  final String message;
+
+  const AuthRegistrationSuccessfull({required this.message});
+}
+
+final class AuthRegistrationFailed extends AuthState {
+  final String message;
+
+  const AuthRegistrationFailed({required this.message});
+}

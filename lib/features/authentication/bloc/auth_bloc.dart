@@ -21,11 +21,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthInititalEvent>(_init);
     on<AuthLoginEvent>(_login);
     on<AuthLogoutEvent>(_logout);
+    on<AuthRegisterEvent>(_register);
   }
 
-  void authStateListener() {
-    
-  }
+  void authStateListener() {}
 
   void _login(AuthLoginEvent event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
@@ -37,7 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
 
-      sharedPreferences.setString('accessToken', user.token);
+      sharedPreferences.setString('accessToken', user.token!);
       sharedPreferences.setString('currentUser', json.encode(user.toJson()));
 
       emit(AuthAuthenticated(user: user));
@@ -79,6 +78,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthAuthenticated(user: currentUser));
     } else {
       emit(const AuthUnauthenticated());
+    }
+  }
+
+  void _register(AuthRegisterEvent event, Emitter<AuthState> emit) async {
+    emit(const AuthLoading());
+    try {
+      final isUserCreated = await authProvider.register(
+        firstName: event.firstName,
+        lastName: event.lastName,
+        email: event.email,
+        password: event.password,
+      );
+
+      if (isUserCreated) {
+        emit(const AuthRegistrationSuccessfull(
+            message:
+                'Signup successful. Please check your email to confirm your account.'));
+      } else {
+        emit(const AuthRegistrationFailed(message: 'User does not created'));
+      }
+    } catch (e) {
+      emit(const AuthRegistrationFailed(
+          message: 'Somthing went wrong! check your connection'));
     }
   }
 }

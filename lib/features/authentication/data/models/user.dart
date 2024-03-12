@@ -1,12 +1,12 @@
 class User {
-  String message;
-  String token;
-  UserClass user;
+  String? message;
+  String? token;
+  UserClass? user;
 
   User({
-    required this.message,
-    required this.token,
-    required this.user,
+    this.message,
+    this.token,
+    this.user,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -18,43 +18,43 @@ class User {
   Map<String, dynamic> toJson() => {
         "message": message,
         "token": token,
-        "user": user.toJson(),
+        "user": user!.toJson(),
       };
 }
 
 class UserClass {
-  String id;
-  String username;
-  String firstName;
-  String lastName;
-  String email;
+  String? id;
+  String? username;
+  String? firstName;
+  String? lastName;
+  String? email;
   dynamic phone;
-  String provider;
-  DateTime emailVerifiedAt;
+  String? provider;
+  DateTime? emailVerifiedAt;
   dynamic deletedAt;
-  String createdAt;
-  String updatedAt;
+  String? createdAt;
+  String? updatedAt;
   dynamic parentId;
-  List<Subscription> subscriptions;
-  Configuration configuration;
-  List<Role> roles;
+  List<Subscription>? subscriptions;
+  Configuration? configuration;
+  List<Role>? roles;
 
   UserClass({
-    required this.id,
-    required this.username,
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.phone,
-    required this.provider,
-    required this.emailVerifiedAt,
-    required this.deletedAt,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.parentId,
-    required this.subscriptions,
-    required this.configuration,
-    required this.roles,
+    this.id,
+    this.username,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.phone,
+    this.provider,
+    this.emailVerifiedAt,
+    this.deletedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.parentId,
+    this.subscriptions,
+    this.configuration,
+    this.roles,
   });
 
   factory UserClass.fromJson(Map<String, dynamic> json) => UserClass(
@@ -65,7 +65,9 @@ class UserClass {
         email: json["email"],
         phone: json["phone"],
         provider: json["provider"],
-        emailVerifiedAt: DateTime.parse(json["email_verified_at"]),
+        emailVerifiedAt: json["email_verified_at"] != null
+            ? DateTime.parse(json["email_verified_at"])
+            : null,
         deletedAt: json["deleted_at"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
@@ -84,35 +86,35 @@ class UserClass {
         "email": email,
         "phone": phone,
         "provider": provider,
-        "email_verified_at": emailVerifiedAt.toIso8601String(),
+        "email_verified_at": emailVerifiedAt?.toIso8601String(),
         "deleted_at": deletedAt,
         "created_at": createdAt,
         "updated_at": updatedAt,
         "parent_id": parentId,
         "subscriptions":
-            List<dynamic>.from(subscriptions.map((x) => x.toJson())),
-        "configuration": configuration.toJson(),
-        "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
+            List<dynamic>.from(subscriptions!.map((x) => x.toJson())),
+        "configuration": configuration!.toJson(),
+        "roles": List<dynamic>.from(roles!.map((x) => x.toJson())),
       };
 }
 
 class Configuration {
-  String id;
-  String userId;
-  String timezone;
-  String currency;
-  String locale;
-  String createdAt;
-  String updatedAt;
+  String? id;
+  String? userId;
+  String? timezone;
+  String? currency;
+  String? locale;
+  String? createdAt;
+  String? updatedAt;
 
   Configuration({
-    required this.id,
-    required this.userId,
-    required this.timezone,
-    required this.currency,
-    required this.locale,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.userId,
+    this.timezone,
+    this.currency,
+    this.locale,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Configuration.fromJson(Map<String, dynamic> json) => Configuration(
@@ -137,12 +139,12 @@ class Configuration {
 }
 
 class Role {
-  String name;
-  RolePivot pivot;
+  String? name;
+  RolePivot? pivot;
 
   Role({
-    required this.name,
-    required this.pivot,
+    this.name,
+    this.pivot,
   });
 
   factory Role.fromJson(Map<String, dynamic> json) => Role(
@@ -152,17 +154,17 @@ class Role {
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "pivot": pivot.toJson(),
+        "pivot": pivot!.toJson(),
       };
 }
 
 class RolePivot {
-  String userId;
-  String roleId;
+  String? userId;
+  String? roleId;
 
   RolePivot({
-    required this.userId,
-    required this.roleId,
+    this.userId,
+    this.roleId,
   });
 
   factory RolePivot.fromJson(Map<String, dynamic> json) => RolePivot(
@@ -177,34 +179,34 @@ class RolePivot {
 }
 
 class Subscription {
-  String id;
-  String name;
-  String slug;
-  String type;
-  String description;
-  int price;
+  String? id;
+  String? name;
+  String? slug;
+  String? type;
+  String? description;
+  int? price;
   dynamic salePrice;
-  int platformFee;
-  String platformFeeType;
-  int status;
-  String createdAt;
-  String updatedAt;
-  SubscriptionPivot pivot;
+  int? platformFee;
+  String? platformFeeType;
+  int? status;
+  String? createdAt;
+  String? updatedAt;
+  SubscriptionPivot? pivot;
 
   Subscription({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.type,
-    required this.description,
-    required this.price,
-    required this.salePrice,
-    required this.platformFee,
-    required this.platformFeeType,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.pivot,
+    this.id,
+    this.name,
+    this.slug,
+    this.type,
+    this.description,
+    this.price,
+    this.salePrice,
+    this.platformFee,
+    this.platformFeeType,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.pivot,
   });
 
   factory Subscription.fromJson(Map<String, dynamic> json) => Subscription(
@@ -236,19 +238,19 @@ class Subscription {
         "status": status,
         "created_at": createdAt,
         "updated_at": updatedAt,
-        "pivot": pivot.toJson(),
+        "pivot": pivot!.toJson(),
       };
 }
 
 class SubscriptionPivot {
-  String userId;
-  String subscriptionId;
-  DateTime expiresOn;
+  String? userId;
+  String? subscriptionId;
+  DateTime? expiresOn;
 
   SubscriptionPivot({
-    required this.userId,
-    required this.subscriptionId,
-    required this.expiresOn,
+    this.userId,
+    this.subscriptionId,
+    this.expiresOn,
   });
 
   factory SubscriptionPivot.fromJson(Map<String, dynamic> json) =>
@@ -261,6 +263,6 @@ class SubscriptionPivot {
   Map<String, dynamic> toJson() => {
         "user_id": userId,
         "subscription_id": subscriptionId,
-        "expires_on": expiresOn.toIso8601String(),
+        "expires_on": expiresOn!.toIso8601String(),
       };
 }

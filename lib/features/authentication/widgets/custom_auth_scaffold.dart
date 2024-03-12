@@ -40,7 +40,6 @@ class CustomAuthScaffold extends StatelessWidget {
                       Image.asset(AppImages.fctsLogo),
                       const SizedBox(height: 20),
                       const Divider(),
-                      const SizedBox(height: 24),
                       ...children
                     ]),
                   ),

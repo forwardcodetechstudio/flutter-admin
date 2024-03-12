@@ -26,7 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
       width: width,
       height: height,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: !isLoading ? onPressed : () {},
         style: ButtonStyle(
           elevation: const MaterialStatePropertyAll(0),
           shape: MaterialStatePropertyAll(
@@ -37,7 +37,16 @@ class CustomElevatedButton extends StatelessWidget {
           backgroundColor: MaterialStatePropertyAll(backgroundColor),
           foregroundColor: MaterialStatePropertyAll(foregroundColor),
         ),
-        child: Text(text),
+        child: !isLoading
+            ? Text(text)
+            : SizedBox(
+                width: 27,
+                height: 27,
+                child: CircularProgressIndicator(
+                  color: foregroundColor,
+                  strokeWidth: 3,
+                ),
+              ),
       ),
     );
   }

@@ -5,6 +5,11 @@ abstract class AuthProvider {
     required String email,
     required String password,
   });
-  Future<User> register();
+  Future<bool> register({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+  });
   Future<bool> logout();
 }

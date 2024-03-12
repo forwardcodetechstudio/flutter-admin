@@ -58,7 +58,7 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
             currency = '';
             _selectedImage = null;
           });
-        } else {
+        } else if(state is CompanyCreationFailed) {
           showSnackbar(
             context: context,
             text: 'Company Not Created!',

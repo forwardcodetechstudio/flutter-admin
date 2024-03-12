@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/responsive/responsive_layout_screen.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
+import 'package:flutter_admin/features/authentication/screens/forget_password_screen.dart';
 import 'package:flutter_admin/features/authentication/screens/login_screen.dart';
 import 'package:flutter_admin/features/authentication/screens/register_screen.dart';
 import 'package:flutter_admin/features/company/screens/company_creation_screen.dart';
@@ -41,6 +42,11 @@ class AppRouter {
         name: RoutesName.register,
         path: RoutesPath.register,
         builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        name: RoutesName.forgetPassword,
+        path: RoutesPath.forgetPassword,
+        builder: (context, state) => const ForgetPasswordScreen(),
       ),
       GoRoute(
         path: '/',

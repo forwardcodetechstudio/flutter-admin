@@ -5,7 +5,6 @@ import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
-import 'package:flutter_admin/core/widgets/custom_flash_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/widgets/custom_auth_scaffold.dart';
@@ -61,7 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (state is AuthAuthenticated) {
                   context.goNamed(RoutesName.crm);
                 }
-                return 0.sbh;
+
+                return 12.sbh;
               },
             ),
             const Text(
@@ -102,10 +102,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                Text(
-                  'Forget Password?',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
+                InkWell(
+                  onTap: () {
+                    context.goNamed(RoutesName.forgetPassword);
+                  },
+                  child: Text(
+                    'Forget Password?',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
               ],
@@ -123,31 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
               isLoading: isLoading,
               text: 'Login',
             ),
-            24.sbh,
-            const Row(
-              children: [
-                Flexible(
-                  child: Divider(),
-                ),
-                Text('  OR  '),
-                Flexible(
-                  child: Divider(),
-                ),
-              ],
-            ),
-            24.sbh,
-            Wrap(
-              children: [
-                const CustomFlashButton(
-                  text: 'Facebook',
-                  icon: Icon(Icons.facebook),
-                ),
-                8.sbw,
-                const CustomFlashButton(
-                    text: 'Google', icon: Icon(Icons.g_mobiledata)),
-              ],
-            ),
-            24.sbh,
+            12.sbh,
             RichText(
               text: TextSpan(
                 children: [
