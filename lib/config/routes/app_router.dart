@@ -11,6 +11,7 @@ import 'package:flutter_admin/features/company/screens/company_updation_screen.d
 import 'package:flutter_admin/features/dashboard/screens/crm_screen.dart';
 import 'package:flutter_admin/features/forms/screens/add_listing_screen.dart';
 import 'package:flutter_admin/features/forms/screens/create_update_category_screen.dart';
+import 'package:flutter_admin/features/profile/screen/profile_screen.dart';
 import 'package:flutter_admin/features/tables/screens/category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/listing_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,7 @@ class AppRouter {
 
   List<RouteBase> _routes() {
     return [
+      /* Authentication Routes */
       GoRoute(
         name: RoutesName.login,
         path: RoutesPath.login,
@@ -66,6 +68,7 @@ class AppRouter {
               return ResponsiveLayoutScreen(child: child);
             },
             routes: [
+              /* Dashboard Routes */
               GoRoute(
                 name: RoutesName.crm,
                 path: RoutesPath.crm,
@@ -122,6 +125,13 @@ class AppRouter {
                 name: RoutesName.updateCompany,
                 path: RoutesPath.updateCompany,
                 builder: (context, state) => const CompanyUpdationScreen(),
+              ),
+
+              /* Profile Routes */
+              GoRoute(
+                path: RoutesPath.profile,
+                name: RoutesName.profile,
+                builder: (context, state) => const ProfileScreen(),
               ),
             ],
           ),

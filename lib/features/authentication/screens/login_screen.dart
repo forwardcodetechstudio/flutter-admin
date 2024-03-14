@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
+import 'package:flutter_admin/core/utils/email_validator.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
@@ -23,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
       TextEditingController();
   final TextEditingController passwordTextEditingController =
       TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,106 +56,114 @@ class _LoginScreenState extends State<LoginScreen> {
         final bool isLoading = state is AuthLoading;
 
         return CustomAuthScaffold(
-          children: [
-            Builder(
-              builder: (context) {
-                if (state is AuthAuthenticated) {
-                  context.goNamed(RoutesName.crm);
-                }
-
-                return 12.sbh;
-              },
-            ),
-            const Text(
-              'Log in !',
-              style: TextStyle(
-                color: AppColors.blue0080ff,
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            24.sbh,
-            CustomTextField(
-              label: 'Enter Email',
-              textEditingController: emailTextEditingController,
-            ),
-            24.sbh,
-            CustomTextField(
-              label: 'Enter Password',
-              textEditingController: passwordTextEditingController,
-            ),
-            24.sbh,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+          child: Form(
+            key: _formKey,
+            child: Column(
               children: [
+                Builder(
+                  builder: (context) {
+                    if (state is AuthAuthenticated) {
+                      context.goNamed(RoutesName.crm);
+                    }
+
+                    return 12.sbh;
+                  },
+                ),
+                const Text(
+                  'Log in !',
+                  style: TextStyle(
+                    color: AppColors.blue0080ff,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                24.sbh,
+                CustomTextField(
+                  label: 'Enter Email',
+                  validator: emailValidator,
+                  textEditingController: emailTextEditingController,
+                ),
+                24.sbh,
+                CustomTextField(
+                  label: 'Enter Password',
+                  textEditingController: passwordTextEditingController,
+                ),
+                24.sbh,
                 Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Checkbox(
-                      value: false,
-                      onChanged: (value) {},
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Checkbox(
+                          value: false,
+                          onChanged: (value) {},
+                        ),
+                        Text(
+                          'Remember Me',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      'Remember Me',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
+                    InkWell(
+                      onTap: () {
+                        context.goNamed(RoutesName.forgetPassword);
+                      },
+                      child: Text(
+                        'Forget Password?',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                InkWell(
-                  onTap: () {
-                    context.goNamed(RoutesName.forgetPassword);
+                24.sbh,
+                CustomElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<AuthBloc>().add(
+                            AuthLoginEvent(
+                              email: emailTextEditingController.text,
+                              password: passwordTextEditingController.text,
+                            ),
+                          );
+                    }
                   },
-                  child: Text(
-                    'Forget Password?',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                    ),
+                  isLoading: isLoading,
+                  text: 'Login',
+                ),
+                12.sbh,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Don\'t have an account? ',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Sign up',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.goNamed(RoutesName.register);
+                          },
+                        style: const TextStyle(
+                          color: AppColors.blue0080ff,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],
             ),
-            24.sbh,
-            CustomElevatedButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(
-                      AuthLoginEvent(
-                        email: emailTextEditingController.text,
-                        password: passwordTextEditingController.text,
-                      ),
-                    );
-              },
-              isLoading: isLoading,
-              text: 'Login',
-            ),
-            12.sbh,
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Don\'t have an account? ',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'Sign up',
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        context.goNamed(RoutesName.register);
-                      },
-                    style: const TextStyle(
-                      color: AppColors.blue0080ff,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
+          ),
         );
       },
     );

@@ -13,6 +13,9 @@ class CustomTextField extends StatelessWidget {
   final Function(String value)? onChanged;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
+  final String? Function(String? value)? validator;
+  final bool enabled;
+  final String? initialValue;
 
   const CustomTextField({
     super.key,
@@ -26,13 +29,18 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.inputFormatters,
     this.keyboardType,
+    this.validator,
+    this.enabled = true,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: textEditingController,
       onChanged: onChanged,
+      validator: validator,
+      initialValue: initialValue,
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
@@ -41,6 +49,7 @@ class CustomTextField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintText: hintText,
+        enabled: enabled,
         label: label.isNotEmpty ? Text(label) : null,
         suffixIcon: suffixIcon,
         border: const OutlineInputBorder(),

@@ -54,6 +54,7 @@ dependencies:
   dotted_border: ^2.1.0
   http_parser: ^4.0.2
   file_picker: ^6.2.0
+  fl_chart: ^0.66.2
 
 dev_dependencies:
   flutter_test:

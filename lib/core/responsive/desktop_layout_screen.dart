@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_admin/core/widgets/custom_theme_changing_button.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class DesktopLayoutScreen extends StatefulWidget {
   final Widget content;
@@ -99,11 +101,12 @@ class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
                           PopupMenuButton(
                             itemBuilder: (context) {
                               return [
-                                const PopupMenuItem(
+                                PopupMenuItem(
                                   child: ListTile(
                                     tileColor: Colors.transparent,
-                                    title: Text('Welcome User'),
-                                    trailing: Icon(Icons.person),
+                                    title: const Text('Welcome User'),
+                                    trailing: const Icon(Icons.person),
+                                    onTap: () => context.goNamed(RoutesName.profile),
                                   ),
                                 ),
                                 PopupMenuItem(

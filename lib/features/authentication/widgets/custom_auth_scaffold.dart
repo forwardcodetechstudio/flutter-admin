@@ -3,10 +3,10 @@ import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomAuthScaffold extends StatelessWidget {
-  final List<Widget> children;
+  final Widget child;
   const CustomAuthScaffold({
     super.key,
-    required this.children,
+    required this.child,
   });
 
   @override
@@ -40,7 +40,7 @@ class CustomAuthScaffold extends StatelessWidget {
                       Image.asset(AppImages.fctsLogo),
                       const SizedBox(height: 20),
                       const Divider(),
-                      ...children
+                      child,
                     ]),
                   ),
                 )

@@ -52,7 +52,7 @@ class AppDrawer extends StatelessWidget {
                         leading: const SizedBox(),
                         title: const Text(' - CRM'),
                         onTap: () => context.goNamed(RoutesName.crm),
-                      )
+                      ),
                     ],
                   ),
 

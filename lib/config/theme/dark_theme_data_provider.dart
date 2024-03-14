@@ -20,7 +20,7 @@ ThemeData darkThemeDataProvider() {
       background: AppColors.dark161c24,
       onBackground: AppColors.white,
       surface: AppColors.dark212b36,
-      onSurface: AppColors.white,
+      onSurface: AppColors.blueGrey8A98AC,
     ),
   );
 }
