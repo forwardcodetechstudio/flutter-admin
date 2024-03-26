@@ -62,12 +62,12 @@ class CompaniesBloc extends Bloc<CompaniesEvent, CompaniesState> {
       }
     } on DioException catch (e) {
       print("Error :::::::::::::::::::::::::::::::::::::::");
-      print(e);
+      // print(e);
     } catch (e) {
       print("Error :::::::::::::::::::::::::::::::::::::::");
-      print(e);
+      // print(e);
       emit(CompanyCreationFailed());
-    }
+    } 
   }
 
   void _updateCompany(event, emit) {}

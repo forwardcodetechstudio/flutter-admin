@@ -53,20 +53,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading(user: (state as AuthAuthenticated).user));
     try {
       bool isLogout = await authProvider.logout();
-      if (isLogout) {
-        final SharedPreferences sharedPreferences =
-            GetIt.I<SharedPreferences>();
-
-        sharedPreferences.remove('accessToken');
-        sharedPreferences.remove('currentUser');
-        emit(const AuthUnauthenticated(isLogout: true));
-      } else {
-        emit(AuthLogoutFailure(user: (state as AuthLoading).user!));
-      }
+      // if (isLogout) {
+      // } else {
+      //   emit(AuthLogoutFailure(user: (state as AuthLoading).user!));
+      // }
     } catch (e) {
       print("Logout Failure ::::::::::::::::::::::::::::::::::::::::::");
       print(e);
       emit(AuthLogoutFailure(user: (state as AuthLoading).user!));
+    } finally {
+      emit(const AuthUnauthenticated(isLogout: true));
+      final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
+      sharedPreferences.remove('accessToken');
+      sharedPreferences.remove('currentUser');
     }
   }
 

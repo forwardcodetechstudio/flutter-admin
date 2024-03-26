@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
@@ -65,7 +66,7 @@ class CompaniesRepository {
       'phone': phone,
       'tax': tax,
       'tax_id': taxId,
-      'logo': MultipartFile.fromBytes(logo),
+      'logo': base64Encode(logo), // MultipartFile.fromBytes(logo),
     });
 
     final Response response =

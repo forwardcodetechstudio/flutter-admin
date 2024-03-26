@@ -28,7 +28,8 @@ class ProfileScreen extends StatelessWidget {
           final firstName = currentUser.user!.firstName;
           final lastName = currentUser.user!.lastName;
           final email = currentUser.user!.email;
-
+          final phone = currentUser.user!.phone??'';
+  
           return SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -116,6 +117,14 @@ class ProfileScreen extends StatelessWidget {
                                         child: CustomTextField(
                                           label: 'Email',
                                           initialValue: '$email',
+                                          enabled: false,
+                                        ),
+                                      ),
+                                      ResponsiveDesignGridItem(
+                                        columns: inputFieldGridColumns,
+                                        child: CustomTextField(
+                                          label: 'Phone',
+                                          initialValue: '$phone',
                                           enabled: false,
                                         ),
                                       ),
