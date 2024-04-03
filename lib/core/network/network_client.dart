@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkClient {
   late Dio _client;
-  static const String baseUrl = 'https://5b2c-2405-201-a005-e0e4-699f-2969-f58-4812.ngrok-free.app';
+  static const String baseUrl = 'https://dev.anbocas.com';
 
   NetworkClient() {
     _client = Dio();

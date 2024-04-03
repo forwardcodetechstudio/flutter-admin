@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           return MaterialApp.router(
-            title: 'Flutter Admin',
+            title: 'Forwardcode',
             debugShowCheckedModeBanner: false,
             theme: lightThemeDataProvider(),
             darkTheme: darkThemeDataProvider(),

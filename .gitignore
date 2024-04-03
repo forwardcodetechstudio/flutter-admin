@@ -28,3 +28,7 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# fvm version cache
+.fvm/
+.fvmrc
