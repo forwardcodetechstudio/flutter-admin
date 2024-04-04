@@ -1,5 +1,6 @@
 import 'package:design_grid/design_grid.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/base/stateful_page.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
@@ -12,14 +13,14 @@ import 'package:flutter_admin/features/tables/bloc/listing/listing_bloc.dart';
 import 'package:flutter_admin/features/tables/models/listing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddListingScreen extends StatefulWidget {
+class AddListingScreen extends StatefulPage<ListingBloc> {
   const AddListingScreen({super.key});
 
   @override
-  State<AddListingScreen> createState() => _AddListingScreenState();
+  StatefulPageState<ListingBloc> createState() => _AddListingScreenState();
 }
 
-class _AddListingScreenState extends State<AddListingScreen> {
+class _AddListingScreenState extends StatefulPageState<ListingBloc> {
   final TextEditingController nameTextEditingController =
       TextEditingController();
   late String user;
@@ -44,18 +45,19 @@ class _AddListingScreenState extends State<AddListingScreen> {
   late String amenities;
   late String type;
   late String status;
+  final ResponsiveDesignGridColumns formLayout =
+      const ResponsiveDesignGridColumns(
+    small: 12,
+    medium: 6,
+    large: 4,
+  );
 
   @override
   Widget build(BuildContext context) {
-    const ResponsiveDesignGridColumns formLayout = ResponsiveDesignGridColumns(
-      small: 12,
-      medium: 6,
-      large: 4,
-    );
-
     return ListView(
       children: [
         BlocBuilder<ListingBloc, ListingState>(
+          bloc: bloc,
           builder: (context, state) {
             return (state is ListingAdding)
                 ? const LinearProgressIndicator()
@@ -267,10 +269,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
                             status: status,
                             googleId: googleIdTextEditingController.text,
                           );
-
-                          context
-                              .read<ListingBloc>()
-                              .add(AddListing(listing: newListing));
+                          bloc.add(AddListing(listing: newListing));
                         },
                         text: 'Submit',
                       ),

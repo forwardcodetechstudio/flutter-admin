@@ -1,9 +1,11 @@
 import 'package:design_grid/design_grid.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/base/stateless_page.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/shared/bloc/category/category_bloc.dart';
+import 'package:flutter_admin/core/shared/models/category.dart';
 import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
@@ -11,11 +13,11 @@ import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class CreateUpdateCategoryScreen extends StatelessWidget {
+class CreateUpdateCategoryScreen extends StatelessPage<CategoryBloc> {
   final String? categoryId;
   final String? categeoryName;
 
-  const CreateUpdateCategoryScreen({
+  CreateUpdateCategoryScreen({
     super.key,
     this.categoryId,
     this.categeoryName,
@@ -31,24 +33,25 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
     // final Color onBackground = Theme.of(context).colorScheme.onBackground;
 
     return BlocConsumer<CategoryBloc, CategoryState>(
+      bloc: bloc,
       listener: (context, state) {
         if (state is CategoryCreated) {
           createCategoryTextEditingController.clear();
-          showSnackbar(context: context, text: 'Category Created Successfully');
+          showSnackBar(context, 'Category Created Successfully');
         } else if (state is CategoryUpdated) {
           createCategoryTextEditingController.clear();
-          showSnackbar(context: context, text: 'Category Updated Successfully');
+          showSnackBar(context, 'Category Updated Successfully');
           context.goNamed(RoutesName.category);
         } else if (state is CategoryCreationFailed) {
-          showSnackbar(
-            context: context,
-            text: 'Category Not Created',
+          showAlertSnackBar(
+            context,
+            'Category Not Created',
             backgroundColor: AppColors.red,
           );
         } else if (state is CategoryUpdationFailed) {
-          showSnackbar(
-            context: context,
-            text: 'Category Not Updated',
+          showAlertSnackBar(
+            context,
+            'Category Not Updated',
             backgroundColor: AppColors.red,
           );
         }
@@ -99,27 +102,27 @@ class CreateUpdateCategoryScreen extends StatelessWidget {
                               ? // create new category
                               CustomElevatedButton(
                                   onPressed: () {
-                                    context.read<CategoryBloc>().add(
-                                          RequestCategoryCreation(
-                                            categoryName:
-                                                createCategoryTextEditingController
-                                                    .text,
-                                          ),
-                                        );
+                                    bloc.add(
+                                      RequestCategoryCreation(
+                                        categoryName:
+                                            createCategoryTextEditingController
+                                                .text,
+                                      ),
+                                    );
                                   },
                                   text: 'Create',
                                 )
                               : // update category of given id
                               CustomElevatedButton(
                                   onPressed: () {
-                                    context.read<CategoryBloc>().add(
-                                          RequestCategoryUpdation(
-                                            categoryId: categoryId!,
-                                            categoryName:
-                                                createCategoryTextEditingController
-                                                    .text,
-                                          ),
-                                        );
+                                    bloc.add(
+                                      RequestCategoryUpdation(
+                                        categoryId: categoryId!,
+                                        categoryName:
+                                            createCategoryTextEditingController
+                                                .text,
+                                      ),
+                                    );
                                   },
                                   text: 'Save Changes',
                                 ),

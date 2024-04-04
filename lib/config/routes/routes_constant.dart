@@ -13,13 +13,16 @@ sealed class RoutesName {
   static const String createCategory = 'createCategory';
   static const String updateCategory = 'updateCategory';
 
-  /* Company */
+  /* SingleCompany */
   static const String companyListing = 'companyList';
   static const String createNewCompany = 'createCompany';
   static const String updateCompany = 'updateCompany';
 
   /* Profile */
   static const String profile = 'profile';
+
+  // pages
+  static const String uploadImage = 'uploadImage';
 }
 
 sealed class RoutesPath {
@@ -36,11 +39,14 @@ sealed class RoutesPath {
   static const String createCategory = 'create-category';
   static const String updateCategory = 'update-category';
 
-  /* Company */
+  /* SingleCompany */
   static const String companyList = 'company-list';
   static const String createNewCompany = 'create-company';
   static const String updateCompany = 'update-company';
 
   /* Profile */
   static const String profile = 'profile';
+
+  // pages
+  static const String uploadImage = 'upload-image';
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/base/stateless_page.dart';
 import 'package:flutter_admin/core/shared/bloc/category/category_bloc.dart';
 import 'package:flutter_admin/core/shared/models/category.dart';
 import 'package:flutter_admin/core/utils/show_feedback_alert.dart';
-import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/custom_table.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter_admin/config/routes/routes_constant.dart';
@@ -12,8 +12,8 @@ import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 
-class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({super.key});
+class CategoryScreen extends StatelessPage<CategoryBloc> {
+  CategoryScreen({super.key});
 
   static const List<String> _categoryTableColumns = [
     'Name',
@@ -34,11 +34,12 @@ class CategoryScreen extends StatelessWidget {
           24.sbh,
           Expanded(
             child: BlocConsumer<CategoryBloc, CategoryState>(
+              bloc: bloc,
               listener: (context, state) {
                 if (state is CategoryRemoved) {
-                  showSnackbar(
-                    context: context,
-                    text: 'Category Deleted Successfully!',
+                  showSnackBar(
+                    context,
+                    'Category Deleted Successfully!',
                   );
                 }
               },
@@ -50,7 +51,7 @@ class CategoryScreen extends StatelessWidget {
                     state is CategoryUpdated ||
                     state is CategoryUpdationFailed ||
                     state is CategoryRemovingFalied) {
-                  context.read<CategoryBloc>().add(const GetCategory(page: 1));
+                  bloc.add(const GetCategory(page: 1));
                 }
                 if (state is CategoryLoading) {
                   return const Center(
@@ -106,12 +107,11 @@ class CategoryScreen extends StatelessWidget {
                                     .then((wantToDelete) => {
                                           if (wantToDelete)
                                             {
-                                              context.read<CategoryBloc>().add(
-                                                    RequestCategoryDeleation(
-                                                      categoryId:
-                                                          categoryData.id,
-                                                    ),
-                                                  )
+                                              bloc.add(
+                                                RequestCategoryDeleation(
+                                                  categoryId: categoryData.id,
+                                                ),
+                                              )
                                             }
                                         });
                               },
@@ -148,21 +148,21 @@ class CategoryScreen extends StatelessWidget {
                         'searchCategory',
                         const Duration(milliseconds: 500),
                         () {
-                          context.read<CategoryBloc>().add(SearchCategory(
-                                text: searchTextEditingController.text,
-                              ));
+                          bloc.add(SearchCategory(
+                            text: searchTextEditingController.text,
+                          ));
                         },
                       );
                     },
                     onPrevPageButtonClicked: () {
-                      context.read<CategoryBloc>().add(
-                            GetCategory(page: currentPage - 1),
-                          );
+                      bloc.add(
+                        GetCategory(page: currentPage - 1),
+                      );
                     },
                     onNextPageButtonClicked: () {
-                      context.read<CategoryBloc>().add(
-                            GetCategory(page: currentPage + 1),
-                          );
+                      bloc.add(
+                        GetCategory(page: currentPage + 1),
+                      );
                     },
                     listViewLayoutBuilder: (List<Widget> row) {
                       return ListTile(

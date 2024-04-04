@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/base/stateful_page.dart';
+import 'package:flutter_admin/base/stateless_page.dart';
 import 'package:flutter_admin/features/tables/models/listing.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter_admin/config/routes/routes_constant.dart';
@@ -7,8 +9,8 @@ import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/features/tables/bloc/listing/listing_bloc.dart';
 
-class ListingScreen extends StatelessWidget {
-  const ListingScreen({super.key});
+class ListingScreen extends StatelessPage<ListingBloc> {
+  ListingScreen({super.key});
 
   static const List<String> _columnsName = [
     '#', // for id or serial no
@@ -43,6 +45,7 @@ class ListingScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: BlocBuilder<ListingBloc, ListingState>(
+                  bloc: bloc,
                   builder: (context, state) {
                     final List<Listing> listings = state.listings;
                     return DataTable(

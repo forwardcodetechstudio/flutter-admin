@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_admin/core/utils/pref_utils.dart';
+import 'package:flutter_admin/di/injection_container.dart';
 
 class NetworkClient {
   late Dio _client;
@@ -16,10 +16,8 @@ class NetworkClient {
   InterceptorsWrapper interceptorsWrapper() {
     return InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final SharedPreferences sharedPreferences =
-            GetIt.I<SharedPreferences>();
-        final String? accessToken = sharedPreferences.getString('accessToken');
-        if (accessToken != null) {
+        final String accessToken = prefUtils.getStringIn(SharedPrefKeys.token);
+        if (accessToken.isNotEmpty) {
           options.headers.addAll({
             "Authorization": "Bearer $accessToken",
           });

@@ -1,11 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_admin/base/stateful_page.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/utils/email_validator.dart';
-import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
@@ -13,14 +12,14 @@ import 'package:flutter_admin/features/authentication/widgets/custom_auth_scaffo
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends StatefulPage<AuthBloc> {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  StatefulPageState<AuthBloc> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends StatefulPageState<AuthBloc> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -31,18 +30,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
+      bloc: bloc,
       listener: (context, state) {
         if (state is AuthRegistrationSuccessfull) {
-          showSnackbar(
-            context: context,
-            text: state.message,
+          showSnackBar(
+            context,
+            state.message,
           );
 
           context.goNamed(RoutesName.login);
         } else if (state is AuthRegistrationFailed) {
-          showSnackbar(
-              context: context,
-              text: state.message,
+          showAlertSnackBar(context, state.message,
               backgroundColor: AppColors.red);
         }
       },
@@ -127,14 +125,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     print(":::::::::::::::::::::::");
                     print(_formKey.currentState!.validate());
                     if (_formKey.currentState!.validate()) {
-                      context.read<AuthBloc>().add(
-                            AuthRegisterEvent(
-                              firstName: _firstNameController.text.trim(),
-                              lastName: _lastNameController.text.trim(),
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text.trim(),
-                            ),
-                          );
+                      bloc.add(
+                        AuthRegisterEvent(
+                          firstName: _firstNameController.text.trim(),
+                          lastName: _lastNameController.text.trim(),
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim(),
+                        ),
+                      );
                     }
                   },
                 ),

@@ -1,10 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/base/stateful_page.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/utils/email_validator.dart';
-import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
@@ -12,14 +12,14 @@ import 'package:flutter_admin/features/authentication/widgets/custom_auth_scaffo
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatefulPage<AuthBloc> {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  StatefulPageState<AuthBloc> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends StatefulPageState<AuthBloc> {
   final TextEditingController emailTextEditingController =
       TextEditingController();
   final TextEditingController passwordTextEditingController =
@@ -29,27 +29,27 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
+      bloc: bloc..add(AuthInititalEvent()),
       listener: (context, state) {
         if (state is AuthAuthenticationFailed) {
-          showSnackbar(
-            context: context,
-            text: state.error,
-            backgroundColor: AppColors.red,
+          showAlertSnackBar(
+            context,
+            state.error,
           );
         } else if (state is AuthAuthenticated) {
-          showSnackbar(
-            context: context,
-            text: 'Login Successfully',
+          showSnackBar(
+            context,
+            'Login Successfully',
           );
           context.goNamed(RoutesName.crm);
         } else if (state is AuthUnauthenticated) {
           if (state.isLogout) {
-            showSnackbar(
-              context: context,
-              text: 'Logout Successfully',
+            showSnackBar(
+              context,
+              'Logout Successfully',
             );
           }
-          context.goNamed(RoutesName.crm);
+          context.goNamed(RoutesName.login);
         }
       },
       builder: (context, state) {
@@ -60,15 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
             key: _formKey,
             child: Column(
               children: [
-                Builder(
-                  builder: (context) {
-                    if (state is AuthAuthenticated) {
-                      context.goNamed(RoutesName.crm);
-                    }
-
-                    return 12.sbh;
-                  },
-                ),
                 const Text(
                   'Log in !',
                   style: TextStyle(
@@ -127,12 +118,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      context.read<AuthBloc>().add(
-                            AuthLoginEvent(
-                              email: emailTextEditingController.text,
-                              password: passwordTextEditingController.text,
-                            ),
-                          );
+                      bloc.add(
+                        AuthLoginEvent(
+                          email: emailTextEditingController.text,
+                          password: passwordTextEditingController.text,
+                        ),
+                      );
                     }
                   },
                   isLoading: isLoading,

@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter_admin/core/exceptions/auth_exceptions.dart';
-import 'package:flutter_admin/features/authentication/data/models/user.dart';
-import 'package:flutter_admin/features/authentication/data/providers/auth_provider.dart';
+import 'package:flutter_admin/model/user.dart';
+import 'package:flutter_admin/services/interfaces/auth_service.dart';
 import 'package:dio/dio.dart';
 
-class AnbocasAuthProvider implements AuthProvider {
+class AuthServiceImpl implements AuthService {
   final Dio client;
 
-  AnbocasAuthProvider({required this.client});
+  AuthServiceImpl({required this.client});
 
   @override
   Future<User> login({

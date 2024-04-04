@@ -5,6 +5,7 @@ import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_drawer.dart';
 import 'package:flutter_admin/core/widgets/custom_theme_changing_button.dart';
+import 'package:flutter_admin/di/injection_container.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,96 +46,95 @@ class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
     // final onBackground = Theme.of(context).colorScheme.background;
 
     return Scaffold(
-          body: Row(
-            children: [
-              // Sidenav bar :::::::::::::::::::::
-              AppDrawer(collapsed: _isDrawerCollasped),
+      body: Row(
+        children: [
+          // Sidenav bar :::::::::::::::::::::
+          AppDrawer(collapsed: _isDrawerCollasped),
 
-              // Body with content and appbar :::::::::::::
-              Flexible(
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      height: kToolbarHeight,
-                      color: Theme.of(context).appBarTheme.backgroundColor,
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                _isDrawerCollasped = !_isDrawerCollasped;
-                              });
-                            },
-                            child: SvgPicture.asset(
-                              AppImages.collapse,
-                              width: 20,
-                              height: 20,
+          // Body with content and appbar :::::::::::::
+          Flexible(
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  height: kToolbarHeight,
+                  color: Theme.of(context).appBarTheme.backgroundColor,
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _isDrawerCollasped = !_isDrawerCollasped;
+                          });
+                        },
+                        child: SvgPicture.asset(
+                          AppImages.collapse,
+                          width: 20,
+                          height: 20,
+                          color: AppColors.grey,
+                        ),
+                      ),
+                      14.sbw,
+                      SizedBox(
+                        width: 220,
+                        height: 40,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Search',
+                            suffixIcon: const Icon(
+                              Icons.search,
                               color: AppColors.grey,
                             ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            fillColor: background,
+                            filled: true,
+                            border: searchFieldBorder,
+                            enabledBorder: searchFieldBorder,
+                            focusedBorder: searchFieldBorder,
                           ),
-                          14.sbw,
-                          SizedBox(
-                            width: 220,
-                            height: 40,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Search',
-                                suffixIcon: const Icon(
-                                  Icons.search,
-                                  color: AppColors.grey,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
-                                fillColor: background,
-                                filled: true,
-                                border: searchFieldBorder,
-                                enabledBorder: searchFieldBorder,
-                                focusedBorder: searchFieldBorder,
+                        ),
+                      ),
+                      const Spacer(),
+                      CustomThemeChangingButton(),
+                      8.sbw,
+                      PopupMenuButton(
+                        itemBuilder: (context) {
+                          return [
+                            PopupMenuItem(
+                              child: ListTile(
+                                tileColor: Colors.transparent,
+                                title: const Text('Welcome User'),
+                                trailing: const Icon(Icons.person),
+                                onTap: () =>
+                                    context.goNamed(RoutesName.profile),
                               ),
                             ),
-                          ),
-                          const Spacer(),
-                          const CustomThemeChangingButton(),
-                          8.sbw,
-                          PopupMenuButton(
-                            itemBuilder: (context) {
-                              return [
-                                PopupMenuItem(
-                                  child: ListTile(
-                                    tileColor: Colors.transparent,
-                                    title: const Text('Welcome User'),
-                                    trailing: const Icon(Icons.person),
-                                    onTap: () => context.goNamed(RoutesName.profile),
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  onTap: () {
-                                    context
-                                        .read<AuthBloc>()
-                                        .add(AuthLogoutEvent());
-                                  },
-                                  child: const ListTile(
-                                    tileColor: Colors.transparent,
-                                    title: Text('Logout'),
-                                    trailing: Icon(Icons.logout),
-                                  ),
-                                ),
-                              ];
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-
-                    // content of diffrent screen :::::::::::::::::::
-                    Expanded(child: widget.content)
-                  ],
+                            PopupMenuItem(
+                              onTap: () {
+                                authBloc.add(AuthLogoutEvent());
+                              },
+                              child: const ListTile(
+                                tileColor: Colors.transparent,
+                                title: Text('Logout'),
+                                trailing: Icon(Icons.logout),
+                              ),
+                            ),
+                          ];
+                        },
+                      )
+                    ],
+                  ),
                 ),
-              )
-            ],
-          ),
-        );
+
+                // content of diffrent screen :::::::::::::::::::
+                Expanded(child: widget.content)
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

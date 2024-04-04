@@ -2,6 +2,7 @@ import 'package:design_grid/design_grid.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_admin/base/stateful_page.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
@@ -11,18 +12,20 @@ import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/core/widgets/custom_dropdown.dart';
+import 'package:flutter_admin/di/injection_container.dart';
 import 'package:flutter_admin/features/company/bloc/companies_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dotted_border/dotted_border.dart';
 
-class CompanyCreationScreen extends StatefulWidget {
+class CompanyCreationScreen extends StatefulPage<CompaniesBloc> {
   const CompanyCreationScreen({super.key});
 
   @override
-  State<CompanyCreationScreen> createState() => _CompanyCreationScreenState();
+  StatefulPageState<CompaniesBloc> createState() =>
+      _CompanyCreationScreenState();
 }
 
-class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
+class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
   Uint8List? _selectedImage;
   final TextEditingController nameTextEditingController =
       TextEditingController();
@@ -44,10 +47,10 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
         ResponsiveDesignGridColumns(small: 12, medium: 6, large: 4);
 
     return BlocConsumer<CompaniesBloc, CompaniesState>(
+      bloc: bloc,
       listener: (context, state) {
         if (state is NewCompanyCreated) {
-          showSnackbar(
-              context: context, text: 'New Company Create Successfully!');
+          showSnackBar(context, 'New SingleCompany Create Successfully!');
           setState(() {
             nameTextEditingController.clear();
             phoneTextEditingController.clear();
@@ -58,18 +61,17 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
             currency = '';
             _selectedImage = null;
           });
-        } else if(state is CompanyCreationFailed) {
-          showSnackbar(
-            context: context,
-            text: 'Company Not Created!',
-            backgroundColor: Theme.of(context).colorScheme.error,
+        } else if (state is CompanyCreationFailed) {
+          showAlertSnackBar(
+            context,
+            'SingleCompany Not Created!',
           );
         }
       },
       builder: (context, state) {
         final isFormLoading = state is CompainesLoading;
-
         return BlocBuilder<ThemeBloc, ThemeState>(
+          bloc: themeBloc,
           builder: (context, state) {
             final bool isLightThemeActive =
                 (state as DefaultTheme).isLightThemeActive;
@@ -162,7 +164,7 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
                           ResponsiveDesignGridItem(
                             columns: columns,
                             child: SelectBox<String>(
-                              label: 'Company Location',
+                              label: 'SingleCompany Location',
                               options: const [
                                 'Jamshedpur',
                               ],
@@ -261,13 +263,11 @@ class _CompanyCreationScreenState extends State<CompanyCreationScreen> {
                                         tax: tax,
                                         taxId: taxIdTextEditingController.text,
                                       );
-                                      context
-                                          .read<CompaniesBloc>()
-                                          .add(requestForNewCompanyCreation);
+                                      bloc.add(requestForNewCompanyCreation);
                                     }
                                   },
                                   isLoading: isFormLoading,
-                                  text: 'Create Company'),
+                                  text: 'Create SingleCompany'),
                             ),
                           ),
                         )

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_admin/base/base_bloc.dart';
 import 'package:flutter_admin/core/exceptions/category_exceptions.dart';
-import 'package:flutter_admin/core/shared/repositories/remote_categories.dart';
+import 'package:flutter_admin/services/interfaces/remote_categories_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_admin/core/shared/models/category.dart';
@@ -8,8 +9,8 @@ import 'package:flutter_admin/core/shared/models/category.dart';
 part 'category_event.dart';
 part 'category_state.dart';
 
-class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  final RemoteCategory remoteCategory;
+class CategoryBloc extends BaseBloc<CategoryEvent, CategoryState> {
+  final RemoteCategoryService remoteCategory;
 
   CategoryBloc(this.remoteCategory) : super(CategoryInitial()) {
     on<GetCategory>(_getAllCategories);

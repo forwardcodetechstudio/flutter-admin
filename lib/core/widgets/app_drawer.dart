@@ -56,11 +56,11 @@ class AppDrawer extends StatelessWidget {
                     ],
                   ),
 
-                  /* Company ::::::::::::::: */
+                  /* SingleCompany ::::::::::::::: */
                   AppDrawerItem(
                     collapsed: collapsed,
                     icon: const Icon(Icons.business),
-                    label: const Text('Company'),
+                    label: const Text('SingleCompany'),
                     children: [
                       ListTile(
                         leading: const SizedBox(),
@@ -70,7 +70,8 @@ class AppDrawer extends StatelessWidget {
                       ListTile(
                         leading: const SizedBox(),
                         title: const Text(' - Create'),
-                        onTap: () => context.goNamed(RoutesName.createNewCompany),
+                        onTap: () =>
+                            context.goNamed(RoutesName.createNewCompany),
                       ),
                     ],
                   ),
@@ -141,6 +142,11 @@ class AppDrawer extends StatelessWidget {
                         leading: const SizedBox(),
                         title: const Text(' - Register'),
                         onTap: () => context.goNamed(RoutesName.register),
+                      ),
+                      ListTile(
+                        leading: const SizedBox(),
+                        title: const Text(' - Upload Image'),
+                        onTap: () => context.goNamed(RoutesName.uploadImage),
                       ),
                     ],
                   ),

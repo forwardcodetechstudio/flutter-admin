@@ -1,22 +1,26 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:flutter_admin/base/base_bloc.dart';
 import 'package:flutter_admin/core/exceptions/auth_exceptions.dart';
-import 'package:flutter_admin/features/authentication/data/providers/auth_provider.dart';
+import 'package:flutter_admin/core/utils/pref_utils.dart';
+
+import 'package:flutter_admin/services/interfaces/auth_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_admin/features/authentication/data/models/user.dart';
+import 'package:flutter_admin/model/user.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthProvider authProvider;
+class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
+  final AuthService authService;
 
   AuthBloc({
-    required this.authProvider,
+    required this.authService,
   }) : super(const AuthUnauthenticated()) {
     on<AuthInititalEvent>(_init);
     on<AuthLoginEvent>(_login);
@@ -30,14 +34,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthLoading());
     /* here validate email and password */
     try {
-      final User user = await authProvider.login(
+      final User user = await authService.login(
         email: event.email,
         password: event.password,
       );
-      final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
 
-      sharedPreferences.setString('accessToken', user.token!);
-      sharedPreferences.setString('currentUser', json.encode(user.toJson()));
+      prefUtils.setStringIn(SharedPrefKeys.token, user.token!);
+      prefUtils.setLoggedUserValue(user);
 
       emit(AuthAuthenticated(user: user));
     } on InvalidCredential {
@@ -52,7 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _logout(AuthLogoutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading(user: (state as AuthAuthenticated).user));
     try {
-      bool isLogout = await authProvider.logout();
+      bool isLogout = await authService.logout();
       // if (isLogout) {
       // } else {
       //   emit(AuthLogoutFailure(user: (state as AuthLoading).user!));
@@ -63,18 +66,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLogoutFailure(user: (state as AuthLoading).user!));
     } finally {
       emit(const AuthUnauthenticated(isLogout: true));
-      final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
-      sharedPreferences.remove('accessToken');
-      sharedPreferences.remove('currentUser');
+      prefUtils.clearPreferencesData();
     }
   }
 
-  FutureOr<void> _init(AuthInititalEvent event, Emitter<AuthState> emit) {
-    final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
-    final String? userJson = sharedPreferences.getString('currentUser');
-    if (userJson != null) {
-      final User currentUser = User.fromJson(json.decode(userJson));
-      emit(AuthAuthenticated(user: currentUser));
+  FutureOr<void> _init(AuthInititalEvent event, Emitter<AuthState> emit) async {
+    final User? user = await prefUtils.getLoggedUser();
+    if (user != null) {
+      emit(AuthAuthenticated(user: user));
     } else {
       emit(const AuthUnauthenticated());
     }
@@ -83,7 +82,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _register(AuthRegisterEvent event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
     try {
-      final isUserCreated = await authProvider.register(
+      final isUserCreated = await authService.register(
         firstName: event.firstName,
         lastName: event.lastName,
         email: event.email,
@@ -101,5 +100,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthRegistrationFailed(
           message: 'Somthing went wrong! check your connection'));
     }
+  }
+
+  @override
+  void onChange(Change<AuthState> change) {
+    log(change.toString());
+    super.onChange(change);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin/base/stateless_page.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
@@ -8,8 +9,8 @@ import 'package:flutter_admin/core/widgets/custom_table.dart';
 import 'package:flutter_admin/features/company/bloc/companies_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CompanyListingScreen extends StatelessWidget {
-  const CompanyListingScreen({super.key});
+class CompanyListingScreen extends StatelessPage<CompaniesBloc> {
+  CompanyListingScreen({super.key});
 
   static const List<String> companyListingColumnName = [
     'Name',
@@ -26,12 +27,13 @@ class CompanyListingScreen extends StatelessWidget {
     final onBackground = Theme.of(context).colorScheme.onBackground;
 
     return BlocConsumer<CompaniesBloc, CompaniesState>(
+      bloc: bloc,
       listener: (context, state) {},
       builder: (context, state) {
         if (state is CompaniesInitial) {
-          context.read<CompaniesBloc>().add(
-                const RequestForCompaniesData(paginate: true, page: 1),
-              );
+          bloc.add(
+            const RequestForCompaniesData(paginate: true, page: 1),
+          );
         }
 
         return Padding(

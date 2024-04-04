@@ -1,14 +1,15 @@
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
-import 'package:flutter_admin/features/company/models/companies.dart';
-import 'package:flutter_admin/features/company/repositories/companies_repository.dart';
+import 'package:flutter_admin/base/base_bloc.dart';
+import 'package:flutter_admin/model/companies.dart';
+import 'package:flutter_admin/services/interfaces/companies_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'companies_event.dart';
 part 'companies_state.dart';
 
-class CompaniesBloc extends Bloc<CompaniesEvent, CompaniesState> {
+class CompaniesBloc extends BaseBloc<CompaniesEvent, CompaniesState> {
   final CompaniesRepository companiesRepository;
 
   CompaniesBloc({required this.companiesRepository})
@@ -67,7 +68,7 @@ class CompaniesBloc extends Bloc<CompaniesEvent, CompaniesState> {
       print("Error :::::::::::::::::::::::::::::::::::::::");
       // print(e);
       emit(CompanyCreationFailed());
-    } 
+    }
   }
 
   void _updateCompany(event, emit) {}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/responsive/responsive_layout_screen.dart';
+import 'package:flutter_admin/di/injection_container.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_admin/features/authentication/screens/forget_password_screen.dart';
 import 'package:flutter_admin/features/authentication/screens/login_screen.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_admin/features/forms/screens/create_update_category_scre
 import 'package:flutter_admin/features/profile/screen/profile_screen.dart';
 import 'package:flutter_admin/features/tables/screens/category_screen.dart';
 import 'package:flutter_admin/features/tables/screens/listing_screen.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -53,11 +53,10 @@ class AppRouter {
       GoRoute(
         path: '/',
         redirect: (context, state) {
-          final AuthState authState = context.read<AuthBloc>().state;
+          final AuthState authState = authBloc.state;
           if (authState is AuthUnauthenticated) {
             return state.namedLocation(RoutesName.login);
           }
-
           return null;
         },
         routes: [
@@ -82,14 +81,14 @@ class AppRouter {
               GoRoute(
                 name: RoutesName.listing,
                 path: RoutesPath.listing,
-                builder: (context, state) => const ListingScreen(),
+                builder: (context, state) => ListingScreen(),
               ),
 
               /* Category Routes */
               GoRoute(
                 name: RoutesName.createCategory,
                 path: RoutesPath.createCategory,
-                builder: (context, state) => const CreateUpdateCategoryScreen(),
+                builder: (context, state) => CreateUpdateCategoryScreen(),
               ),
               GoRoute(
                 name: RoutesName.updateCategory,
@@ -107,14 +106,14 @@ class AppRouter {
               GoRoute(
                 name: RoutesName.category,
                 path: RoutesPath.category,
-                builder: (context, state) => const CategoryScreen(),
+                builder: (context, state) => CategoryScreen(),
               ),
 
-              /* Company Routes */
+              /* SingleCompany Routes */
               GoRoute(
                 name: RoutesName.companyListing,
                 path: RoutesPath.companyList,
-                builder: (context, state) => const CompanyListingScreen(),
+                builder: (context, state) => CompanyListingScreen(),
               ),
               GoRoute(
                 name: RoutesName.createNewCompany,

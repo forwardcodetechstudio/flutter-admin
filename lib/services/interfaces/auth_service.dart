@@ -1,6 +1,10 @@
-import 'package:flutter_admin/features/authentication/data/models/user.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_admin/model/user.dart';
+import 'package:flutter_admin/services/impl/auth_service_impl.dart';
 
-abstract class AuthProvider {
+abstract class AuthService {
+  factory AuthService(Dio client) => AuthServiceImpl(client: client);
+
   Future<User> login({
     required String email,
     required String password,

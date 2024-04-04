@@ -1,9 +1,6 @@
-import 'package:flutter_admin/features/company/models/company.dart';
-import 'package:flutter_admin/features/company/models/link.dart';
-
 class Companies {
   final int? currentPage;
-  final List<Company>? data;
+  final List<SingleCompany>? data;
   final String? firstPageUrl;
   final int? from;
   final int? lastPage;
@@ -36,7 +33,8 @@ class Companies {
         currentPage: json["current_page"],
         data: json["data"] == null
             ? []
-            : List<Company>.from(json["data"]!.map((x) => Company.fromJson(x))),
+            : List<SingleCompany>.from(
+                json["data"]!.map((x) => SingleCompany.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -70,5 +68,65 @@ class Companies {
         "prev_page_url": prevPageUrl,
         "to": to,
         "total": total,
+      };
+}
+
+class SingleCompany {
+  final String? id;
+  final String? name;
+  final String? status;
+  final String? createdAt;
+  final String? updatedAt;
+  final dynamic logo;
+
+  SingleCompany({
+    this.id,
+    this.name,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.logo,
+  });
+
+  factory SingleCompany.fromJson(Map<String, dynamic> json) => SingleCompany(
+        id: json["id"],
+        name: json["name"],
+        status: json["status"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
+        logo: json["logo"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "status": status,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+        "logo": logo,
+      };
+}
+
+class Link {
+  final String? url;
+  final String? label;
+  final bool? active;
+
+  Link({
+    this.url,
+    this.label,
+    this.active,
+  });
+
+  factory Link.fromJson(Map<String, dynamic> json) => Link(
+        url: json["url"],
+        label: json["label"],
+        active: json["active"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "url": url,
+        "label": label,
+        "active": active,
       };
 }

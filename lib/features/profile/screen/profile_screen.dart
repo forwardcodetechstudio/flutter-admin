@@ -6,6 +6,7 @@ import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
+import 'package:flutter_admin/di/injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,14 +23,15 @@ class ProfileScreen extends StatelessWidget {
         ResponsiveDesignGridColumns(small: 12, medium: 6);
 
     return BlocBuilder<AuthBloc, AuthState>(
+      bloc: authBloc,
       builder: (context, state) {
         if (state is AuthAuthenticated) {
           final currentUser = state.user;
           final firstName = currentUser.user!.firstName;
           final lastName = currentUser.user!.lastName;
           final email = currentUser.user!.email;
-          final phone = currentUser.user!.phone??'';
-  
+          final phone = currentUser.user!.phone ?? '';
+
           return SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
