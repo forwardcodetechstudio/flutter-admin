@@ -1,19 +1,24 @@
+import 'dart:developer';
+import 'dart:io';
+// import 'dart:html';
+
 import 'package:design_grid/design_grid.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_admin/base/stateful_page.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
+import 'package:flutter_admin/core/enum/page_display_enum.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
-import 'package:flutter_admin/core/utils/show_snackbar.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/core/widgets/custom_dropdown.dart';
 import 'package:flutter_admin/di/injection_container.dart';
 import 'package:flutter_admin/features/company/bloc/companies_bloc.dart';
+import 'package:flutter_admin/plugin/interfaces/file_pick_plugin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dotted_border/dotted_border.dart';
 
@@ -26,7 +31,7 @@ class CompanyCreationScreen extends StatefulPage<CompaniesBloc> {
 }
 
 class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
-  Uint8List? _selectedImage;
+  File? _selectedImage;
   final TextEditingController nameTextEditingController =
       TextEditingController();
   final TextEditingController websiteTextEditingController =
@@ -39,6 +44,8 @@ class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
       TextEditingController();
   String location = '';
   String currency = '';
+
+  PageDisplayStyle displayStyle = PageDisplayStyle.XL;
 
   @override
   Widget build(BuildContext context) {
@@ -95,18 +102,7 @@ class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
                             columns:
                                 const ResponsiveDesignGridColumns(small: 12),
                             child: InkWell(
-                              onTap: () async {
-                                final FilePickerResult? result =
-                                    await FilePicker.platform.pickFiles(
-                                  type: FileType.image,
-                                  allowMultiple: false,
-                                );
-                                if (result != null) {
-                                  setState(() {
-                                    _selectedImage = result.files.first.bytes;
-                                  });
-                                }
-                              },
+                              onTap: pickProfileImage,
                               child: DottedBorder(
                                 color: AppColors.blueGrey8A98AC,
                                 child: SizedBox(
@@ -116,11 +112,17 @@ class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
                                     child: Column(
                                       children: [
                                         isImageSelected
-                                            ? Image.memory(
-                                                _selectedImage!,
-                                                width: 100,
-                                                height: 100,
-                                              )
+                                            ? (kIsWeb)
+                                                ? Image.network(
+                                                    _selectedImage!.path,
+                                                    width: 100,
+                                                    height: 100,
+                                                  )
+                                                : Image.file(
+                                                    File(_selectedImage!.path),
+                                                    width: 100,
+                                                    height: 100,
+                                                  )
                                             : const Icon(
                                                 Icons.image,
                                                 size: 50,
@@ -253,7 +255,7 @@ class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
                                             .text.isNotEmpty) {
                                       final requestForNewCompanyCreation =
                                           RequestForNewCompanyCreation(
-                                        logo: _selectedImage!,
+                                        logo: _selectedImage!.readAsBytesSync(),
                                         name: nameTextEditingController.text,
                                         website:
                                             websiteTextEditingController.text,
@@ -281,5 +283,27 @@ class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
         );
       },
     );
+  }
+
+  void pickProfileImage() async {
+    final filePicker = ImageFilePickPlugin.image(context);
+    final imagePick = await filePicker.pickImageFile();
+
+    if (imagePick.isEmpty) {
+      if (mounted) {
+        showAlertSnackBar(context, "Unable to select the image");
+      }
+      return;
+    }
+    final croppedFile = await filePicker.cropSingleImage(imagePick.first,
+        pageDisplayStyle: displayStyle);
+    if (croppedFile != null) {
+      setState(() {
+        _selectedImage = croppedFile;
+      });
+    } else {
+      if (!mounted) return;
+      showAlertSnackBar(context, "Unable to crop the image");
+    }
   }
 }
