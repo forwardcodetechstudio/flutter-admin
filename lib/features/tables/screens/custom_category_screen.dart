@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/core/network/network_client.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
-import 'package:flutter_admin/services/interfaces/remote_categories_service.dart';
-import 'package:get_it/get_it.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
@@ -51,9 +48,6 @@ class CategoryScreen extends StatelessWidget {
 }
 
 class CategoryDataSource extends DataTableSource {
-  final RemoteCategoryService remoteCategory =
-      RemoteCategoryService(GetIt.I<NetworkClient>().client);
-
   final List _data = List.generate(
       100,
       (index) => {

@@ -3,12 +3,13 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_admin/model/companies.dart';
+import 'package:flutter_admin/network/api_service.dart';
 import 'package:flutter_admin/services/interfaces/companies_repository.dart';
 
 class CompaniesRepositoryImpl implements CompaniesRepository {
-  final Dio client;
+  final ApiService apiService;
 
-  CompaniesRepositoryImpl({required this.client});
+  CompaniesRepositoryImpl(this.apiService);
 
   @override
   Future<bool> createNewCompany(
@@ -30,8 +31,8 @@ class CompaniesRepositoryImpl implements CompaniesRepository {
       'logo': base64Encode(logo), // MultipartFile.fromBytes(logo),
     });
 
-    final Response response =
-        await client.post('/api/v1/companies/create', data: companyFormData);
+    final Response response = await apiService.post('/api/v1/companies/create',
+        data: companyFormData);
 
     if (response.statusCode == HttpStatus.ok) {
       return true;
@@ -48,9 +49,9 @@ class CompaniesRepositoryImpl implements CompaniesRepository {
     /**
      * /api/v1/companies?page=1&paginate=true&search=&page_length=10
      */
-    final Response response = await client.get(
+    final Response response = await apiService.get(
       '/api/v1/companies',
-      queryParameters: {
+      parameters: {
         'paginate': paginate,
         'page': page,
         'search': search,

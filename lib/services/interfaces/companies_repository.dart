@@ -1,12 +1,7 @@
 import 'dart:typed_data';
-import 'package:dio/dio.dart';
 import 'package:flutter_admin/model/companies.dart';
-import 'package:flutter_admin/services/impl/companies_repository_impl.dart';
 
 abstract class CompaniesRepository {
-  factory CompaniesRepository(Dio client) =>
-      CompaniesRepositoryImpl(client: client);
-
   Future<Companies> getCompaniesData({
     bool paginate = false,
     int? page,

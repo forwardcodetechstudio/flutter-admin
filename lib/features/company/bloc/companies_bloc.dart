@@ -12,8 +12,7 @@ part 'companies_state.dart';
 class CompaniesBloc extends BaseBloc<CompaniesEvent, CompaniesState> {
   final CompaniesRepository companiesRepository;
 
-  CompaniesBloc({required this.companiesRepository})
-      : super(CompaniesInitial()) {
+  CompaniesBloc(this.companiesRepository) : super(CompaniesInitial()) {
     on<RequestForCompaniesData>(_fetchCompaniesData);
     on<RequestForNewCompanyCreation>(_createNewCompany);
     on<RequestForCompanyUpdation>(_updateCompany);
