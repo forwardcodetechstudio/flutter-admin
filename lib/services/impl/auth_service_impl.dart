@@ -1,6 +1,6 @@
 import 'package:flutter_admin/model/user.dart';
 import 'package:flutter_admin/network/api_service.dart';
-import 'package:flutter_admin/networking/api_error.dart';
+import 'package:flutter_admin/networking/api_error/auth_api_error.dart';
 import 'package:flutter_admin/networking/api_response.dart';
 import 'package:flutter_admin/services/interfaces/auth_service.dart';
 import 'package:dio/dio.dart';
@@ -25,10 +25,11 @@ class AuthServiceImpl extends AuthService {
         User user = User.fromJson(response.data);
         return ApiResponse(data: user);
       } else {
-        return ApiResponse(error: ApiError(message: "Unable to get user data"));
+        return ApiResponse(
+            error: AuthApiError(message: "Unable to get user data"));
       }
     } on Exception catch (e) {
-      return ApiResponse(error: ApiError(e: e));
+      return ApiResponse(error: AuthApiError(e: e));
     }
   }
 
@@ -38,7 +39,7 @@ class AuthServiceImpl extends AuthService {
       final Response response = await apiService.post('/api/v1/logout');
       return ApiResponse(data: response);
     } on Exception catch (e) {
-      return ApiResponse(error: ApiError(e: e));
+      return ApiResponse(error: AuthApiError(e: e));
     }
   }
 
@@ -58,7 +59,7 @@ class AuthServiceImpl extends AuthService {
       });
       return ApiResponse(data: response);
     } on Exception catch (e) {
-      return ApiResponse(error: ApiError(e: e));
+      return ApiResponse(error: AuthApiError(e: e));
     }
   }
 }
