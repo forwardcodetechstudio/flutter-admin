@@ -39,8 +39,8 @@ class _RegisterScreenState extends StatefulPageState<AuthBloc> {
           );
 
           context.goNamed(RoutesName.login);
-        } else if (state is AuthRegistrationFailed) {
-          showAlertSnackBar(context, state.message,
+        } else if (state is AuthAuthenticationFailed) {
+          showAlertSnackBar(context, state.error,
               backgroundColor: AppColors.red);
         }
       },
@@ -122,18 +122,15 @@ class _RegisterScreenState extends StatefulPageState<AuthBloc> {
                   isLoading: isAuthLoading,
                   text: 'Register',
                   onPressed: () {
-                    print(":::::::::::::::::::::::");
-                    print(_formKey.currentState!.validate());
-                    if (_formKey.currentState!.validate()) {
-                      bloc.add(
-                        AuthRegisterEvent(
-                          firstName: _firstNameController.text.trim(),
-                          lastName: _lastNameController.text.trim(),
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text.trim(),
-                        ),
-                      );
-                    }
+                    if (!_formKey.currentState!.validate()) return;
+                    bloc.add(
+                      AuthRegisterEvent(
+                        firstName: _firstNameController.text.trim(),
+                        lastName: _lastNameController.text.trim(),
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text.trim(),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(height: 24),

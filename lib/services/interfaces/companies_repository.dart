@@ -1,15 +1,15 @@
 import 'dart:typed_data';
-import 'package:flutter_admin/model/companies.dart';
+import 'package:flutter_admin/networking/api_response.dart';
 
 abstract class CompaniesRepository {
-  Future<Companies> getCompaniesData({
+  Future<ApiResponse> getCompaniesData({
     bool paginate = false,
     int? page,
     int pageLength = 10,
     String? search,
   });
 
-  Future<bool> createNewCompany({
+  Future<ApiResponse> createNewCompany({
     required Uint8List logo,
     required String companyName,
     required String website,

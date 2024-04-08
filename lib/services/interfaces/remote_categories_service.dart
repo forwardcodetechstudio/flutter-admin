@@ -1,14 +1,14 @@
-import 'package:flutter_admin/core/shared/models/category.dart';
+import 'package:flutter_admin/networking/api_response.dart';
 
 abstract class RemoteCategoryService {
-  Future<Category> getAllCategory({required int page});
+  Future<ApiResponse> getAllCategory({required int page});
 
-  Future<Category> searchCategory({required String text});
+  Future<ApiResponse> searchCategory({required String text});
 
-  Future<void> createNewCategory({required String categoryName});
+  Future<ApiResponse> createNewCategory({required String categoryName});
 
-  Future<bool> updateCategory(
+  Future<ApiResponse> updateCategory(
       {required String categoryId, required String categoryName});
 
-  Future<bool> deleteCategory({required String categoryId});
+  Future<ApiResponse> deleteCategory({required String categoryId});
 }

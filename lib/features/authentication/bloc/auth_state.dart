@@ -44,9 +44,3 @@ final class AuthRegistrationSuccessfull extends AuthState {
 
   const AuthRegistrationSuccessfull({required this.message});
 }
-
-final class AuthRegistrationFailed extends AuthState {
-  final String message;
-
-  const AuthRegistrationFailed({required this.message});
-}

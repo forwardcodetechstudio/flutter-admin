@@ -59,13 +59,12 @@ class CategoryScreen extends StatelessPage<CategoryBloc> {
                   );
                 }
                 if (state is CategoryFetchingSucceeded) {
-                  Category category = state.categories!;
-                  final List<Datum> categoryQuerySet = category.data.data;
-                  int currentPage = category.data.currentPage;
-                  final int rowsPerPage = category.data.perPage;
-                  int totalPage =
-                      (category.data.total ~/ category.data.perPage);
-                  if (category.data.total % category.data.perPage != 0) {
+                  CategoryResponse category = state.categories!;
+                  final List<SingleCategory> categoryQuerySet = category.data;
+                  int currentPage = category.currentPage;
+                  final int rowsPerPage = category.perPage;
+                  int totalPage = (category.total ~/ category.perPage);
+                  if (category.total % category.perPage != 0) {
                     totalPage++;
                   }
                   return CustomTable(

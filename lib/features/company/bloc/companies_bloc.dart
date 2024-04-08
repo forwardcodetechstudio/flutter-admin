@@ -1,11 +1,10 @@
 import 'dart:typed_data';
-import 'package:dio/dio.dart';
 import 'package:flutter_admin/base/base_bloc.dart';
 import 'package:flutter_admin/model/companies.dart';
+import 'package:flutter_admin/networking/api_response.dart';
 import 'package:flutter_admin/services/interfaces/companies_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-
 part 'companies_event.dart';
 part 'companies_state.dart';
 
@@ -25,47 +24,34 @@ class CompaniesBloc extends BaseBloc<CompaniesEvent, CompaniesState> {
     Emitter<CompaniesState> emit,
   ) async {
     emit(CompainesLoading());
-    try {
-      final Companies companies = await companiesRepository.getCompaniesData(
-        paginate: event.paginate,
-        page: event.page,
-        pageLength: event.pageLength,
-        search: event.search,
-      );
-
-      emit(CompaniesDataFetched(companies: companies));
-    } catch (e) {
-      print("Error ::::::::::::::::::::::::::::::::::::::");
-      print(e);
+    final ApiResponse resp = await companiesRepository.getCompaniesData(
+      paginate: event.paginate,
+      page: event.page,
+      pageLength: event.pageLength,
+      search: event.search,
+    );
+    if (resp.data != null && resp.data is Companies) {
+      emit(CompaniesDataFetched(companies: resp.data));
+    } else {
       emit(CompanyDataFetchingFailed());
     }
   }
 
   void _createNewCompany(
       RequestForNewCompanyCreation event, Emitter<CompaniesState> emit) async {
-    try {
-      final isCompanyCreated = await companiesRepository.createNewCompany(
-        logo: event.logo,
-        companyName: event.name,
-        website: event.website,
-        location: event.location,
-        currency: event.currency,
-        phone: event.phone,
-        tax: event.tax,
-        taxId: event.taxId,
-      );
-
-      if (isCompanyCreated) {
-        emit(NewCompanyCreated());
-      } else {
-        emit(CompanyCreationFailed());
-      }
-    } on DioException catch (e) {
-      print("Error :::::::::::::::::::::::::::::::::::::::");
-      // print(e);
-    } catch (e) {
-      print("Error :::::::::::::::::::::::::::::::::::::::");
-      // print(e);
+    final ApiResponse resp = await companiesRepository.createNewCompany(
+      logo: event.logo,
+      companyName: event.name,
+      website: event.website,
+      location: event.location,
+      currency: event.currency,
+      phone: event.phone,
+      tax: event.tax,
+      taxId: event.taxId,
+    );
+    if (resp.data != null) {
+      emit(NewCompanyCreated());
+    } else {
       emit(CompanyCreationFailed());
     }
   }

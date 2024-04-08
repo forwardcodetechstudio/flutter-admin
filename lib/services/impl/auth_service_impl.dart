@@ -37,7 +37,7 @@ class AuthServiceImpl extends AuthService {
   Future<ApiResponse> logout() async {
     try {
       final Response response = await apiService.post('/api/v1/logout');
-      return ApiResponse(data: response);
+      return ApiResponse(data: response.data);
     } on Exception catch (e) {
       return ApiResponse(error: AuthApiError(e: e));
     }
@@ -57,7 +57,7 @@ class AuthServiceImpl extends AuthService {
         'email': email,
         'password': password,
       });
-      return ApiResponse(data: response);
+      return ApiResponse(data: response.data);
     } on Exception catch (e) {
       return ApiResponse(error: AuthApiError(e: e));
     }

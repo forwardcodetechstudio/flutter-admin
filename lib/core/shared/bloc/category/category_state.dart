@@ -1,7 +1,7 @@
 part of 'category_bloc.dart';
 
 sealed class CategoryState extends Equatable {
-  final Category? categories;
+  final CategoryResponse? categories;
   final String? exception;
   const CategoryState({this.categories, this.exception});
 

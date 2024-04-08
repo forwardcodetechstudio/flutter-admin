@@ -72,7 +72,7 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
           message:
               'Signup successful. Please check your email to confirm your account.'));
     } else {
-      emit(AuthAuthenticationFailed(error: resp.error?.errorMsg ?? ""));
+      emit(AuthAuthenticationFailed(error: resp.error?.errorMsg ?? "N/A"));
     }
   }
 
