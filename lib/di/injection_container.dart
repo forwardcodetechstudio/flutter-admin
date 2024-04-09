@@ -42,11 +42,12 @@ void registerBlocs() {
   getIt.registerSingleton<AuthBloc>(AuthBloc(
     authService: authService,
   ));
-  getIt.registerSingleton<ThemeBloc>(
-      ThemeBloc(isLightThemeActive: prefUtils.getBoolIn(SharedPrefKeys.theme)));
-  getIt.registerSingleton<ListingBloc>(ListingBloc());
-  getIt.registerSingleton<CategoryBloc>(CategoryBloc(remoteCategoryService));
-  getIt.registerSingleton<CompaniesBloc>(CompaniesBloc(companyRepo));
+  getIt.registerSingleton<ThemeBloc>(ThemeBloc(
+      isLightThemeActive: prefUtils.getThemeBoolIn(SharedPrefKeys.theme)));
+  getIt.registerLazySingleton<ListingBloc>(() => ListingBloc());
+  getIt.registerLazySingleton<CategoryBloc>(
+      () => CategoryBloc(remoteCategoryService));
+  getIt.registerLazySingleton<CompaniesBloc>(() => CompaniesBloc(companyRepo));
 }
 
 //? ------------------------App services ----------------------------

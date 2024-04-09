@@ -32,6 +32,10 @@ class PrefUtils {
     return _sharedPreferences!.getBool(key) ?? false;
   }
 
+  bool getThemeBoolIn(String key) {
+    return _sharedPreferences!.getBool(key) ?? true;
+  }
+
   Future<void> setBoolIn(String key, dynamic value) {
     return _sharedPreferences!.setBool(key, value);
   }

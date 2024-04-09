@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter_admin/core/exceptions/category_exceptions.dart';
 import 'package:flutter_admin/core/shared/models/category.dart';
 import 'package:flutter_admin/network/api_service.dart';
 import 'package:flutter_admin/networking/api_error/basic_api_error.dart';
