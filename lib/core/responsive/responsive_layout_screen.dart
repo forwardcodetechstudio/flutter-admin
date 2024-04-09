@@ -6,7 +6,6 @@ import 'package:flutter_admin/core/responsive/mobile_layout_screen.dart';
 import 'package:flutter_admin/core/responsive/screen_sizes.dart';
 import 'package:flutter_admin/core/widgets/custom_design_grid_config.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
-import 'package:flutter_admin/di/injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 

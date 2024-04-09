@@ -7,7 +7,6 @@ import 'package:flutter_admin/core/widgets/app_drawer.dart';
 import 'package:flutter_admin/core/widgets/custom_theme_changing_button.dart';
 import 'package:flutter_admin/di/injection_container.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
