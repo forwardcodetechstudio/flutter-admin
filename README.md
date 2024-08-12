@@ -13,3 +13,7 @@
 ![example](<example/Screenshot 2024-08-12 133602.png>)
 
 ![example](<example/Screenshot 2024-08-12 133622.png>)
+
+![alt text](<example/Screenshot 2024-08-12 160959.png>)
+
+![alt text](<example/Screenshot 2024-08-12 161232.png>)
