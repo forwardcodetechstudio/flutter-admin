@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/config/theme/bloc/light_theme_data_provider.dart';
-import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
-import 'package:flutter_admin/config/theme/dark_theme_data_provider.dart';
-import 'package:flutter_admin/di/injection_container.dart';
+import 'package:flutter_admin/config/theme/app_themes.dart';
+import 'package:flutter_admin/config/theme/cubit/theme_cubit.dart';
+import 'package:flutter_admin/di/di_injector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class App extends StatefulWidget {
@@ -15,17 +14,15 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
+    return BlocBuilder<ThemeCubit, ThemeState>(
       bloc: themeBloc,
       builder: (context, state) {
         return MaterialApp.router(
-          title: 'Forwardcode',
+          title: 'Forwardcode | Flutter Admin',
           debugShowCheckedModeBanner: false,
-          theme: lightThemeDataProvider(),
-          darkTheme: darkThemeDataProvider(),
-          themeMode: (state as DefaultTheme).isLightThemeActive
-              ? ThemeMode.light
-              : ThemeMode.dark,
+          theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
+          themeMode: state.themeMode,
           routerConfig: appRouter.router,
         );
       },

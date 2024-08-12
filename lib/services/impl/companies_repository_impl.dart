@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_admin/model/companies.dart';
@@ -22,29 +21,7 @@ class CompaniesRepositoryImpl implements CompaniesRepository {
       required String phone,
       required double tax,
       required String taxId}) async {
-    FormData companyFormData = FormData.fromMap({
-      'name': companyName,
-      'website': website,
-      'location': location,
-      'phone': phone,
-      'tax': tax,
-      'tax_id': taxId,
-      'logo': base64Encode(logo), // MultipartFile.fromBytes(logo),
-    });
-
-    try {
-      final Response response = await apiService
-          .post('/api/v1/companies/create', data: companyFormData);
-
-      if (response.data != null) {
-        return ApiResponse(data: response.data);
-      } else {
-        return ApiResponse(
-            error: BasicApiError(message: "Unable to get success response"));
-      }
-    } on Exception catch (e) {
-      return ApiResponse(error: BasicApiError(e: e));
-    }
+    return ApiResponse(data: []);
   }
 
   @override

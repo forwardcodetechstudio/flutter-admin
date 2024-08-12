@@ -9,7 +9,7 @@ class AppNavigationRails extends StatelessWidget {
   Widget build(BuildContext context) {
     return NavigationRail(
       extended: true,
-      leading: SvgPicture.asset(AppImages.logo),
+      leading: SvgPicture.asset(AppImages.fctsWhiteTextLogoSvg),
       destinations: const [
         NavigationRailDestination(
           icon: Icon(Icons.dashboard),

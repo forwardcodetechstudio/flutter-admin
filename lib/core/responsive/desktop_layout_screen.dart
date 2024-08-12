@@ -5,7 +5,7 @@ import 'package:flutter_admin/core/constants/app_images.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_drawer.dart';
 import 'package:flutter_admin/core/widgets/custom_theme_changing_button.dart';
-import 'package:flutter_admin/di/injection_container.dart';
+import 'package:flutter_admin/di/di_injector.dart';
 import 'package:flutter_admin/features/authentication/bloc/auth_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -68,7 +68,7 @@ class _DesktopLayoutScreenState extends State<DesktopLayoutScreen> {
                           });
                         },
                         child: SvgPicture.asset(
-                          AppImages.collapse,
+                          AppImages.collapseIconSvg,
                           width: 20,
                           height: 20,
                           color: AppColors.grey,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
+import 'package:flutter_admin/config/theme/cubit/theme_cubit.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/features/dashboard/models/progress_item.dart';
@@ -17,9 +17,9 @@ class LinearProgressGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
+    return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
-        final bool isLightThemeActive = (state as DefaultTheme).isLightThemeActive;
+        final bool isLightThemeActive = state is! DarkTheme;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

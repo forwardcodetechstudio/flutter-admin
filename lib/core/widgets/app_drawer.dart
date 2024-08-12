@@ -24,8 +24,10 @@ class AppDrawer extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              title: Image.asset(
-                collapsed ? AppImages.fctsSmallLogo : AppImages.fctsLogo,
+              title: SvgPicture.asset(
+                collapsed
+                    ? AppImages.fctsSmallLogoPng
+                    : AppImages.fctsWhiteTextLogoSvg,
                 height: 40,
               ),
               shape: const RoundedRectangleBorder(
@@ -39,7 +41,7 @@ class AppDrawer extends StatelessWidget {
                   AppDrawerItem(
                     collapsed: collapsed,
                     icon: SvgPicture.asset(
-                      AppImages.dashboard,
+                      AppImages.dashboardIconSvg,
                       width: 20,
                       height: 20,
                       color: AppColors.grey,
@@ -126,7 +128,7 @@ class AppDrawer extends StatelessWidget {
                   AppDrawerItem(
                     collapsed: collapsed,
                     icon: SvgPicture.asset(
-                      AppImages.pages,
+                      AppImages.pagesIconSvg,
                       width: 20,
                       height: 20,
                       color: AppColors.grey,

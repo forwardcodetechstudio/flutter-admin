@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_admin/core/utils/pref_utils.dart';
-import 'package:flutter_admin/di/injection_container.dart';
+import 'package:flutter_admin/di/di_injector.dart';
 import 'base_api_client.dart';
 
 class DioApiClient extends BaseApiClient {

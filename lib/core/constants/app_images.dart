@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 
 @immutable
 abstract final class AppImages {
-  static const String imageDirPath = 'assets/images';
-  static const String iconsDirPath = 'assets/icons';
-
   // images
-  static const String authenticationBg = '$imageDirPath/authentication-bg.svg';
-  static const String logo = '$imageDirPath/logo.svg';
-  static const String smallLogo = '$imageDirPath/small_logo.svg';
-  static const String fctsLogo = '$imageDirPath/Logo.png';
-  static const String fctsSmallLogo = '$imageDirPath/FCTS_LOGO_circle.png';
+  static const String authenticationBgSvg = 'assets/images/authentication-bg.svg';
+  static const String fctsSmallLogoPng = 'assets/images/FCTS_LOGO_circle.png';
+  static const fctsBlackTextLogoSvg =
+      "assets/icons/forwardcode_logo_black_text.svg";
+  static const fctsWhiteTextLogoSvg =
+      "assets/icons/forwardcode_logo_white_text.svg";
 
   // icons
-  static const String dashboard = '$iconsDirPath/dashboard.svg';
-  static const String pages = '$iconsDirPath/pages.svg';
-  static const String collapse = '$iconsDirPath/collapse.svg';
-  static const String verticle = '$iconsDirPath/verticle.svg';
-  static const String horizontal = '$iconsDirPath/horizontal.svg';
-  static const String paperclip = '$iconsDirPath/paperclip.svg';
+  static const String dashboardIconSvg = 'assets/icons/dashboard.svg';
+  static const String pagesIconSvg = 'assets/icons/pages.svg';
+  static const String collapseIconSvg = 'assets/icons/collapse.svg';
+  static const String verticleIconSvg = 'assets/icons/verticle.svg';
+  static const String horizontalIconSvg = 'assets/icons/horizontal.svg';
+  static const String paperclipIconSvg = 'assets/icons/paperclip.svg';
 }

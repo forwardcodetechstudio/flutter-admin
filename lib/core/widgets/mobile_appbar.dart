@@ -27,26 +27,26 @@ class _MobileAppbarState extends State<MobileAppbar> {
   Widget build(BuildContext context) {
     // icon button style
     final ButtonStyle iconButtonStyle = ButtonStyle(
-      elevation: const MaterialStatePropertyAll(0),
-      shape: MaterialStatePropertyAll(
+      elevation: const WidgetStatePropertyAll(0),
+      shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6),
         ),
       ),
-      backgroundColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.hovered)) {
+      backgroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.hovered)) {
           return AppColors.whitef2f5fa;
         }
         return AppColors.white;
       }),
-      foregroundColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.hovered)) {
+      foregroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.hovered)) {
           return AppColors.blue0080ff;
         }
         return AppColors.grey;
       }),
-      iconColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.hovered)) {
+      iconColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.hovered)) {
           return AppColors.blue0080ff;
         }
         return AppColors.grey;
@@ -58,8 +58,8 @@ class _MobileAppbarState extends State<MobileAppbar> {
       children: [
         AppBar(
           titleSpacing: 24,
-          title: Image.asset(
-            AppImages.fctsLogo,
+          title: SvgPicture.asset(
+            AppImages.fctsWhiteTextLogoSvg,
             height: 40,
           ),
           backgroundColor: AppColors.white,
@@ -74,8 +74,8 @@ class _MobileAppbarState extends State<MobileAppbar> {
               style: iconButtonStyle,
               icon: SvgPicture.asset(
                 isSecondToolbarVisible
-                    ? AppImages.horizontal
-                    : AppImages.verticle,
+                    ? AppImages.horizontalIconSvg
+                    : AppImages.verticleIconSvg,
                 width: 20,
                 height: 20,
                 color: AppColors.grey,
@@ -87,7 +87,7 @@ class _MobileAppbarState extends State<MobileAppbar> {
               },
               style: iconButtonStyle,
               icon: SvgPicture.asset(
-                AppImages.collapse,
+                AppImages.collapseIconSvg,
                 width: 20,
                 height: 20,
                 color: AppColors.grey,

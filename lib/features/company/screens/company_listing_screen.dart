@@ -22,8 +22,6 @@ class CompanyListingScreen extends StatelessPage<CompaniesBloc> {
 
   @override
   Widget build(BuildContext context) {
-    // color
-    // final background = Theme.of(context).colorScheme.background;
     final onBackground = Theme.of(context).colorScheme.onBackground;
 
     return BlocConsumer<CompaniesBloc, CompaniesState>(

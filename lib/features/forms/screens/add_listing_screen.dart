@@ -54,6 +54,8 @@ class _AddListingScreenState extends StatefulPageState<ListingBloc> {
 
   @override
   Widget build(BuildContext context) {
+    final surface = Theme.of(context).colorScheme.surface;
+    final onBackground = Theme.of(context).colorScheme.onBackground;
     return ListView(
       children: [
         BlocBuilder<ListingBloc, ListingState>(
@@ -69,7 +71,7 @@ class _AddListingScreenState extends StatefulPageState<ListingBloc> {
           child: AppBreadCrumbs(locationName: RoutesName.addListing),
         ),
         Container(
-          color: AppColors.white,
+          color: surface,
           margin: const EdgeInsets.symmetric(horizontal: 24),
           padding: const EdgeInsets.all(24),
           child: ResponsiveDesignGrid(

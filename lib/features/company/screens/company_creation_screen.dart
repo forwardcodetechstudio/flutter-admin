@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_admin/base/stateful_page.dart';
 import 'package:flutter_admin/config/routes/routes_constant.dart';
-import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
+import 'package:flutter_admin/config/theme/cubit/theme_cubit.dart';
 import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/enum/page_display_enum.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/core/widgets/custom_elevated_button.dart';
 import 'package:flutter_admin/core/widgets/custom_text_field.dart';
 import 'package:flutter_admin/core/widgets/custom_dropdown.dart';
-import 'package:flutter_admin/di/injection_container.dart';
+import 'package:flutter_admin/di/di_injector.dart';
 import 'package:flutter_admin/features/company/bloc/companies_bloc.dart';
 import 'package:flutter_admin/plugin/interfaces/file_pick_plugin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,12 +74,9 @@ class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
       },
       builder: (context, state) {
         final isFormLoading = state is CompainesLoading;
-        return BlocBuilder<ThemeBloc, ThemeState>(
+        return BlocBuilder<ThemeCubit, ThemeState>(
           bloc: themeBloc,
           builder: (context, state) {
-            final bool isLightThemeActive =
-                (state as DefaultTheme).isLightThemeActive;
-
             return ListView(
               padding: const EdgeInsets.all(24),
               children: [
@@ -88,8 +85,7 @@ class _CompanyCreationScreenState extends StatefulPageState<CompaniesBloc> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: isLightThemeActive ? AppColors.white : null,
-                    border: Border.all(color: AppColors.white),
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                   child: ResponsiveDesignGrid(
                     children: [

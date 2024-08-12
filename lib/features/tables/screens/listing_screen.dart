@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin/base/stateless_page.dart';
+import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/features/tables/models/listing.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:flutter_admin/config/routes/routes_constant.dart';
-import 'package:flutter_admin/core/constants/app_colors.dart';
 import 'package:flutter_admin/core/extensions/empty_space.dart';
 import 'package:flutter_admin/core/widgets/app_breadcrumb.dart';
 import 'package:flutter_admin/features/tables/bloc/listing/listing_bloc.dart';
@@ -33,6 +33,9 @@ class ListingScreen extends StatelessPage<ListingBloc> {
 
   @override
   Widget build(BuildContext context) {
+    final surface = Theme.of(context).colorScheme.surface;
+    final onBackground = Theme.of(context).colorScheme.onBackground;
+
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -48,10 +51,14 @@ class ListingScreen extends StatelessPage<ListingBloc> {
                   builder: (context, state) {
                     final List<Listing> listings = state.listings;
                     return DataTable(
-                      headingRowColor:
-                          const MaterialStatePropertyAll(AppColors.white),
-                      dataRowColor:
-                          const MaterialStatePropertyAll(AppColors.white),
+                      headingRowColor: WidgetStatePropertyAll(surface),
+                      dataRowColor: WidgetStatePropertyAll(surface),
+                      headingTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: onBackground
+                      ),
+                      dataTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: onBackground
+                      ),
                       columns: _columnsName
                           .map((columnName) =>
                               DataColumn(label: Text(columnName)))

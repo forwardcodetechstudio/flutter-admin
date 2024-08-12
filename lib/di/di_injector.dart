@@ -1,5 +1,5 @@
 import 'package:flutter_admin/config/routes/app_router.dart';
-import 'package:flutter_admin/config/theme/bloc/theme_bloc.dart';
+import 'package:flutter_admin/config/theme/cubit/theme_cubit.dart';
 import 'package:flutter_admin/core/shared/bloc/category/category_bloc.dart';
 import 'package:flutter_admin/core/utils/logger_utils.dart';
 import 'package:flutter_admin/core/utils/pref_utils.dart';
@@ -34,7 +34,7 @@ Future<void> initializeDependencies() async {
 
 //? ------------------------Blocs services ----------------------------
 
-ThemeBloc get themeBloc => getIt.get<ThemeBloc>();
+ThemeCubit get themeBloc => getIt.get<ThemeCubit>();
 ListingBloc get listingBloc => getIt.get<ListingBloc>();
 AuthBloc get authBloc => getIt.get<AuthBloc>();
 
@@ -42,8 +42,7 @@ void registerBlocs() {
   getIt.registerSingleton<AuthBloc>(AuthBloc(
     authService: authService,
   ));
-  getIt.registerSingleton<ThemeBloc>(ThemeBloc(
-      isLightThemeActive: prefUtils.getThemeBoolIn(SharedPrefKeys.theme)));
+  getIt.registerSingleton<ThemeCubit>(ThemeCubit());
   getIt.registerLazySingleton<ListingBloc>(() => ListingBloc());
   getIt.registerLazySingleton<CategoryBloc>(
       () => CategoryBloc(remoteCategoryService));
