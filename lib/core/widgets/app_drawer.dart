@@ -145,11 +145,11 @@ class AppDrawer extends StatelessWidget {
                         title: const Text(' - Register'),
                         onTap: () => context.goNamed(RoutesName.register),
                       ),
-                      ListTile(
-                        leading: const SizedBox(),
-                        title: const Text(' - Upload Image'),
-                        onTap: () => context.goNamed(RoutesName.uploadImage),
-                      ),
+                      // ListTile(
+                      //   leading: const SizedBox(),
+                      //   title: const Text(' - Upload Image'),
+                      //   onTap: () => context.goNamed(RoutesName.uploadImage),
+                      // ),
                     ],
                   ),
                 ],

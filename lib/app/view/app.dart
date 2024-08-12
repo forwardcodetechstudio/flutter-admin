@@ -18,7 +18,7 @@ class _AppState extends State<App> {
       bloc: themeBloc,
       builder: (context, state) {
         return MaterialApp.router(
-          title: 'Forwardcode | Flutter Admin',
+          title: 'Forwardcode Techstudio | Flutter Admin',
           debugShowCheckedModeBanner: false,
           theme: AppThemes.lightTheme,
           darkTheme: AppThemes.darkTheme,
